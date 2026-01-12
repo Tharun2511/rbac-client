@@ -15,6 +15,7 @@ export default function LoginPage() {
       const { token, user } = await login(email, password);
       saveAuth(token, user);
       router.push(`/${user.role.toLowerCase()}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err:any) {
       alert(err.message);
     }
