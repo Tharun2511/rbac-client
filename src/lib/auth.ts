@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthUser } from "./types";
 
 const TOKEN_KEY = "auth_token";
