@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Role } from "@/lib/types";
+import { IRole } from "@/lib/types";
 import { logout } from "@/lib/auth";
 
 interface Props {
-  role: Role;
+  role: IRole;
 }
 
 export default function Navigation({ role }: Props) {

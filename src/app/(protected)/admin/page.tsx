@@ -1,33 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Role } from "@/lib/types";
 import {
   getUsers,
   updateUserRole,
   updateUserStatus,
 } from "@/lib/api/api.users";
-
-interface UserRow {
-  id: string;
-  email: string;
-  role: Role;
-  isActive: boolean;
-}
+import { IRole, IUser } from "@/lib/types";
 
 export default function AdminDashboard() {
-  const [users, setUsers] = useState<UserRow[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
     getUsers().then(setUsers);
   }, []);
 
-  async function toggleActive(user: UserRow) {
+  async function toggleActive(user: IUser) {
     await updateUserStatus(user.id, !user.isActive);
     setUsers(await getUsers());
   }
 
-  async function changeRole(user: UserRow, role: Role) {
+  async function changeRole(user: IUser, role: IRole) {
     await updateUserRole(user.id, role);
     setUsers(await getUsers());
   }
@@ -51,7 +44,7 @@ export default function AdminDashboard() {
             <td>
               <select
                 value={u.role}
-                onChange={(e) => changeRole(u, e.target.value as Role)}
+                onChange={(e) => changeRole(u, e.target.value as IRole)}
               >
                 <option value="USER">USER</option>
                 <option value="MANAGER">MANAGER</option>

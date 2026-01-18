@@ -1,12 +1,12 @@
-import { AuthUser } from "./types";
+import { IUser } from "./types";
 import { getAuthUser } from "./auth";
 
-export function requireAuth(): AuthUser | null {
+export function requireAuth(): IUser | null {
   const user = getAuthUser();
   return user ?? null;
 }
 
-export function requireRole(allowedRoles: AuthUser["role"][]) {
+export function requireRole(allowedRoles: IUser["role"][]) {
   const user = getAuthUser();
 
   if (!user) return null;

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Ticket } from "@/lib/types";
+import { ITicket } from "@/lib/types";
 import { getTickets, resolveTicket } from "@/lib/api/api.tickets";
 
 export default function ResolverDashboard() {
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<ITicket[]>([]);
 
   useEffect(() => {
     getTickets().then(setTickets);

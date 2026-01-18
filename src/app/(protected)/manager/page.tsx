@@ -1,11 +1,11 @@
 "use client";
 
 import { assignTicket, closeTicket, getTickets } from "@/lib/api/api.tickets";
-import { Ticket } from "@/lib/types";
+import { ITicket } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 export default function ManagerDashboard() {
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<ITicket[]>([]);
 
   useEffect(() => {
     getTickets().then(setTickets);
