@@ -13,7 +13,7 @@ export interface LoginResponse {
   user: IUser;
 }
 
-export interface Ticket {
+export interface ITicket {
   id: string;
   title: string;
   description: string;

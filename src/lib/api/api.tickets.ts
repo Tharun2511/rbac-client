@@ -1,12 +1,12 @@
 import { api } from "../api";
-import { Ticket } from "../types";
+import { ITicket } from "../types";
 
 export function getTickets() {
-  return api<Ticket[]>("/tickets", { auth: true });
+  return api<ITicket[]>("/tickets", { auth: true });
 }
 
 export function createTicket(title: string, description: string) {
-  return api<Ticket>("/tickets", {
+  return api<ITicket>("/tickets", {
     method: "POST",
     auth: true,
     body: JSON.stringify({ title, description }),
@@ -14,7 +14,7 @@ export function createTicket(title: string, description: string) {
 }
 
 export function assignTicket(ticketId: string, resolverId: string) {
-  return api<Ticket>(`/tickets/${ticketId}/assign`, {
+  return api<ITicket>(`/tickets/${ticketId}/assign`, {
     method: "POST",
     auth: true,
     body: JSON.stringify({ resolverId }),
@@ -22,21 +22,21 @@ export function assignTicket(ticketId: string, resolverId: string) {
 }
 
 export function resolveTicket(ticketId: string) {
-  return api<Ticket>(`/tickets/${ticketId}/resolve`, {
+  return api<ITicket>(`/tickets/${ticketId}/resolve`, {
     method: "POST",
     auth: true,
   });
 }
 
 export function verifyTicket(ticketId: string) {
-  return api<Ticket>(`/tickets/${ticketId}/verify`, {
+  return api<ITicket>(`/tickets/${ticketId}/verify`, {
     method: "POST",
     auth: true,
   });
 }
 
 export function closeTicket(ticketId: string) {
-  return api<Ticket>(`/tickets/${ticketId}/close`, {
+  return api<ITicket>(`/tickets/${ticketId}/close`, {
     method: "POST",
     auth: true,
   });
