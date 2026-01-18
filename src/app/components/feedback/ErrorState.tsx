@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from "@mui/material";
 
 const ErrorState = ({ message }: { message: string }) => {
   return (
@@ -8,7 +8,6 @@ const ErrorState = ({ message }: { message: string }) => {
       <Typography color="error">{message}</Typography>
     </Box>
   );
-}
+};
 
-export default ErrorState
-
+export default ErrorState;

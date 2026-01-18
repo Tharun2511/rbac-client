@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Box, Paper } from '@mui/material';
-import { ReactNode } from 'react';
+import { Box, Paper } from "@mui/material";
+import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -14,6 +14,6 @@ const Section = ({ children, padding = 2 }: Props) => {
       <Box p={padding}>{children}</Box>
     </Paper>
   );
-}
+};
 
-export default Section
+export default Section;

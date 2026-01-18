@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 
 export default function TopBar() {
   return (

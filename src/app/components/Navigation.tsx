@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Role } from '@/lib/types';
-import { logout } from '@/lib/auth';
+import Link from "next/link";
+import { Role } from "@/lib/types";
+import { logout } from "@/lib/auth";
 
 interface Props {
   role: Role;
@@ -10,25 +10,21 @@ interface Props {
 
 export default function Navigation({ role }: Props) {
   return (
-    <nav style={{ marginBottom: '1rem' }}>
-      {role === 'USER' && <Link href="/user">My Tickets</Link>}
+    <nav style={{ marginBottom: "1rem" }}>
+      {role === "USER" && <Link href="/user">My Tickets</Link>}
 
-      {role === 'MANAGER' && (
+      {role === "MANAGER" && (
         <>
-          <Link href="/manager">Tickets</Link>{' '}
+          <Link href="/manager">Tickets</Link>{" "}
           <Link href="/manager/assign">Assign</Link>
         </>
       )}
 
-      {role === 'RESOLVER' && (
-        <Link href="/resolver">Assigned Tickets</Link>
-      )}
+      {role === "RESOLVER" && <Link href="/resolver">Assigned Tickets</Link>}
 
-      {role === 'ADMIN' && (
-        <Link href="/admin">User Management</Link>
-      )}
+      {role === "ADMIN" && <Link href="/admin">User Management</Link>}
 
-      <button onClick={logout} style={{ marginLeft: '1rem' }}>
+      <button onClick={logout} style={{ marginLeft: "1rem" }}>
         Logout
       </button>
     </nav>

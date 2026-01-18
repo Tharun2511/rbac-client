@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from "@mui/material";
 
 const EmptyState = ({ message }: { message: string }) => {
   return (
@@ -8,6 +8,6 @@ const EmptyState = ({ message }: { message: string }) => {
       <Typography color="text.secondary">{message}</Typography>
     </Box>
   );
-}
+};
 
-export default EmptyState
+export default EmptyState;

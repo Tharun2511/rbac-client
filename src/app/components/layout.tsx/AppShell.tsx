@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
-import { Box } from '@mui/material';
-import TopBar from './TopBar';
+import { ReactNode } from "react";
+import { Box } from "@mui/material";
+import TopBar from "./TopBar";
 
 interface Props {
   children: ReactNode;

@@ -7,7 +7,7 @@ interface ApiOptions extends RequestInit {
 
 export async function api<T>(
   endpoint: string,
-  options: ApiOptions = {}
+  options: ApiOptions = {},
 ): Promise<T> {
   const headers = new Headers(options.headers || {});
 

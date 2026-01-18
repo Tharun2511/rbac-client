@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { saveAuth } from '@/lib/auth';
-import { useRouter } from 'next/navigation';
-import { login } from '@/lib/api/api.auth';
+import { useState } from "react";
+import { saveAuth } from "@/lib/auth";
+import { useRouter } from "next/navigation";
+import { login } from "@/lib/api/api.auth";
 
 export function useLogin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
 
@@ -20,9 +20,9 @@ export function useLogin() {
       saveAuth(token, user);
 
       router.replace(`/${user.role.toLowerCase()}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setError(err.message || 'Invalid credentials');
+      setError(err.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }

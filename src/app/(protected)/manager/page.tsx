@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { assignTicket, closeTicket, getTickets } from '@/lib/api/api.tickets';
-import { Ticket } from '@/lib/types';
-import { useEffect, useState } from 'react';
+import { assignTicket, closeTicket, getTickets } from "@/lib/api/api.tickets";
+import { Ticket } from "@/lib/types";
+import { useEffect, useState } from "react";
 
 export default function ManagerDashboard() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -12,7 +12,7 @@ export default function ManagerDashboard() {
   }, []);
 
   async function handleAssign(id: string) {
-    await assignTicket(id, 'resolver-id');
+    await assignTicket(id, "resolver-id");
     setTickets(await getTickets());
   }
 
@@ -23,15 +23,13 @@ export default function ManagerDashboard() {
 
   return (
     <ul>
-      {tickets.map(t => (
+      {tickets.map((t) => (
         <li key={t.id}>
           {t.title} — {t.status}
-
-          {t.status === 'OPEN' && (
+          {t.status === "OPEN" && (
             <button onClick={() => handleAssign(t.id)}>Assign</button>
           )}
-
-          {t.status === 'VERIFIED_BY_USER' && (
+          {t.status === "VERIFIED_BY_USER" && (
             <button onClick={() => handleClose(t.id)}>Close</button>
           )}
         </li>
