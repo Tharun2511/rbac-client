@@ -1,22 +1,12 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { getAuthUser } from '@/lib/auth';
-import Navigation from '../components/Navigation';
+import AppShell from '../components/layout.tsx/AppShell';
 
 export default function ProtectedLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const user = getAuthUser();
-
-  if (!user) return null; // redirect already handled earlier
-
-  return (
-    <div>
-      <Navigation role={user.role} />
-      <main style={{ padding: '1rem' }}>{children}</main>
-    </div>
-  );
+  return <AppShell>{children}</AppShell>;
 }
