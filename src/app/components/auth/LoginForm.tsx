@@ -1,11 +1,6 @@
-'use client';
+"use client";
 
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 interface Props {
   email: string;
@@ -65,7 +60,7 @@ export default function LoginForm({
         disabled={loading}
         onClick={onSubmit}
       >
-        {loading ? 'Signing in…' : 'Sign in'}
+        {loading ? "Signing in…" : "Sign in"}
       </Button>
     </Box>
   );

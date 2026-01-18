@@ -1,14 +1,16 @@
-export type Role = "USER" | "MANAGER" | "RESOLVER" | "ADMIN";
+export type IRole = "USER" | "MANAGER" | "RESOLVER" | "ADMIN";
 
-export interface AuthUser {
+export interface IUser {
   id: string;
+  name: string;
   email: string;
-  role: Role;
+  role: string;
+  isActive: boolean;
 }
 
 export interface LoginResponse {
   token: string;
-  user: AuthUser;
+  user: IUser;
 }
 
 export interface Ticket {

@@ -1,14 +1,18 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Role } from '@/lib/types';
-import { getUsers, updateUserRole, updateUserStatus } from '@/lib/api/api.users';
+import { useEffect, useState } from "react";
+import { Role } from "@/lib/types";
+import {
+  getUsers,
+  updateUserRole,
+  updateUserStatus,
+} from "@/lib/api/api.users";
 
 interface UserRow {
   id: string;
   email: string;
   role: Role;
-  is_active: boolean;
+  isActive: boolean;
 }
 
 export default function AdminDashboard() {
@@ -17,9 +21,9 @@ export default function AdminDashboard() {
   useEffect(() => {
     getUsers().then(setUsers);
   }, []);
-  
+
   async function toggleActive(user: UserRow) {
-    await updateUserStatus(user.id, !user.is_active);
+    await updateUserStatus(user.id, !user.isActive);
     setUsers(await getUsers());
   }
 
@@ -40,14 +44,14 @@ export default function AdminDashboard() {
       </thead>
 
       <tbody>
-        {users.map(u => (
+        {users.map((u) => (
           <tr key={u.id}>
             <td>{u.email}</td>
 
             <td>
               <select
                 value={u.role}
-                onChange={e => changeRole(u, e.target.value as Role)}
+                onChange={(e) => changeRole(u, e.target.value as Role)}
               >
                 <option value="USER">USER</option>
                 <option value="MANAGER">MANAGER</option>
@@ -56,11 +60,11 @@ export default function AdminDashboard() {
               </select>
             </td>
 
-            <td>{u.is_active ? 'Active' : 'Inactive'}</td>
+            <td>{u.isActive ? "Active" : "Inactive"}</td>
 
             <td>
               <button onClick={() => toggleActive(u)}>
-                {u.is_active ? 'Deactivate' : 'Activate'}
+                {u.isActive ? "Deactivate" : "Activate"}
               </button>
             </td>
           </tr>

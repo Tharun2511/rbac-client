@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 const LoadingState = ({ label = "Loading..." }: { label?: string }) => {
   return (
@@ -11,6 +11,6 @@ const LoadingState = ({ label = "Loading..." }: { label?: string }) => {
       </Typography>
     </Box>
   );
-}
+};
 
-export default LoadingState
+export default LoadingState;
