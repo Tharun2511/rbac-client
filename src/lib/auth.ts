@@ -1,11 +1,11 @@
 "use client";
 
-import { AuthUser } from "./types";
+import { IUser } from "./types";
 
 const TOKEN_KEY = "auth_token";
 const USER_KEY = "auth_user";
 
-export function saveAuth(token: string, user: AuthUser) {
+export function saveAuth(token: string, user: IUser) {
   if (typeof window === "undefined") return;
   localStorage.setItem(TOKEN_KEY, token);
   localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -16,7 +16,7 @@ export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-export function getAuthUser(): AuthUser | null {
+export function getAuthUser(): IUser | null {
   if (typeof window === "undefined") return null;
   const raw = localStorage.getItem(USER_KEY);
   return raw ? JSON.parse(raw) : null;
