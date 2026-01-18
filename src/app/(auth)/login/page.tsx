@@ -1,31 +1,22 @@
 'use client';
-
-import { useState } from 'react';
-import { login } from '@/lib/api/api.auth';
-import { saveAuth } from '@/lib/auth';
-import { useRouter } from 'next/navigation';
+import LoginCard from '@/app/components/auth/LoginCard';
+import LoginForm from '@/app/components/auth/LoginForm';
+import { useLogin } from '@/hooks/useLogin';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const router = useRouter();
-
-  async function handleLogin() {
-    try {
-      const { token, user } = await login(email, password);
-      saveAuth(token, user);
-      router.push(`/${user.role.toLowerCase()}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err:any) {
-      alert(err.message);
-    }
-  }
+  const login = useLogin();
 
   return (
-    <div>
-      <input placeholder="Email" onChange={e => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
-    </div>
+    <LoginCard>
+      <LoginForm
+        email={login.email}
+        password={login.password}
+        loading={login.loading}
+        error={login.error}
+        onEmailChange={login.setEmail}
+        onPasswordChange={login.setPassword}
+        onSubmit={login.submit}
+      />
+    </LoginCard>
   );
 }
