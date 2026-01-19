@@ -1,68 +1,52 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import {
-  getUsers,
-  updateUserRole,
-  updateUserStatus,
-} from "@/lib/api/api.users";
-import { IRole, IUser } from "@/lib/types";
+import QuickActionCard from '@/app/components/dashboard/QuickActionCard';
+import StatCard from '@/app/components/dashboard/StatsCard';
+import LoadingState from '@/app/components/feedback/LoadingState';
+import PageHeader from '@/app/components/layout/PageHeader';
+import useAdminDashboard from '@/hooks/useAdminDashboard';
+import { Box, Grid } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
-export default function AdminDashboard() {
-  const [users, setUsers] = useState<IUser[]>([]);
+export default function AdminDashboardPage() {
+  const router = useRouter();
+  const {totalUsers, activeUsers, managers, resolvers, loading} = useAdminDashboard();
 
-  useEffect(() => {
-    getUsers().then(setUsers);
-  }, []);
-
-  async function toggleActive(user: IUser) {
-    await updateUserStatus(user.id, !user.isActive);
-    setUsers(await getUsers());
-  }
-
-  async function changeRole(user: IUser, role: IRole) {
-    await updateUserRole(user.id, role);
-    setUsers(await getUsers());
-  }
+  if(loading) return <LoadingState label='Loading Admin stats...' />
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <>
+      <PageHeader title="Admin Dashboard" />
 
-      <tbody>
-        {users.map((u) => (
-          <tr key={u.id}>
-            <td>{u.email}</td>
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, sm:6, md: 3}}>
+          <StatCard label="Total Users" value={totalUsers} />
+        </Grid>
 
-            <td>
-              <select
-                value={u.role}
-                onChange={(e) => changeRole(u, e.target.value as IRole)}
-              >
-                <option value="USER">USER</option>
-                <option value="MANAGER">MANAGER</option>
-                <option value="RESOLVER">RESOLVER</option>
-                <option value="ADMIN">ADMIN</option>
-              </select>
-            </td>
+        <Grid size={{ xs: 12, sm:6, md: 3}}>
+          <StatCard label="Active Users" value={activeUsers} />
+        </Grid>
 
-            <td>{u.isActive ? "Active" : "Inactive"}</td>
+        <Grid size={{ xs: 12, sm:6, md: 3}}>
+          <StatCard label="Managers" value={managers} />
+        </Grid>
 
-            <td>
-              <button onClick={() => toggleActive(u)}>
-                {u.isActive ? "Deactivate" : "Activate"}
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+        <Grid size={{ xs: 12, sm:6, md: 3}}>
+          <StatCard label="Resolvers" value={resolvers} />
+        </Grid>
+      </Grid>
+
+      <Box mt={4}>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, sm:6, md: 4}}>
+            <QuickActionCard
+              title="Manage Users"
+              description="Create, edit roles, activate or deactivate users"
+              onClick={() => router.push('/admin/users')}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    </>
   );
 }

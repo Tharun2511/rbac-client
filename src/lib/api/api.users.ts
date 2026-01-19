@@ -45,3 +45,10 @@ export function updateUserRole(userId: string, role: IRole) {
     body: JSON.stringify({ role }),
   });
 }
+
+export function getAllUsers() {
+  return api<IUser[]>("/users", {
+    method: "GET",
+    auth: true,
+  });
+}
