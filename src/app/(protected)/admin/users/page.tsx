@@ -11,8 +11,11 @@ import ChangeRoleDialog from "@/app/components/dialogs/ChangeRoleDialog";
 import { useChangeRole } from "@/hooks/useChangeRole";
 import { useToggleUserStatus } from "@/hooks/useUserToggleStatus";
 import ConfirmDialog from "@/app/components/dialogs/ConfirmDialog";
+import { ArrowBack } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 const AdminUsersPage = () => {
+  const router = useRouter();
   const { rows, loading, setSelectedUser, refresh } = useAdminUsers();
   const {
     addOpen,
@@ -53,7 +56,15 @@ const AdminUsersPage = () => {
   return (
     <Box>
       <PageHeader title="User Management" />
-      <Box display="flex" justifyContent="flex-end" mb={2}>
+      <Box display="flex" justifyContent="space-between" mb={2}>
+        <Button
+          variant="contained"
+          onClick={()=>router.push('/admin')}
+          startIcon={<ArrowBack />}
+          color="error"
+        >
+          Back
+        </Button>
         <Button
           variant="contained"
           onClick={() => setAddOpen(true)}
