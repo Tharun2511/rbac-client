@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField } from "@mui/material";
 
 interface Props {
   title: string;
@@ -45,7 +45,7 @@ export default function TicketCreateForm({
         onClick={onSubmit}
         disabled={loading}
       >
-        {loading ? 'Creating…' : 'Create Ticket'}
+        {loading ? "Creating…" : "Create Ticket"}
       </Button>
     </Box>
   );

@@ -1,6 +1,10 @@
 "use client";
 
-import { assignTicket, closeTicket, getAllTickets } from "@/lib/api/api.tickets";
+import {
+  assignTicket,
+  closeTicket,
+  getAllTickets,
+} from "@/lib/api/api.tickets";
 import { ITicket } from "@/lib/types";
 import { useEffect, useState } from "react";
 

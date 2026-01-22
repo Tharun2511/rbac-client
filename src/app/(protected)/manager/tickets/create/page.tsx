@@ -1,22 +1,16 @@
-'use client';
+"use client";
 
-import { useCreateTicket } from '@/hooks/tickets/useCreateTicket';
-import { useRouter } from 'next/navigation';
-import { Paper } from '@mui/material';
-import PageHeader from '@/app/components/layout/PageHeader';
-import TicketCreateForm from '@/app/components/forms/TicketCreateForm';
+import { useCreateTicket } from "@/hooks/tickets/useCreateTicket";
+import { useRouter } from "next/navigation";
+import { Paper } from "@mui/material";
+import PageHeader from "@/app/components/layout/PageHeader";
+import TicketCreateForm from "@/app/components/forms/TicketCreateForm";
 
 export default function CreateTicketPage() {
   const router = useRouter();
 
-  const {
-    title,
-    description,
-    loading,
-    setTitle,
-    setDescription,
-    submit,
-  } = useCreateTicket(() => router.push('/tickets'));
+  const { title, description, loading, setTitle, setDescription, submit } =
+    useCreateTicket(() => router.push("/tickets"));
 
   return (
     <>

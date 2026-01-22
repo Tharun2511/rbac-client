@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ITicket } from '@/lib/types';
-import { Box, Paper, Typography } from '@mui/material';
+import { ITicket } from "@/lib/types";
+import { Box, Paper, Typography } from "@mui/material";
 
 export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
   return (

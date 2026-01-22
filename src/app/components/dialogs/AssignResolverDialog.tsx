@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { IUser } from "@/lib/types";
 import {

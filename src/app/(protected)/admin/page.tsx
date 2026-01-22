@@ -38,7 +38,9 @@ export default function AdminDashboardPage() {
       </Grid>
 
       <Box mt={4}>
-        <Typography variant="h6" fontWeight={600} mb={2}>Actions</Typography>
+        <Typography variant="h6" fontWeight={600} mb={2}>
+          Actions
+        </Typography>
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <QuickActionCard

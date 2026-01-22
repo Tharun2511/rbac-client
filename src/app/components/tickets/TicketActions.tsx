@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ITicket } from '@/lib/types';
-import { Box, Button } from '@mui/material';
+import { ITicket } from "@/lib/types";
+import { Box, Button } from "@mui/material";
 
 interface Props {
   ticket: ITicket;

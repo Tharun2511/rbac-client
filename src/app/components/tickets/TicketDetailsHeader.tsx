@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Box, Typography } from '@mui/material';
-import StatusChip from '../data/StatusChip';
-import { ITicket } from '@/lib/types';
+import { Box, Typography } from "@mui/material";
+import StatusChip from "../data/StatusChip";
+import { ITicket } from "@/lib/types";
 
 export default function TicketDetailsHeader({ ticket }: { ticket: ITicket }) {
   return (
@@ -18,11 +18,19 @@ export default function TicketDetailsHeader({ ticket }: { ticket: ITicket }) {
       <Typography variant="body2" color="text.secondary" mt={1}>
         Created by <strong>{ticket.createdUser.name}</strong>
         {ticket.resolver.name ? (
-          <> • Assigned to <strong>{ticket.resolver.name}</strong></>
+          <>
+            {" "}
+            • Assigned to <strong>{ticket.resolver.name}</strong>
+          </>
         ) : null}
       </Typography>
 
-      <Typography variant="caption" color="text.disabled" mt={0.5} display="block">
+      <Typography
+        variant="caption"
+        color="text.disabled"
+        mt={0.5}
+        display="block"
+      >
         Created at {new Date(ticket.createdAt).toLocaleString()}
       </Typography>
     </Box>
