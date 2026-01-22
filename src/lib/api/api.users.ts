@@ -11,7 +11,7 @@ export async function createUser(payload: {
   password: string;
   role: string;
 }) {
-  return api<IUser>("/users", {
+  return await api<IUser>("/users", {
     method: "POST",
     auth: true,
     body: JSON.stringify(payload),
@@ -23,31 +23,38 @@ export async function updateUser(payload: {
   email: string;
   role: string;
 }) {
-  return api<IUser>("/users", {
+  return await api<IUser>("/users", {
     method: "PUT",
     auth: true,
     body: JSON.stringify(payload),
   });
 }
 
-export function updateUserStatus(userId: string, isActive: boolean) {
-  return api<IUser>(`/users/status/${userId}`, {
+export async function updateUserStatus(userId: string, isActive: boolean) {
+  return await api<IUser>(`/users/status/${userId}`, {
     method: "PATCH",
     auth: true,
     body: JSON.stringify({ status: isActive }),
   });
 }
 
-export function updateUserRole(userId: string, role: IRole) {
-  return api<IUser>(`/users/role/${userId}`, {
+export async function updateUserRole(userId: string, role: IRole) {
+  return await api<IUser>(`/users/role/${userId}`, {
     method: "PATCH",
     auth: true,
     body: JSON.stringify({ role }),
   });
 }
 
-export function getAllUsers() {
-  return api<IUser[]>("/users", {
+export async function getAllUsers() {
+  return await api<IUser[]>("/users", {
+    method: "GET",
+    auth: true,
+  });
+}
+
+export async function getAllResolvers() {
+  return await api<IUser>("/users/resolvers", {
     method: "GET",
     auth: true,
   });

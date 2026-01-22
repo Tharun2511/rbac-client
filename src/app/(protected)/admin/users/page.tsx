@@ -59,7 +59,7 @@ const AdminUsersPage = () => {
       <Box display="flex" justifyContent="space-between" mb={2}>
         <Button
           variant="contained"
-          onClick={()=>router.push('/admin')}
+          onClick={() => router.push("/admin")}
           startIcon={<ArrowBack />}
           color="error"
         >

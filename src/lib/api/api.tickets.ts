@@ -1,7 +1,7 @@
 import { api } from "../api";
 import { ITicket } from "../types";
 
-export function getTickets() {
+export function getAllTickets() {
   return api<ITicket[]>("/tickets", { auth: true });
 }
 
@@ -38,6 +38,13 @@ export function verifyTicket(ticketId: string) {
 export function closeTicket(ticketId: string) {
   return api<ITicket>(`/tickets/${ticketId}/close`, {
     method: "POST",
+    auth: true,
+  });
+}
+
+export function getTicketById(ticketId: string) {
+  return api<ITicket>(`/tickets/${ticketId}`, {
+    method: "GET",
     auth: true,
   });
 }

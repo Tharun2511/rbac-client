@@ -18,6 +18,9 @@ export interface ITicket {
   title: string;
   description: string;
   status: string;
-  created_by: string;
-  resolver_id?: string;
+  createdBy: string;
+  createdUser: IUser;
+  resolverId?: string;
+  resolver: IUser;
+  createdAt: Date;
 }

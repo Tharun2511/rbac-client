@@ -1,6 +1,6 @@
 "use client";
 
-import { assignTicket, closeTicket, getTickets } from "@/lib/api/api.tickets";
+import { assignTicket, closeTicket, getAllTickets } from "@/lib/api/api.tickets";
 import { ITicket } from "@/lib/types";
 import { useEffect, useState } from "react";
 
@@ -8,17 +8,17 @@ export default function ManagerDashboard() {
   const [tickets, setTickets] = useState<ITicket[]>([]);
 
   useEffect(() => {
-    getTickets().then(setTickets);
+    getAllTickets().then(setTickets);
   }, []);
 
   async function handleAssign(id: string) {
     await assignTicket(id, "resolver-id");
-    setTickets(await getTickets());
+    setTickets(await getAllTickets());
   }
 
   async function handleClose(id: string) {
     await closeTicket(id);
-    setTickets(await getTickets());
+    setTickets(await getAllTickets());
   }
 
   return (
