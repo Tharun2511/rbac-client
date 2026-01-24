@@ -3,7 +3,7 @@ import { ITicket } from "@/lib/types";
 import { getMyTicketHistory } from "@/lib/api/api.tickets";
 import useUserDetails from "../useUserDetails";
 
-export function useMyTicketHistory() {
+export function useMyVerifyTickets() {
   const user = useUserDetails();
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,9 @@ export function useMyTicketHistory() {
   }, []);
 
   return {
-    tickets: tickets.filter((t) => t.status === "CLOSED" && user?.id),
+    tickets: tickets.filter(
+      (t) => t.status === "RESOLVED" && t.createdBy === user?.id,
+    ),
     loading,
   };
 }

@@ -3,8 +3,6 @@
 import { useParams } from "next/navigation";
 import { useTicketDetails } from "@/hooks/tickets/useTicketDetails";
 import { useAssignResolver } from "@/hooks/tickets/useAssignResolver";
-import { useResolveTicket } from "@/hooks/tickets/useResolveTicket";
-import { useVerifyTicket } from "@/hooks/tickets/useVerifyTicket";
 import { useCloseTicket } from "@/hooks/tickets/useCloseTicket";
 import LoadingState from "@/app/components/feedback/LoadingState";
 import TicketDetailsHeader from "@/app/components/tickets/TicketDetailsHeader";
@@ -21,8 +19,6 @@ export default function TicketDetailsPage() {
 
   // Hook Instances (Manage Workflow)
   const assign = useAssignResolver(id as string, refresh);
-  const resolve = useResolveTicket(id as string, refresh);
-  const verify = useVerifyTicket(id as string, refresh);
   const close = useCloseTicket(id as string, refresh);
 
   if (loading || !ticket) {
@@ -42,16 +38,11 @@ export default function TicketDetailsPage() {
         ticket={ticket}
         role={user?.role || ""}
         onAssign={assign.open}
-        onResolve={resolve.open}
-        onVerify={verify.open}
         onClose={close.open}
       />
 
       {/* Dialogs */}
       <AssignResolverDialog {...assign.dialogProps} />
-
-      <ConfirmDialog {...resolve.dialogProps} />
-      <ConfirmDialog {...verify.dialogProps} />
       <ConfirmDialog {...close.dialogProps} />
     </>
   );

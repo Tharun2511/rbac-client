@@ -57,14 +57,14 @@ export default function UserDashboard() {
             <QuickActionCard
               title="Create Tickets"
               description="Create the tickets that need to be resolved"
-              onClick={() => router.push("/user/create")}
+              onClick={() => router.push("/tickets/create")}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <QuickActionCard
               title="Verify Tickets"
               description="Tickets pending for verification"
-              onClick={() => router.push("/manager")}
+              onClick={() => router.push("/tickets/verify")}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
