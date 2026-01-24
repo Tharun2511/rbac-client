@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import PageHeader from "@/app/components/layout/PageHeader";
 import TicketList from "@/app/components/tickets/TicketList";
@@ -10,7 +10,7 @@ export default function TicketHistoryPage() {
   return (
     <>
       <PageHeader title="Ticket History" />
-        <TicketList tickets={tickets} loading={loading}/>
+      <TicketList tickets={tickets} loading={loading} />
     </>
   );
 }

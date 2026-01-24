@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Button, Box } from "@mui/material";
 import { useUserTickets } from "@/hooks/tickets/useUserTickets";
@@ -16,14 +16,14 @@ export default function UserTicketsPage() {
       <PageHeader title="My Tickets" />
 
       <Box display="flex" justifyContent="space-between" mb={2}>
-                <Button
-                  variant="contained"
-                  onClick={() => router.push("/user")}
-                  startIcon={<ArrowBack />}
-                  color="error"
-                >
-                  Back
-                </Button>
+        <Button
+          variant="contained"
+          onClick={() => router.push("/user")}
+          startIcon={<ArrowBack />}
+          color="error"
+        >
+          Back
+        </Button>
         <Button
           variant="contained"
           onClick={() => router.push("/tickets/create")}
@@ -31,7 +31,7 @@ export default function UserTicketsPage() {
           + Create Ticket
         </Button>
       </Box>
-        <TicketList tickets={tickets} loading={loading}/>
+      <TicketList tickets={tickets} loading={loading} />
     </>
   );
 }

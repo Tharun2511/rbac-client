@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useSearchParams } from "next/navigation";
 import { useManagerTicketList } from "@/hooks/useManagerTicketsList";
@@ -22,7 +22,7 @@ export default function ManagerTicketsPage() {
   return (
     <>
       <PageHeader title={pageTitle} />
-        <TicketList tickets={tickets} loading={loading} />
+      <TicketList tickets={tickets} loading={loading} />
     </>
   );
 }

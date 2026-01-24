@@ -9,11 +9,16 @@ import useUserDashboard from "@/hooks/dashboards/useUserDashboard";
 import LoadingState from "@/app/components/feedback/LoadingState";
 
 export default function UserDashboard() {
-
   const router = useRouter();
-  const {TicketsClosed, loading, ticketsToBeAssigned, ticketsToBeVerified, totalTickets} = useUserDashboard();
+  const {
+    TicketsClosed,
+    loading,
+    ticketsToBeAssigned,
+    ticketsToBeVerified,
+    totalTickets,
+  } = useUserDashboard();
 
-    if (loading) return <LoadingState label="Loading User stats..." />
+  if (loading) return <LoadingState label="Loading User stats..." />;
 
   return (
     <>
@@ -25,11 +30,17 @@ export default function UserDashboard() {
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <StatCard label="Tickets to be Verified" value={ticketsToBeVerified} />
+          <StatCard
+            label="Tickets to be Verified"
+            value={ticketsToBeVerified}
+          />
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <StatCard label="Tickets to be assigned" value={ticketsToBeAssigned} />
+          <StatCard
+            label="Tickets to be assigned"
+            value={ticketsToBeAssigned}
+          />
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>

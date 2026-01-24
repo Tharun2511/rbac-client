@@ -9,14 +9,19 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function ManagerDashboard() {
-
   const router = useRouter();
-  const {loading, assignedTickets, pendingReviewTickets, totalTickets, unassignedTickets} = useManagerDashboard();
+  const {
+    loading,
+    assignedTickets,
+    pendingReviewTickets,
+    totalTickets,
+    unassignedTickets,
+  } = useManagerDashboard();
 
   if (loading) return <LoadingState label="Loading Manager stats..." />;
 
   return (
-   <>
+    <>
       <PageHeader title="Manager Dashboard" />
 
       <Grid container spacing={2}>
@@ -33,7 +38,10 @@ export default function ManagerDashboard() {
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <StatCard label="Review Pending Tickets" value={pendingReviewTickets} />
+          <StatCard
+            label="Review Pending Tickets"
+            value={pendingReviewTickets}
+          />
         </Grid>
       </Grid>
 
@@ -42,7 +50,7 @@ export default function ManagerDashboard() {
           Actions
         </Typography>
         <Grid container spacing={2}>
-          <Grid size={{xs: 12, sm:6, md:4}}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <QuickActionCard
               title="View All Tickets"
               description="Assign resolvers, monitor status, close tickets"
@@ -50,7 +58,7 @@ export default function ManagerDashboard() {
             />
           </Grid>
 
-          <Grid size={{xs: 12, sm:6, md:4}}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <QuickActionCard
               title="Assigned Tickets"
               description="View tickets currently assigned to resolvers"
@@ -58,11 +66,13 @@ export default function ManagerDashboard() {
             />
           </Grid>
 
-          <Grid size={{xs: 12, sm:6, md:4}}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <QuickActionCard
               title="Awaiting Closure"
               description="Tickets verified by users and ready to close"
-              onClick={() => router.push("/manager/tickets?filter=ready-to-close")}
+              onClick={() =>
+                router.push("/manager/tickets?filter=ready-to-close")
+              }
             />
           </Grid>
         </Grid>

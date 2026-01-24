@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Paper } from "@mui/material";
 import { useCreateTicket } from "@/hooks/tickets/useCreateTicket";
@@ -9,14 +9,8 @@ import TicketCreateForm from "@/app/components/forms/TicketCreateForm";
 export default function CreateTicketPage() {
   const router = useRouter();
 
-  const {
-    title,
-    description,
-    loading,
-    setTitle,
-    setDescription,
-    submit
-  } = useCreateTicket(() => router.push('/tickets'));
+  const { title, description, loading, setTitle, setDescription, submit } =
+    useCreateTicket(() => router.push("/tickets"));
 
   return (
     <>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useParams } from "next/navigation";
 import { useTicketDetails } from "@/hooks/tickets/useTicketDetails";
@@ -36,7 +36,7 @@ export default function TicketDetailsPage() {
 
       <TicketActions
         ticket={ticket}
-        role={user?.role || ''}
+        role={user?.role || ""}
         onAssign={assign.open}
         onResolve={resolve.open}
         onVerify={verify.open}
