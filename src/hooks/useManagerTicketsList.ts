@@ -1,3 +1,5 @@
+"use client";
+
 import { getAllTickets } from "@/lib/api/api.tickets";
 import { ITicket } from "@/lib/types";
 import { useEffect, useState } from "react";
@@ -13,10 +15,8 @@ export function useManagerTicketList(filter?: string | null) {
 
         const filtered = {
           assigned: all.filter((t) => t.status === "ASSIGNED"),
-          "ready-to-close": all.filter((t) => t.status === "VERIFIED_BY_USER"),
-          "awaiting-verification": all.filter(
-            (t) => t.status === "RESOLVED_BY_RESOLVER",
-          ),
+          "ready-to-close": all.filter((t) => t.status === "VERIFIED"),
+          "awaiting-verification": all.filter((t) => t.status === "RESOLVED"),
         }[filter];
 
         setTickets(filtered ?? []);

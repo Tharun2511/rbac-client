@@ -8,8 +8,8 @@ const statusColors: Record<
 > = {
   OPEN: "warning",
   ASSIGNED: "primary",
-  RESOLVED_BY_RESOLVER: "info",
-  VERIFIED_BY_USER: "success",
+  RESOLVED: "info",
+  VERIFIED: "success",
   CLOSED: "default",
   ADMIN: "error",
   MANAGER: "success",
@@ -18,7 +18,6 @@ const statusColors: Record<
 };
 
 const StatusChip = ({ status = "" }: { status: string }) => {
-  console.log(status);
   return (
     <Chip
       label={status.replaceAll("_", " ")}

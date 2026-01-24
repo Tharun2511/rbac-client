@@ -37,14 +37,14 @@ export default function TicketActions({
       )}
 
       {/* USER ACTION: Verify Resolution */}
-      {role === "USER" && status === "RESOLVED_BY_RESOLVER" && (
+      {role === "USER" && status === "RESOLVED" && (
         <Button variant="contained" color="secondary" onClick={onVerify}>
           Verify Resolution
         </Button>
       )}
 
       {/* MANAGER ACTION: Close Ticket */}
-      {role === "MANAGER" && status === "VERIFIED_BY_USER" && (
+      {role === "MANAGER" && status === "VERIFIED" && (
         <Button variant="contained" color="success" onClick={onClose}>
           Close Ticket
         </Button>

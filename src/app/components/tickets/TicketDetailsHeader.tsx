@@ -5,7 +5,6 @@ import StatusChip from "../data/StatusChip";
 import { ITicket } from "@/lib/types";
 
 export default function TicketDetailsHeader({ ticket }: { ticket: ITicket }) {
-  console.log(ticket);
   return (
     <Box mb={3}>
       <Box display="flex" justifyContent="space-between" alignItems="center">

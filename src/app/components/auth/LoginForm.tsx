@@ -51,6 +51,7 @@ export default function LoginForm({
         type="password"
         value={password}
         onChange={(e) => onPasswordChange(e.target.value)}
+        onKeyPress={(e) => e.key === "Enter" && onSubmit()}
         fullWidth
       />
 

@@ -16,10 +16,8 @@ export default function useManagerDashboard() {
     totalTickets: tickets.length,
     openTickets: tickets.filter((t) => t.status === "OPEN").length,
     assignedTickets: tickets.filter((t) => t.status === "ASSIGNED").length,
-    resolvedTickets: tickets.filter((t) => t.status === "RESOLVED_BY_RESOLVER")
-      .length,
-    verifiedTickets: tickets.filter((t) => t.status === "VERIFIED_BY_USER")
-      .length,
+    resolvedTickets: tickets.filter((t) => t.status === "RESOLVED").length,
+    verifiedTickets: tickets.filter((t) => t.status === "VERIFIED").length,
     loading,
   };
 }

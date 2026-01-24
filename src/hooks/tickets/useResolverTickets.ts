@@ -3,11 +3,10 @@ import { ITicket } from "@/lib/types";
 import { useEffect, useState } from "react";
 import useUserDetails from "../useUserDetails";
 
-export default function useResolverDashboard() {
+export function useResolverTickets() {
+  const user = useUserDetails();
   const [tickets, setTickets] = useState<ITicket[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const user = useUserDetails();
 
   useEffect(() => {
     getAssignedTickets(user?.id || "")
@@ -15,11 +14,5 @@ export default function useResolverDashboard() {
       .finally(() => setLoading(false));
   }, [user?.id]);
 
-  return {
-    assigned: tickets.length,
-    pending: tickets.filter((t) => t.status === "ASSIGNED").length,
-    awaitingUserVerification: tickets.filter((t) => t.status === "RESOLVED")
-      .length,
-    loading,
-  };
+  return { tickets, loading };
 }

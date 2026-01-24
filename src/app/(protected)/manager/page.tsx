@@ -5,7 +5,7 @@ import StatCard from "@/app/components/dashboard/StatsCard";
 import LoadingState from "@/app/components/feedback/LoadingState";
 import PageHeader from "@/app/components/layout/PageHeader";
 import useManagerDashboard from "@/hooks/dashboards/useManagerDashboard";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function ManagerDashboardPage() {
@@ -46,6 +46,9 @@ export default function ManagerDashboardPage() {
 
       {/* Quick actions */}
       <Box mt={4}>
+        <Typography variant="h6" fontWeight={600} mb={2}>
+          Actions
+        </Typography>
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, md: 4 }}>
             <QuickActionCard

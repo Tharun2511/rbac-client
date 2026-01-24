@@ -1,13 +1,13 @@
 "use client";
 
+import { Suspense } from "react";
 import LoadingState from "@/app/components/feedback/LoadingState";
 import PageHeader from "@/app/components/layout/PageHeader";
 import TicketList from "@/app/components/tickets/TicketList";
 import { useManagerTicketList } from "@/hooks/useManagerTicketsList";
-import { ITicket } from "@/lib/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function ManagerTicketsPage() {
+function ManagerTicketsContent() {
   const router = useRouter();
   const search = useSearchParams();
   const filter = search.get("filter");
@@ -34,5 +34,13 @@ export default function ManagerTicketsPage() {
         onItemClick={(id) => router.push(`/tickets/${id}`)}
       />
     </>
+  );
+}
+
+export default function ManagerTicketsPage() {
+  return (
+    <Suspense fallback={<LoadingState label="loading tickets..." />}>
+      <ManagerTicketsContent />
+    </Suspense>
   );
 }

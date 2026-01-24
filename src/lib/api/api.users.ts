@@ -54,7 +54,7 @@ export async function getAllUsers() {
 }
 
 export async function getAllResolvers() {
-  return await api<IUser>("/users/resolvers", {
+  return await api<IUser[]>("/users/resolvers", {
     method: "GET",
     auth: true,
   });

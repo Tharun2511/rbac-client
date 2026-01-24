@@ -125,8 +125,6 @@ export default function AdminUserTable({
     },
   ];
 
-  console.log(rows);
-
   return (
     <div style={{ height: 520, width: "100%" }}>
       <DataGrid
