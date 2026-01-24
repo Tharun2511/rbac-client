@@ -4,7 +4,7 @@ import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
 import StatCard from "@/app/components/dashboard/StatsCard";
 import LoadingState from "@/app/components/feedback/LoadingState";
 import PageHeader from "@/app/components/layout/PageHeader";
-import useAdminDashboard from "@/hooks/useAdminDashboard";
+import useAdminDashboard from "@/hooks/dashboards/useAdminDashboard";
 import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 

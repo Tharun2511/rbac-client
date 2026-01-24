@@ -5,6 +5,13 @@ export function getAllTickets() {
   return api<ITicket[]>("/tickets", { auth: true });
 }
 
+export function getMyTickets() {
+  return api<ITicket[]>("/tickets/me", {
+    method: "GET",
+    auth: true,
+  });
+}
+
 export function createTicket(title: string, description: string) {
   return api<ITicket>("/tickets", {
     method: "POST",
@@ -44,6 +51,13 @@ export function closeTicket(ticketId: string) {
 
 export function getTicketById(ticketId: string) {
   return api<ITicket>(`/tickets/${ticketId}`, {
+    method: "GET",
+    auth: true,
+  });
+}
+
+export async function getMyTicketHistory() {
+  return api<ITicket[]>("/tickets/my/history", {
     method: "GET",
     auth: true,
   });

@@ -1,43 +1,72 @@
 "use client";
 
-import {
-  assignTicket,
-  closeTicket,
-  getAllTickets,
-} from "@/lib/api/api.tickets";
-import { ITicket } from "@/lib/types";
-import { useEffect, useState } from "react";
+import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
+import StatCard from "@/app/components/dashboard/StatsCard";
+import LoadingState from "@/app/components/feedback/LoadingState";
+import PageHeader from "@/app/components/layout/PageHeader";
+import useManagerDashboard from "@/hooks/dashboards/useManagerDashboard";
+import { Box, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function ManagerDashboard() {
-  const [tickets, setTickets] = useState<ITicket[]>([]);
 
-  useEffect(() => {
-    getAllTickets().then(setTickets);
-  }, []);
+  const router = useRouter();
+  const {loading, assignedTickets, pendingReviewTickets, totalTickets, unassignedTickets} = useManagerDashboard();
 
-  async function handleAssign(id: string) {
-    await assignTicket(id, "resolver-id");
-    setTickets(await getAllTickets());
-  }
-
-  async function handleClose(id: string) {
-    await closeTicket(id);
-    setTickets(await getAllTickets());
-  }
+  if (loading) return <LoadingState label="Loading Manager stats..." />;
 
   return (
-    <ul>
-      {tickets.map((t) => (
-        <li key={t.id}>
-          {t.title} — {t.status}
-          {t.status === "OPEN" && (
-            <button onClick={() => handleAssign(t.id)}>Assign</button>
-          )}
-          {t.status === "VERIFIED_BY_USER" && (
-            <button onClick={() => handleClose(t.id)}>Close</button>
-          )}
-        </li>
-      ))}
-    </ul>
+   <>
+      <PageHeader title="Manager Dashboard" />
+
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="Total Tickets" value={totalTickets} />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="Assigned Tickets" value={assignedTickets} />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="Unnassigned Tickets" value={unassignedTickets} />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="Review Pending Tickets" value={pendingReviewTickets} />
+        </Grid>
+      </Grid>
+
+      <Box mt={4}>
+        <Typography variant="h6" fontWeight={600} mb={2}>
+          Actions
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid size={{xs: 12, sm:6, md:4}}>
+            <QuickActionCard
+              title="View All Tickets"
+              description="Assign resolvers, monitor status, close tickets"
+              onClick={() => router.push("/manager/tickets")}
+            />
+          </Grid>
+
+          <Grid size={{xs: 12, sm:6, md:4}}>
+            <QuickActionCard
+              title="Assigned Tickets"
+              description="View tickets currently assigned to resolvers"
+              onClick={() => router.push("/manager/tickets?filter=assigned")}
+            />
+          </Grid>
+
+          <Grid size={{xs: 12, sm:6, md:4}}>
+            <QuickActionCard
+              title="Awaiting Closure"
+              description="Tickets verified by users and ready to close"
+              onClick={() => router.push("/manager/tickets?filter=ready-to-close")}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    </>
   );
 }

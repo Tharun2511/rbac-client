@@ -1,40 +1,70 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ITicket } from "@/lib/types";
-import { createTicket, getTickets, verifyTicket } from "@/lib/api/api.tickets";
+import PageHeader from "@/app/components/layout/PageHeader";
+import { Box, Grid, Typography } from "@mui/material";
+import StatCard from "@/app/components/dashboard/StatsCard";
+import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
+import { useRouter } from "next/navigation";
+import useUserDashboard from "@/hooks/dashboards/useUserDashboard";
+import LoadingState from "@/app/components/feedback/LoadingState";
 
 export default function UserDashboard() {
-  const [tickets, setTickets] = useState<ITicket[]>([]);
 
-  useEffect(() => {
-    getTickets().then(setTickets);
-  }, []);
+  const router = useRouter();
+  const {TicketsClosed, loading, ticketsToBeAssigned, ticketsToBeVerified, totalTickets} = useUserDashboard();
 
-  async function handleCreate() {
-    await createTicket("Sample Issue", "Something is broken");
-    setTickets(await getTickets());
-  }
-
-  async function handleVerify(id: string) {
-    await verifyTicket(id);
-    setTickets(await getTickets());
-  }
+    if (loading) return <LoadingState label="Loading User stats..." />
 
   return (
     <>
-      <button onClick={handleCreate}>Create Ticket</button>
+      <PageHeader title="User Dashboard" />
 
-      <ul>
-        {tickets.map((t) => (
-          <li key={t.id}>
-            {t.title} — {t.status}
-            {t.status === "RESOLVED_BY_RESOLVER" && (
-              <button onClick={() => handleVerify(t.id)}>Verify</button>
-            )}
-          </li>
-        ))}
-      </ul>
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="My Tickets" value={totalTickets} />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="Tickets to be Verified" value={ticketsToBeVerified} />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="Tickets to be assigned" value={ticketsToBeAssigned} />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard label="Tickets closed" value={TicketsClosed} />
+        </Grid>
+      </Grid>
+
+      <Box mt={4}>
+        <Typography variant="h6" fontWeight={600} mb={2}>
+          Actions
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <QuickActionCard
+              title="Create Tickets"
+              description="Create the tickets that need to be resolved"
+              onClick={() => router.push("/user/create")}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <QuickActionCard
+              title="Verify Tickets"
+              description="Tickets pending for verification"
+              onClick={() => router.push("/manager")}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <QuickActionCard
+              title="Ticket History"
+              description="Tickets which are closed, verified and resolved are shown"
+              onClick={() => router.push("/tickets/history")}
+            />
+          </Grid>
+        </Grid>
+      </Box>
     </>
   );
 }

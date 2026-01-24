@@ -1,22 +1,28 @@
-"use client";
+'use client';
+
+import { useSearchParams } from "next/navigation";
+import { useManagerTicketList } from "@/hooks/useManagerTicketsList";
 import PageHeader from "@/app/components/layout/PageHeader";
 import TicketList from "@/app/components/tickets/TicketList";
-import { useManagerTickets } from "@/hooks/tickets/useUserTickets";
-import { useRouter } from "next/navigation";
 
 export default function ManagerTicketsPage() {
-  const router = useRouter();
-  const { tickets, loading } = useManagerTickets();
+  const search = useSearchParams();
+  const filter = search.get("filter");
+
+  const { tickets, loading } = useManagerTicketList(filter);
+
+  const titleMap: Record<string, string> = {
+    assigned: "Assigned Tickets",
+    "ready-to-close": "Tickets Awaiting Closure",
+    "awaiting-verification": "Resolved — Awaiting User Verification",
+  };
+
+  const pageTitle = titleMap[filter ?? ""] ?? "All Tickets";
 
   return (
     <>
-      <PageHeader title="All Tickets" />
-
-      <TicketList
-        tickets={tickets}
-        loading={loading}
-        onItemClick={(id) => router.push(`/tickets/${id}`)}
-      />
+      <PageHeader title={pageTitle} />
+        <TicketList tickets={tickets} loading={loading} />
     </>
   );
 }
