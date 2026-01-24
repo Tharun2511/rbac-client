@@ -9,10 +9,7 @@ export function useManagerTicketList(filter?: string | null) {
   useEffect(() => {
     getAllTickets()
       .then((all) => {
-        if (!filter) {
-          setTickets(all);
-          return;
-        }
+        if (!filter) return setTickets(all);
 
         const filtered = {
           assigned: all.filter((t) => t.status === "ASSIGNED"),

@@ -31,7 +31,11 @@ export default function UserTicketsPage() {
           + Create Ticket
         </Button>
       </Box>
-      <TicketList tickets={tickets} loading={loading} />
+      <TicketList
+        tickets={tickets}
+        loading={loading}
+        onItemClick={(id) => router.push(`/tickets/${id}`)}
+      />
     </>
   );
 }

@@ -14,6 +14,14 @@ export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
         <Typography variant="body2" mt={1} whiteSpace="pre-line">
           {ticket.description}
         </Typography>
+
+        <Typography variant="body2">
+          Created by: {ticket.createdUser?.name}
+        </Typography>
+
+        <Typography variant="body2">
+          Assigned to: {ticket.resolver?.name ?? "Not Assigned"}
+        </Typography>
       </Box>
     </Paper>
   );

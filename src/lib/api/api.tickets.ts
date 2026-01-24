@@ -7,7 +7,6 @@ export function getAllTickets() {
 
 export function getMyTickets() {
   return api<ITicket[]>("/tickets/me", {
-    method: "GET",
     auth: true,
   });
 }
@@ -21,44 +20,46 @@ export function createTicket(title: string, description: string) {
 }
 
 export function assignTicket(ticketId: string, resolverId: string) {
-  return api<ITicket>(`/tickets/${ticketId}/assign`, {
-    method: "POST",
+  return api<ITicket>(`/tickets/assign/${ticketId}`, {
+    method: "PATCH",
     auth: true,
     body: JSON.stringify({ resolverId }),
   });
 }
 
 export function resolveTicket(ticketId: string) {
-  return api<ITicket>(`/tickets/${ticketId}/resolve`, {
-    method: "POST",
+  return api<ITicket>(`/tickets/resolve/${ticketId}`, {
+    method: "PATCH",
     auth: true,
   });
 }
 
 export function verifyTicket(ticketId: string) {
-  return api<ITicket>(`/tickets/${ticketId}/verify`, {
-    method: "POST",
+  return api<ITicket>(`/tickets/verify/${ticketId}`, {
+    method: "PATCH",
     auth: true,
   });
 }
 
 export function closeTicket(ticketId: string) {
-  return api<ITicket>(`/tickets/${ticketId}/close`, {
-    method: "POST",
+  return api<ITicket>(`/tickets/close/${ticketId}`, {
+    method: "PATCH",
     auth: true,
   });
 }
 
 export function getTicketById(ticketId: string) {
   return api<ITicket>(`/tickets/${ticketId}`, {
-    method: "GET",
     auth: true,
   });
 }
 
 export async function getMyTicketHistory() {
   return api<ITicket[]>("/tickets/my/history", {
-    method: "GET",
     auth: true,
   });
+}
+
+export async function getAssignedTickets(resolverId: string) {
+  return api<ITicket[]>(`/tickets/assigned/${resolverId}`, { auth: true });
 }

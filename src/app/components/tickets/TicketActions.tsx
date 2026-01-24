@@ -1,5 +1,3 @@
-"use client";
-
 import { ITicket } from "@/lib/types";
 import { Box, Button } from "@mui/material";
 
@@ -20,28 +18,32 @@ export default function TicketActions({
   onVerify,
   onClose,
 }: Props) {
-  const status = ticket.status;
+  const { status } = ticket;
 
   return (
-    <Box display="flex" gap={2} mt={3}>
+    <Box mt={2} display="flex" gap={2}>
+      {/* MANAGER ACTION: Assign Resolver */}
       {role === "MANAGER" && status === "OPEN" && (
         <Button variant="contained" onClick={onAssign}>
           Assign Resolver
         </Button>
       )}
 
+      {/* RESOLVER ACTION: Resolve Ticket */}
       {role === "RESOLVER" && status === "ASSIGNED" && (
-        <Button variant="contained" color="warning" onClick={onResolve}>
-          Mark Resolved
+        <Button variant="contained" color="primary" onClick={onResolve}>
+          Mark as Resolved
         </Button>
       )}
 
+      {/* USER ACTION: Verify Resolution */}
       {role === "USER" && status === "RESOLVED_BY_RESOLVER" && (
-        <Button variant="contained" color="success" onClick={onVerify}>
+        <Button variant="contained" color="secondary" onClick={onVerify}>
           Verify Resolution
         </Button>
       )}
 
+      {/* MANAGER ACTION: Close Ticket */}
       {role === "MANAGER" && status === "VERIFIED_BY_USER" && (
         <Button variant="contained" color="success" onClick={onClose}>
           Close Ticket

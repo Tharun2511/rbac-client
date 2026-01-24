@@ -5,9 +5,10 @@ const useUserDetails = (): {
   email: string;
   role: string;
 } | null => {
-  const storedUserDetails = localStorage.getItem("user_details");
+  const storedUserDetails = localStorage.getItem("auth_user");
   if (storedUserDetails) {
     try {
+      console.log(JSON.parse(storedUserDetails));
       return JSON.parse(storedUserDetails);
     } catch (error) {
       console.error("Failed to parse user details from localStorage:", error);

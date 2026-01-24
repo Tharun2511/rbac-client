@@ -1,31 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ITicket } from "@/lib/types";
-import { getTickets, resolveTicket } from "@/lib/api/api.tickets";
+import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
+import StatCard from "@/app/components/dashboard/StatsCard";
+import LoadingState from "@/app/components/feedback/LoadingState";
+import PageHeader from "@/app/components/layout/PageHeader";
+import useResolverDashboard from "@/hooks/dashboards/useResolverDashboard";
+import { Grid } from "@mui/material";
+import { useRouter } from "next/navigation";
 
-export default function ResolverDashboard() {
-  const [tickets, setTickets] = useState<ITicket[]>([]);
+export default function ResolverDashboardPage() {
+  const router = useRouter();
 
-  useEffect(() => {
-    getTickets().then(setTickets);
-  }, []);
+  const { assigned, pending, awaitingUserVerification, loading } =
+    useResolverDashboard();
 
-  async function handleResolve(id: string) {
-    await resolveTicket(id);
-    setTickets(await getTickets());
-  }
+  if (loading) return <LoadingState label="loading resolver tickets..." />;
 
   return (
-    <ul>
-      {tickets.map((t) => (
-        <li key={t.id}>
-          {t.title} — {t.status}
-          {t.status === "ASSIGNED" && (
-            <button onClick={() => handleResolve(t.id)}>Resolve</button>
-          )}
-        </li>
-      ))}
-    </ul>
+    <>
+      <PageHeader title="Resolver Dashboard" />
+
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 6, md: 3 }}>
+          <StatCard label="Assigned Tickets" value={assigned} />
+        </Grid>
+        <Grid size={{ xs: 6, md: 3 }}>
+          <StatCard label="Pending Resolution" value={pending} />
+        </Grid>
+        <Grid size={{ xs: 6, md: 3 }}>
+          <StatCard
+            label="Awaiting User Verification"
+            value={awaitingUserVerification}
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} mt={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <QuickActionCard
+            title="View Assigned Tickets"
+            description="Work on your assigned tasks"
+            onClick={() => router.push("/resolver/tickets")}
+          />
+        </Grid>
+      </Grid>
+    </>
   );
 }

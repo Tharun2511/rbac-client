@@ -1,18 +1,30 @@
 import { getTicketById } from "@/lib/api/api.tickets";
-import { useEffect, useState } from "react";
+import { ITicket } from "@/lib/types";
+import { useCallback, useEffect, useState } from "react";
 
 export function useTicketDetails(id: string) {
-  const [ticket, setTicket] = useState<any | null>(null);
+  const [ticket, setTicket] = useState<ITicket | null>(null);
   const [loading, setLoading] = useState(true);
 
-  async function refresh() {
+  const refresh = useCallback(async () => {
     const data = await getTicketById(id);
     setTicket(data);
-  }
+  }, [id]);
 
   useEffect(() => {
-    refresh().finally(() => setLoading(false));
-  }, [id]);
+    let isMounted = true;
+
+    (async () => {
+      await refresh();
+      if (isMounted) {
+        setLoading(false);
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, refresh]);
 
   return {
     ticket,
