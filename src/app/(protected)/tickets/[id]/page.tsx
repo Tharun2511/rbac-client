@@ -14,6 +14,7 @@ import TicketActions from "@/app/components/tickets/TicketActions";
 import AssignResolverDialog from "@/app/components/dialogs/AssignResolverDialog";
 import ConfirmDialog from "@/app/components/dialogs/ConfirmDialog";
 import useUserDetails from "@/hooks/useUserDetails";
+import RouteBack from "@/app/components/layout/RouteBackButton";
 
 export default function TicketDetailsPage() {
   const { id } = useParams();
@@ -30,6 +31,7 @@ export default function TicketDetailsPage() {
 
   return (
     <>
+      <RouteBack />
       <TicketDetailsHeader ticket={ticket} />
 
       <TicketInfoCard ticket={ticket} />

@@ -1,6 +1,8 @@
 "use client";
 
-import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import { logout } from "@/lib/auth";
+import { Logout } from "@mui/icons-material";
+import { AppBar, Toolbar, Typography, Box, Button } from "@mui/material";
 
 export default function TopBar() {
   return (
@@ -12,7 +14,15 @@ export default function TopBar() {
 
         <Box flexGrow={1} />
 
-        {/* Right side actions will come later */}
+        <Button
+          color="inherit"
+          variant="text"
+          onClick={logout}
+          sx={{ textTransform: "none", fontSize: "16px" }}
+          endIcon={<Logout />}
+        >
+          Logout
+        </Button>
       </Toolbar>
     </AppBar>
   );

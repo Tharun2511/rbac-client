@@ -25,7 +25,7 @@ export default function TicketList({
   if (!tickets.length) return <EmptyState message="No tickets found." />;
 
   return (
-    <Box>
+    <Box mt={2}>
       {tickets.map((ticket) => (
         <TicketItem
           key={ticket.id}

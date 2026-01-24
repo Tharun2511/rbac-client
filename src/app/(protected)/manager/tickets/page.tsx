@@ -6,6 +6,7 @@ import PageHeader from "@/app/components/layout/PageHeader";
 import TicketList from "@/app/components/tickets/TicketList";
 import { useManagerTicketList } from "@/hooks/useManagerTicketsList";
 import { useRouter, useSearchParams } from "next/navigation";
+import RouteBack from "@/app/components/layout/RouteBackButton";
 
 function ManagerTicketsContent() {
   const router = useRouter();
@@ -26,6 +27,8 @@ function ManagerTicketsContent() {
 
   return (
     <>
+      <RouteBack />
+
       <PageHeader title={pageTitle} />
 
       <TicketList
