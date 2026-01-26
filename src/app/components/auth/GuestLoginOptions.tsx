@@ -3,14 +3,16 @@
 import { GUEST_CREDENTIALS } from "@/constant/guestCreds";
 import { useLogin } from "@/hooks/useLogin";
 import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
 
 type Role = "admin" | "user" | "manager" | "resolver";
 
 export default function GuestLoginOptions() {
   const login = useLogin();
+    const [guestRole, setGuestRole] = useState("");
   async function handleGuestLogin(role: Role) {
+    setGuestRole(role);
     const credentials = GUEST_CREDENTIALS[role];
-    console.log(credentials);
     login.setEmail(credentials.email);
     login.setPassword(credentials.password);
 
@@ -37,7 +39,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("admin")}
         >
-          {login.loading ? "Logging in…" : "Admin"}
+          {guestRole==="Admin".toLowerCase() ? "Logging in…" : "Admin"}
         </Button>
 
         <Button
@@ -46,7 +48,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("user")}
         >
-          {login.loading ? "Logging in…" : "User"}
+          {guestRole==="User".toLowerCase() ? "Logging in…" : "User"}
         </Button>
 
         <Button
@@ -55,7 +57,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("manager")}
         >
-          {login.loading ? "Logging in…" : "Manager"}
+          {guestRole==="Manager".toLowerCase() ? "Logging in…" : "Manager"}
         </Button>
 
         <Button
@@ -64,7 +66,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("resolver")}
         >
-          {login.loading ? "Logging in…" : "Resolver"}
+          {guestRole==="Resolver".toLowerCase() ? "Logging in…" : "Resolver"}
         </Button>
       </Box>
     </Box>

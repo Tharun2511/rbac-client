@@ -18,12 +18,11 @@ export function useLogin() {
       setLoading(true);
       setError(undefined);
 
-      console.log(emailToUse, passwordToUse);
+      // Add 200ms delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const { token, user } = await login(emailToUse, passwordToUse);
       saveAuth(token, user);
-
-      console.log(user.role);
 
       router.replace(`/${user.role.toLowerCase()}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
