@@ -18,9 +18,6 @@ export function useLogin() {
       setLoading(true);
       setError(undefined);
 
-      // Add 200ms delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       const { token, user } = await login(emailToUse, passwordToUse);
       saveAuth(token, user);
 
