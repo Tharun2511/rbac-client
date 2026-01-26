@@ -1,36 +1,194 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 **Internal Workflow & Ticket Management Platform**
 
-## Getting Started
+A full-stack, production-grade internal workflow application supporting **multi-role access control**, **ticket lifecycle automation**, and **clean, scalable architecture**.
 
-First, run the development server:
+Built with **Next.js (App Router)**, **Node.js (Express)**, **TypeScript**, **PostgreSQL**, and **MUI**, the platform enables teams to manage issue reporting, assignment, resolution, and verification efficiently.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+# 🧩 **Features**
+
+### 🔐 **Role-Based Access Control (RBAC)**
+
+Supports 4 system roles:
+
+* **User** – Creates tickets & verifies resolutions
+* **Manager** – Assigns tickets & closes completed ones
+* **Resolver** – Works on assigned tickets & marks them as resolved
+* **Admin** – Manages user accounts & roles
+
+### 🎯 **Complete Ticket Lifecycle**
+
+```
+OPEN (Ticket created by user) → ASSIGNED (Manager assigns the ticket to a resolver)  → RESOLVED_BY_RESOLVER (Resolver finds a resolution and fixes it) → VERIFIED_BY_USER (The resolution later verified by user and marks resolved) → CLOSED (Manager then checks the tickets and closes it)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🛠️ Core Functionalities
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Create, assign, resolve, verify, and close tickets
+* Full workflow validation enforced at backend
+* Scalable UI architecture using reusable components & custom hooks
+* Secure JWT authentication system
+* PostgreSQL relational queries with user JSON mapping
+* Modular backend (Controller → Service → Repository pattern)
+* Clean MUI interface for dashboards, lists, and dialogs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# 🏗️ **Tech Stack**
 
-To learn more about Next.js, take a look at the following resources:
+### **Frontend**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Next.js (App Router)
+* React + TypeScript
+* MUI (Material UI)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### **Backend**
 
-## Deploy on Vercel
+* Node.js (Express)
+* TypeScript
+* JWT Authentication
+* Controller–Service–Repository architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Database**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* PostgreSQL
+* Raw SQL + optimized JOIN queries
+* JSON aggregation for resolver & creator details
+
+### **Deployment**
+
+* Frontend → Vercel
+* Backend → Render
+* Managed PostgreSQL DB
+
+---
+
+# 🔑 **Dummy Credentials (for Testing)**
+
+Use these accounts to explore each role:
+
+### 👤 **Admin**
+
+```
+Email: admin@admin.com
+Password: admin@123
+```
+
+### 🧑‍💼 **Manager**
+
+```
+Email: manager@manager.com
+Password: manager@123
+```
+
+### 🧑‍🔧 **Resolver**
+
+```
+Email: resolver@resolver.com
+Password: resolver@123
+```
+
+### 🙋‍♂️ **User**
+
+```
+Email: user@user.com
+Password: user@123
+```
+
+> These accounts are created automatically in dev mode or can be seeded manually.
+
+---
+
+# 💻 **Local Development Setup**
+
+### **1. Clone the repo**
+
+```bash
+git clone https://github.com/your-username/workflow-platform.git
+cd workflow-platform
+```
+
+### **2. Install frontend & backend dependencies**
+
+```bash
+cd frontend
+npm install
+
+cd ../backend
+npm install
+```
+
+### **3. Set up environment variables**
+
+#### **Frontend → `.env.local`**
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+#### **Backend → `.env`**
+
+```
+PORT=5000
+DATABASE_URL=postgresql://user:password@localhost:5432/workflowdb
+JWT_SECRET=secretkey
+```
+
+### **4. Run the backend**
+
+```bash
+cd backend
+npm run dev
+```
+
+### **5. Run the frontend**
+
+```bash
+cd frontend
+npm run dev
+```
+
+---
+
+<!-- # 📸 **Screenshots (Add Later)**
+
+```
+📌 Dashboard
+📌 Ticket List
+📌 Ticket Details
+📌 Admin User Management
+```
+
+Add images here after UI polish.
+
+---
+-->
+
+# 📦 **Project Structure (Simplified)**
+
+```
+frontend/
+  components/
+  hooks/
+  app/
+  lib/
+backend/
+  src/
+    controllers/
+    services/
+    repositories/
+    routes/
+    utils/
+```
+
+---
+
+# 🌟 **Key Highlights**
+
+* Enterprise-style workflow automation
+* Clean modular frontend architecture
+* Typed backend with Express + PostgreSQL
+* Professional RBAC + Auth
+* Scalable and easily extensible design
+
