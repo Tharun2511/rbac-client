@@ -1,26 +1,18 @@
 "use client";
 
+import { useLogin } from "@/hooks/useLogin";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
-interface Props {
-  email: string;
-  password: string;
-  loading: boolean;
-  error?: string;
-  onEmailChange: (v: string) => void;
-  onPasswordChange: (v: string) => void;
-  onSubmit: () => void;
-}
-
-export default function LoginForm({
-  email,
-  password,
-  loading,
-  error,
-  onEmailChange,
-  onPasswordChange,
-  onSubmit,
-}: Props) {
+export default function LoginForm() {
+  const {
+    email,
+    password,
+    loading,
+    error,
+    setEmail: onEmailChange,
+    setPassword: onPasswordChange,
+    submit: onSubmit,
+  } = useLogin();
   return (
     <Box display="flex" flexDirection="column" gap={2}>
       <Typography variant="h5" fontWeight={600}>
@@ -59,7 +51,7 @@ export default function LoginForm({
         variant="contained"
         size="large"
         disabled={loading}
-        onClick={onSubmit}
+        onClick={() => onSubmit()}
       >
         {loading ? "Signing in…" : "Sign in"}
       </Button>

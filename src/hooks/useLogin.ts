@@ -11,13 +11,19 @@ export function useLogin() {
 
   const router = useRouter();
 
-  async function submit() {
+  async function submit(submitEmail?: string, submitPassword?: string) {
+    const emailToUse = submitEmail ?? email;
+    const passwordToUse = submitPassword ?? password;
     try {
       setLoading(true);
       setError(undefined);
 
-      const { token, user } = await login(email, password);
+      console.log(emailToUse, passwordToUse);
+
+      const { token, user } = await login(emailToUse, passwordToUse);
       saveAuth(token, user);
+
+      console.log(user.role);
 
       router.replace(`/${user.role.toLowerCase()}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
