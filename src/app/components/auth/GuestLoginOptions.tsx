@@ -9,7 +9,7 @@ type Role = "admin" | "user" | "manager" | "resolver";
 
 export default function GuestLoginOptions() {
   const login = useLogin();
-    const [guestRole, setGuestRole] = useState("");
+  const [guestRole, setGuestRole] = useState("");
   async function handleGuestLogin(role: Role) {
     setGuestRole(role);
     const credentials = GUEST_CREDENTIALS[role];
@@ -39,7 +39,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("admin")}
         >
-          {guestRole==="Admin".toLowerCase() ? "Logging in…" : "Admin"}
+          {guestRole === "Admin".toLowerCase() ? "Logging in…" : "Admin"}
         </Button>
 
         <Button
@@ -48,7 +48,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("user")}
         >
-          {guestRole==="User".toLowerCase() ? "Logging in…" : "User"}
+          {guestRole === "User".toLowerCase() ? "Logging in…" : "User"}
         </Button>
 
         <Button
@@ -57,7 +57,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("manager")}
         >
-          {guestRole==="Manager".toLowerCase() ? "Logging in…" : "Manager"}
+          {guestRole === "Manager".toLowerCase() ? "Logging in…" : "Manager"}
         </Button>
 
         <Button
@@ -66,7 +66,7 @@ export default function GuestLoginOptions() {
           disabled={login.loading}
           onClick={() => handleGuestLogin("resolver")}
         >
-          {guestRole==="Resolver".toLowerCase() ? "Logging in…" : "Resolver"}
+          {guestRole === "Resolver".toLowerCase() ? "Logging in…" : "Resolver"}
         </Button>
       </Box>
     </Box>
