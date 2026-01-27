@@ -5,7 +5,7 @@ import StatCard from "@/app/components/dashboard/StatsCard";
 import LoadingState from "@/app/components/feedback/LoadingState";
 import PageHeader from "@/app/components/layout/PageHeader";
 import useResolverDashboard from "@/hooks/dashboards/useResolverDashboard";
-import { Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function ResolverDashboardPage() {
@@ -35,15 +35,20 @@ export default function ResolverDashboardPage() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} mt={4}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <QuickActionCard
-            title="View Assigned Tickets"
-            description="Work on your assigned tasks"
-            onClick={() => router.push("/resolver/tickets")}
-          />
+      <Box mt={4}>
+        <Typography variant="h6" fontWeight={600} mb={2}>
+          Actions
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <QuickActionCard
+              title="View Assigned Tickets"
+              description="Work on your assigned tasks"
+              onClick={() => router.push("/resolver/tickets")}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { getAuthUser } from "@/lib/auth";
 import { useEffect, useState } from "react";
 
 const useUserDetails = (): {
@@ -14,15 +15,10 @@ const useUserDetails = (): {
   } | null>(null);
 
   useEffect(() => {
-    const storedUserDetails = localStorage.getItem("auth_user");
+    const storedUserDetails = getAuthUser();
     if (storedUserDetails) {
-      try {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setUserDetails(JSON.parse(storedUserDetails));
-      } catch (error) {
-        console.error("Failed to parse user details from localStorage:", error);
-        setUserDetails(null);
-      }
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setUserDetails(storedUserDetails);
     }
   }, []);
 

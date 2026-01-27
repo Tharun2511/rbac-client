@@ -12,10 +12,10 @@ Built with **Next.js (App Router)**, **Node.js (Express)**, **TypeScript**, **Po
 
 Supports 4 system roles:
 
-* **User** – Creates tickets & verifies resolutions
-* **Manager** – Assigns tickets & closes completed ones
-* **Resolver** – Works on assigned tickets & marks them as resolved
-* **Admin** – Manages user accounts & roles
+- **User** – Creates tickets & verifies resolutions
+- **Manager** – Assigns tickets & closes completed ones
+- **Resolver** – Works on assigned tickets & marks them as resolved
+- **Admin** – Manages user accounts & roles
 
 ### 🎯 **Complete Ticket Lifecycle**
 
@@ -25,13 +25,13 @@ OPEN (Ticket created by user) → ASSIGNED (Manager assigns the ticket to a reso
 
 ### 🛠️ Core Functionalities
 
-* Create, assign, resolve, verify, and close tickets
-* Full workflow validation enforced at backend
-* Scalable UI architecture using reusable components & custom hooks
-* Secure JWT authentication system
-* PostgreSQL relational queries with user JSON mapping
-* Modular backend (Controller → Service → Repository pattern)
-* Clean MUI interface for dashboards, lists, and dialogs
+- Create, assign, resolve, verify, and close tickets
+- Full workflow validation enforced at backend
+- Scalable UI architecture using reusable components & custom hooks
+- Secure JWT authentication system
+- PostgreSQL relational queries with user JSON mapping
+- Modular backend (Controller → Service → Repository pattern)
+- Clean MUI interface for dashboards, lists, and dialogs
 
 ---
 
@@ -39,28 +39,28 @@ OPEN (Ticket created by user) → ASSIGNED (Manager assigns the ticket to a reso
 
 ### **Frontend**
 
-* Next.js (App Router)
-* React + TypeScript
-* MUI (Material UI)
+- Next.js (App Router)
+- React + TypeScript
+- MUI (Material UI)
 
 ### **Backend**
 
-* Node.js (Express)
-* TypeScript
-* JWT Authentication
-* Controller–Service–Repository architecture
+- Node.js (Express)
+- TypeScript
+- JWT Authentication
+- Controller–Service–Repository architecture
 
 ### **Database**
 
-* PostgreSQL
-* Raw SQL + optimized JOIN queries
-* JSON aggregation for resolver & creator details
+- PostgreSQL
+- Raw SQL + optimized JOIN queries
+- JSON aggregation for resolver & creator details
 
 ### **Deployment**
 
-* Frontend → Vercel
-* Backend → Render
-* Managed PostgreSQL DB
+- Frontend → Vercel
+- Backend → Render
+- Managed PostgreSQL DB
 
 ---
 
@@ -186,9 +186,8 @@ backend/
 
 # 🌟 **Key Highlights**
 
-* Enterprise-style workflow automation
-* Clean modular frontend architecture
-* Typed backend with Express + PostgreSQL
-* Professional RBAC + Auth
-* Scalable and easily extensible design
-
+- Enterprise-style workflow automation
+- Clean modular frontend architecture
+- Typed backend with Express + PostgreSQL
+- Professional RBAC + Auth
+- Scalable and easily extensible design
