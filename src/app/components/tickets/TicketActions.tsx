@@ -21,31 +21,54 @@ export default function TicketActions({
   const { status } = ticket;
 
   return (
-    <Box mt={2} display="flex" gap={2}>
+    <Box display="flex" flexDirection="column" gap={2} width="100%">
       {/* MANAGER ACTION: Assign Resolver */}
       {role === "MANAGER" && status === "OPEN" && (
-        <Button variant="contained" onClick={onAssign}>
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={onAssign}
+          sx={{ borderRadius: 2 }}
+        >
           Assign Resolver
         </Button>
       )}
 
       {/* RESOLVER ACTION: Resolve Ticket */}
       {role === "RESOLVER" && status === "ASSIGNED" && (
-        <Button variant="contained" color="primary" onClick={onResolve}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={onResolve}
+          sx={{ borderRadius: 2 }}
+        >
           Mark as Resolved
         </Button>
       )}
 
       {/* USER ACTION: Verify Resolution */}
       {role === "USER" && status === "RESOLVED" && (
-        <Button variant="contained" color="secondary" onClick={onVerify}>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          onClick={onVerify}
+          sx={{ borderRadius: 2 }}
+        >
           Verify Resolution
         </Button>
       )}
 
       {/* MANAGER ACTION: Close Ticket */}
       {role === "MANAGER" && status === "VERIFIED" && (
-        <Button variant="contained" color="success" onClick={onClose}>
+        <Button
+          variant="contained"
+          color="success"
+          fullWidth
+          onClick={onClose}
+          sx={{ borderRadius: 2 }}
+        >
           Close Ticket
         </Button>
       )}

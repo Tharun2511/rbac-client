@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { Box } from "@mui/material";
 import TopBar from "./TopBar";
+import Sidebar from "./Sidebar";
 
 interface Props {
   children: ReactNode;
@@ -10,17 +11,29 @@ interface Props {
 
 export default function AppShell({ children }: Props) {
   return (
-    <Box minHeight="100vh" display="flex" flexDirection="column">
-      <TopBar />
-
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      <Sidebar />
       <Box
-        component="main"
-        flexGrow={1}
-        px={3}
-        py={2}
-        bgcolor="background.default"
+        component="div"
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minWidth: 0, // Prevent flex item from overflowing
+        }}
       >
-        {children}
+        <TopBar />
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            width: "100%",
+            backgroundColor: "background.default",
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );

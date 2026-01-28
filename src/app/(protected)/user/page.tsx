@@ -1,12 +1,12 @@
 "use client";
 
-import PageHeader from "@/app/components/layout/PageHeader";
 import { Box, Grid, Typography } from "@mui/material";
-import StatCard from "@/app/components/dashboard/StatsCard";
-import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
 import { useRouter } from "next/navigation";
 import useUserDashboard from "@/hooks/dashboards/useUserDashboard";
 import LoadingState from "@/app/components/feedback/LoadingState";
+import PageHeader from "@/app/components/layout/PageHeader";
+import StatCard from "@/app/components/dashboard/StatsCard";
+import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
 
 export default function UserDashboard() {
   const router = useRouter();

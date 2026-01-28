@@ -18,7 +18,7 @@ export function proxy(req: NextRequest) {
     if (role === "ADMIN") url.pathname = "/admin";
     if (role === "MANAGER") url.pathname = "/manager";
     if (role === "RESOLVER") url.pathname = "/resolver";
-    if (role === "USER") url.pathname = "/tickets";
+    if (role === "USER") url.pathname = "/user";
 
     return NextResponse.redirect(url);
   }

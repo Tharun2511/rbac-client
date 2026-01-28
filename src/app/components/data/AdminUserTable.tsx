@@ -3,9 +3,9 @@
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Chip, IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import StatusChip from "./StatusChip";
 import { IUser } from "@/lib/types";
 import { useState } from "react";
+import LabelChip from "./LabelChip";
 
 interface Props {
   rows: IUser[];
@@ -83,19 +83,19 @@ export default function AdminUserTable({
     {
       field: "name",
       headerName: "Name",
-      flex: 1,
+      flex: 3,
     },
     {
       field: "email",
       headerName: "Email",
-      flex: 1.5,
+      flex: 3,
     },
     {
       field: "role",
       headerName: "Role",
-      flex: 1,
+      flex: 2,
       renderCell: (params: GridRenderCellParams) => (
-        <StatusChip status={params.value} />
+        <LabelChip type="role" value={params.row.role} />
       ),
     },
     {
@@ -114,7 +114,7 @@ export default function AdminUserTable({
       field: "actions",
       headerName: "Actions",
       sortable: false,
-      width: 90,
+      flex: 1,
       renderCell: (params) => (
         <UserActionsMenu
           user={params.row}
@@ -135,6 +135,19 @@ export default function AdminUserTable({
         pageSizeOptions={[5, 10, 25]}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        sx={{
+          borderRadius: 2,
+          overflow: "hidden",
+          border: (theme) => `1px solid ${theme.palette.divider}`,
+          "& .MuiDataGrid-cell": {
+            paddingLeft: 3,
+            paddingRight: 3,
+          },
+          "& .MuiDataGrid-columnHeader": {
+            paddingLeft: 3,
+            paddingRight: 3,
+          },
         }}
       />
     </div>

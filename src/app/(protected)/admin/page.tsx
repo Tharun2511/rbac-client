@@ -1,12 +1,12 @@
 "use client";
 
-import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
-import StatCard from "@/app/components/dashboard/StatsCard";
-import LoadingState from "@/app/components/feedback/LoadingState";
-import PageHeader from "@/app/components/layout/PageHeader";
-import useAdminDashboard from "@/hooks/dashboards/useAdminDashboard";
 import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import useAdminDashboard from "@/hooks/dashboards/useAdminDashboard";
+import LoadingState from "@/app/components/feedback/LoadingState";
+import PageHeader from "@/app/components/layout/PageHeader";
+import StatCard from "@/app/components/dashboard/StatsCard";
+import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function AdminDashboardPage() {
       </Grid>
 
       <Box mt={4}>
-        <Typography variant="h6" fontWeight={600} mb={2}>
+        <Typography variant="h6" fontWeight={600} mb={2} color="text.primary">
           Actions
         </Typography>
         <Grid container spacing={2}>
@@ -47,6 +47,13 @@ export default function AdminDashboardPage() {
               title="Manage Users"
               description="Create, edit roles, activate or deactivate users"
               onClick={() => router.push("/admin/users")}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <QuickActionCard
+              title="Add User"
+              description="Directly create a new user account"
+              onClick={() => router.push("/admin/users/create")}
             />
           </Grid>
         </Grid>

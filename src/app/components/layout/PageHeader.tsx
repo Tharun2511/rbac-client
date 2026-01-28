@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Breadcrumbs, Link } from "@mui/material";
+import { NavigateNext } from "@mui/icons-material";
 
 interface Props {
   title: string;
@@ -9,16 +10,31 @@ interface Props {
 
 const PageHeader = ({ title, actions }: Props) => {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      mb={2}
-    >
-      <Typography variant="h5" component="h1" fontWeight={600}>
-        {title}
-      </Typography>
-      {actions && <Box>{actions}</Box>}
+    <Box mb={4}>
+      <Breadcrumbs
+        separator={<NavigateNext fontSize="small" />}
+        aria-label="breadcrumb"
+        sx={{ mb: 1, color: "text.secondary" }}
+      >
+        <Link underline="hover" color="inherit" href="/" fontSize="0.875rem">
+          Home
+        </Link>
+        <Typography color="text.primary" fontSize="0.875rem">
+          {title}
+        </Typography>
+      </Breadcrumbs>
+
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h4"
+          component="h1"
+          fontWeight={700}
+          color="text.primary"
+        >
+          {title}
+        </Typography>
+        {actions && <Box>{actions}</Box>}
+      </Box>
     </Box>
   );
 };

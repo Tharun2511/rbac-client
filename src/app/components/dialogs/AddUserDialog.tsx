@@ -41,7 +41,18 @@ export default function AddUserDialog({
   onSubmit,
 }: AddUserDialogProps) {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: {
+          backgroundImage: "none",
+          bgcolor: "background.paper",
+        },
+      }}
+    >
       <DialogTitle>Add User</DialogTitle>
 
       <DialogContent>

@@ -29,15 +29,29 @@ export default function ConfirmDialog({
   onConfirm,
 }: Props) {
   return (
-    <Dialog open={open} onClose={onCancel} maxWidth="xs" fullWidth>
-      <DialogTitle>{title}</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onCancel}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{
+        sx: {
+          p: 1,
+          backgroundImage: "none",
+          bgcolor: "background.paper",
+        },
+      }}
+    >
+      <DialogTitle color="text.primary">{title}</DialogTitle>
 
       <DialogContent>
-        <Typography variant="body2">{description}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onCancel} disabled={loading}>
+        <Button onClick={onCancel} disabled={loading} sx={{ borderRadius: 2 }}>
           Cancel
         </Button>
 
@@ -46,6 +60,7 @@ export default function ConfirmDialog({
           variant="contained"
           color="error"
           disabled={loading}
+          sx={{ borderRadius: 2 }}
         >
           {confirmLabel}
         </Button>

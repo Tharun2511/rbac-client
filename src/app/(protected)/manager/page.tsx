@@ -1,12 +1,12 @@
 "use client";
 
-import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
-import StatCard from "@/app/components/dashboard/StatsCard";
-import LoadingState from "@/app/components/feedback/LoadingState";
-import PageHeader from "@/app/components/layout/PageHeader";
-import useManagerDashboard from "@/hooks/dashboards/useManagerDashboard";
 import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import useManagerDashboard from "@/hooks/dashboards/useManagerDashboard";
+import LoadingState from "@/app/components/feedback/LoadingState";
+import PageHeader from "@/app/components/layout/PageHeader";
+import StatCard from "@/app/components/dashboard/StatsCard";
+import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
 
 export default function ManagerDashboardPage() {
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function ManagerDashboardPage() {
 
       {/* Quick actions */}
       <Box mt={4}>
-        <Typography variant="h6" fontWeight={600} mb={2}>
+        <Typography variant="h6" fontWeight={600} mb={2} color="text.primary">
           Actions
         </Typography>
         <Grid container spacing={2}>

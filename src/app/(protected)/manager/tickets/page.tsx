@@ -2,11 +2,10 @@
 
 import { Suspense } from "react";
 import LoadingState from "@/app/components/feedback/LoadingState";
-import PageHeader from "@/app/components/layout/PageHeader";
 import TicketList from "@/app/components/tickets/TicketList";
 import { useManagerTicketList } from "@/hooks/useManagerTicketsList";
 import { useRouter, useSearchParams } from "next/navigation";
-import RouteBack from "@/app/components/layout/RouteBackButton";
+import PageHeader from "@/app/components/layout/PageHeader";
 
 function ManagerTicketsContent() {
   const router = useRouter();
@@ -27,8 +26,6 @@ function ManagerTicketsContent() {
 
   return (
     <>
-      <RouteBack />
-
       <PageHeader title={pageTitle} />
 
       <TicketList

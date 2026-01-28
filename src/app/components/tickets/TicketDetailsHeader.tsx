@@ -1,8 +1,8 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import StatusChip from "../data/StatusChip";
 import { ITicket } from "@/lib/types";
+import LabelChip from "../data/LabelChip";
 
 export default function TicketDetailsHeader({ ticket }: { ticket: ITicket }) {
   return (
@@ -12,7 +12,7 @@ export default function TicketDetailsHeader({ ticket }: { ticket: ITicket }) {
           {ticket.title}
         </Typography>
 
-        <StatusChip status={ticket.status} />
+        <LabelChip type="status" value={ticket.status} />
       </Box>
 
       <Typography variant="body2" color="text.secondary" mt={1}>

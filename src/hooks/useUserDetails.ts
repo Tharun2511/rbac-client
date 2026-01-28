@@ -1,18 +1,11 @@
 "use client";
 
 import { getAuthUser } from "@/lib/auth";
+import { IUser } from "@/lib/types";
 import { useEffect, useState } from "react";
 
-const useUserDetails = (): {
-  id: string;
-  email: string;
-  role: string;
-} | null => {
-  const [userDetails, setUserDetails] = useState<{
-    id: string;
-    email: string;
-    role: string;
-  } | null>(null);
+const useUserDetails = (): IUser | null => {
+  const [userDetails, setUserDetails] = useState<IUser | null>(null);
 
   useEffect(() => {
     const storedUserDetails = getAuthUser();

@@ -1,20 +1,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useTicketDetails } from "@/hooks/tickets/useTicketDetails";
+import { Grid } from "@mui/material";
 
+import { useTicketDetails } from "@/hooks/tickets/useTicketDetails";
 import { useResolveTicket } from "@/hooks/tickets/useResolveTicket";
 import { useVerifyTicket } from "@/hooks/tickets/useVerifyTicket";
 import { useCloseTicket } from "@/hooks/tickets/useCloseTicket";
 import { useAssignResolver } from "@/hooks/tickets/useAssignResolver";
+import useUserDetails from "@/hooks/useUserDetails";
+
 import LoadingState from "@/app/components/feedback/LoadingState";
-import TicketDetailsHeader from "@/app/components/tickets/TicketDetailsHeader";
 import TicketInfoCard from "@/app/components/tickets/TicketInfoCard";
+import TicketSidebar from "@/app/components/tickets/TicketSidebar";
 import TicketActions from "@/app/components/tickets/TicketActions";
 import AssignResolverDialog from "@/app/components/dialogs/AssignResolverDialog";
 import ConfirmDialog from "@/app/components/dialogs/ConfirmDialog";
-import useUserDetails from "@/hooks/useUserDetails";
-import RouteBack from "@/app/components/layout/RouteBackButton";
+import PageHeader from "@/app/components/layout/PageHeader";
 
 export default function TicketDetailsPage() {
   const { id } = useParams();
@@ -31,19 +33,30 @@ export default function TicketDetailsPage() {
 
   return (
     <>
-      <RouteBack />
-      <TicketDetailsHeader ticket={ticket} />
+      <PageHeader title="Ticket Details" />
+      <Grid container spacing={3}>
+        {/* Main Content Area */}
+        <Grid size={{ xs: 12, md: 8 }}>
+          <TicketInfoCard ticket={ticket} />
+        </Grid>
 
-      <TicketInfoCard ticket={ticket} />
-
-      <TicketActions
-        ticket={ticket}
-        role={user?.role || ""}
-        onAssign={assign.open}
-        onResolve={resolve.open}
-        onVerify={verify.open}
-        onClose={close.open}
-      />
+        {/* Sidebar Area */}
+        <Grid size={{ xs: 12, md: 4 }}>
+          <TicketSidebar
+            ticket={ticket}
+            actions={
+              <TicketActions
+                ticket={ticket}
+                role={user?.role || ""}
+                onAssign={assign.open}
+                onResolve={resolve.open}
+                onVerify={verify.open}
+                onClose={close.open}
+              />
+            }
+          />
+        </Grid>
+      </Grid>
 
       {/* Dialogs */}
       <AssignResolverDialog {...assign.dialogProps} />

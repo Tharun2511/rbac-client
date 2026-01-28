@@ -3,9 +3,8 @@
 import { Paper } from "@mui/material";
 import { useCreateTicket } from "@/hooks/tickets/useCreateTicket";
 import { useRouter } from "next/navigation";
-import PageHeader from "@/app/components/layout/PageHeader";
 import TicketCreateForm from "@/app/components/forms/TicketCreateForm";
-import RouteBack from "@/app/components/layout/RouteBackButton";
+import PageHeader from "@/app/components/layout/PageHeader";
 
 export default function CreateTicketPage() {
   const router = useRouter();
@@ -15,7 +14,6 @@ export default function CreateTicketPage() {
 
   return (
     <>
-      <RouteBack />
       <PageHeader title="Create Ticket" />
 
       <Paper elevation={1} sx={{ p: 3 }}>

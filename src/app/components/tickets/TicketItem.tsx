@@ -1,8 +1,8 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import StatusChip from "../data/StatusChip";
 import { ITicket } from "@/lib/types";
+import LabelChip from "../data/LabelChip";
 
 interface Props {
   ticket: ITicket;
@@ -26,20 +26,22 @@ export default function TicketItem({ ticket, onClick }: Props) {
     >
       {/* Left Section */}
       <Box>
-        <Typography fontWeight={600}>{ticket.title}</Typography>
+        <Typography fontWeight={600} color="text.primary">
+          {ticket.title}
+        </Typography>
 
         <Typography variant="body2" color="text.secondary">
           Created by {ticket.createdUser.name}
           {ticket.resolver.name ? ` • Assigned to ${ticket.resolver.name}` : ""}
         </Typography>
 
-        <Typography variant="caption" color="text.disabled">
+        <Typography variant="caption" color="text.secondary">
           {new Date(ticket.createdAt).toLocaleString()}
         </Typography>
       </Box>
 
       {/* Right Section */}
-      <StatusChip status={ticket.status} />
+      <LabelChip type="status" value={ticket.status} />
     </Box>
   );
 }

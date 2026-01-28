@@ -32,8 +32,19 @@ export default function AssignResolverDialog({
   onAssign,
 }: Props) {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Assign Resolver</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{
+        sx: {
+          backgroundImage: "none",
+          bgcolor: "background.paper",
+        },
+      }}
+    >
+      <DialogTitle color="text.primary">Assign Resolver</DialogTitle>
 
       <DialogContent>
         <Box mt={1}>
