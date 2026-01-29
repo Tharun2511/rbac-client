@@ -7,12 +7,12 @@ import Cookies from "js-cookie";
 
 export function saveAuth(token: string, user: IUser) {
   Cookies.set(TOKEN_KEY, token, {
-    expires: 7, // 7 days
+    expires: 30 / 60, // 30 mins
     sameSite: "strict",
     secure: true,
   });
   Cookies.set(USER_KEY, JSON.stringify(user), {
-    expires: 7, // 7 days
+    expires: 30 / 60, // 30 mins
     sameSite: "strict",
     secure: true,
   });
