@@ -24,3 +24,12 @@ export interface ITicket {
   resolver: IUser;
   createdAt: Date;
 }
+
+export interface IComment {
+  id: string;
+  comment: string;
+  ticketId: string;
+  userId: string;
+  user: IUser;
+  createdAt: string; // or Date, but API usually parses to string first
+}

@@ -11,8 +11,9 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import { Subject, History } from "@mui/icons-material";
+import { ChatBubbleOutline, Subject, History } from "@mui/icons-material";
 import { useState } from "react";
+import TicketComments from "./TicketComments";
 
 export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
   const [tabValue, setTabValue] = useState(0);
@@ -97,19 +98,28 @@ export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
             iconPosition="start"
             label="Description"
           />
-          {/* <Tab
+          <Tab
+            icon={<ChatBubbleOutline fontSize="small" />}
+            iconPosition="start"
+            label="Comments"
+          />
+          <Tab
             icon={<History fontSize="small" />}
             iconPosition="start"
             label="Activity"
-          /> */}
+          />
         </Tabs>
       </Box>
       <Divider />
 
       {/* Content */}
-      <Box p={4} flexGrow={1}>
+      <Box
+        p={4}
+        flexGrow={1}
+        sx={{ overflow: "hidden", display: "flex", flexDirection: "column" }}
+      >
         {tabValue === 0 && (
-          <Box>
+          <Box sx={{ overflowY: "auto" }}>
             <Typography
               variant="h6"
               fontWeight={600}
@@ -131,7 +141,9 @@ export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
           </Box>
         )}
 
-        {tabValue === 1 && (
+        {tabValue === 1 && <TicketComments ticketId={ticket.id} />}
+
+        {tabValue === 2 && (
           <Box
             display="flex"
             flexDirection="column"

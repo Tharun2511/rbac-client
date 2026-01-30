@@ -1,5 +1,5 @@
 import { apiClient as api } from "../api";
-import { ITicket } from "../types";
+import { ITicket, IComment } from "../types";
 
 export function getAllTickets() {
   return api<ITicket[]>("/tickets", { auth: true });
@@ -62,4 +62,18 @@ export async function getMyTicketHistory() {
 
 export async function getAssignedTickets(resolverId: string) {
   return api<ITicket[]>(`/tickets/assigned/${resolverId}`, { auth: true });
+}
+
+export function getTicketComments(ticketId: string) {
+  return api<IComment[]>(`/comments/${ticketId}`, {
+    auth: true,
+  });
+}
+
+export function createComment(ticketId: string, comment: string) {
+  return api<IComment>(`/comments/${ticketId}`, {
+    method: "POST",
+    auth: true,
+    body: JSON.stringify({ comment }),
+  });
 }

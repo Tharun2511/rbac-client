@@ -43,16 +43,19 @@ export async function refreshToken() {
   return res.json();
 }
 
-export const apiClient = async <T >(url:string, options: ApiOptions = {}): Promise<T> => {
+export const apiClient = async <T>(
+  url: string,
+  options: ApiOptions = {},
+): Promise<T> => {
   const res = await api(url, options);
 
-  if(res.status !== 401) {
+  if (res.status !== 401) {
     return res.json();
   }
 
   const newToken = await refreshToken();
 
-  if(!newToken) {
+  if (!newToken) {
     clearAuth();
     window.location.href = "/login";
 
@@ -63,4 +66,4 @@ export const apiClient = async <T >(url:string, options: ApiOptions = {}): Promi
   saveAuth(newToken.token, newToken.user);
 
   return (await api(url, options)).json();
-}
+};
