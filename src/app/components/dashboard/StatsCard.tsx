@@ -15,6 +15,7 @@ export default function StatCard({ label, value }: Props) {
         border: "1px solid",
         borderColor: "divider",
         borderLeft: "4px solid #0052CC", // Accent color
+        borderRadius: 2,
         transition: "transform 0.2s, box-shadow 0.2s",
         "&:hover": {
           transform: "translateY(-2px)",

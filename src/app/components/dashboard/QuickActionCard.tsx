@@ -30,6 +30,7 @@ export default function QuickActionCard({
           borderColor: "primary.main",
           transform: "translateX(4px)",
         },
+        borderRadius: 2,
       }}
       onClick={onClick}
     >

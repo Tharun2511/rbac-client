@@ -49,7 +49,7 @@ export default function UserDashboard() {
       </Grid>
 
       <Box mt={4}>
-        <Typography variant="h6" fontWeight={600} mb={2}>
+        <Typography variant="h6" fontWeight={600} mb={2} color="text.primary">
           Actions
         </Typography>
         <Grid container spacing={2}>
@@ -69,7 +69,7 @@ export default function UserDashboard() {
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <QuickActionCard
-              title="Ticket History"
+              title="My Tickets"
               description="Tickets which are closed, verified and resolved are shown"
               onClick={() => router.push("/tickets/history")}
             />

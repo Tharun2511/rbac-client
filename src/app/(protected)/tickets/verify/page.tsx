@@ -11,7 +11,7 @@ export default function TicketVerifyPage() {
 
   return (
     <>
-      <PageHeader title="Ticket History" />
+      <PageHeader title="Tickets to be Verified" />
       <TicketList
         tickets={tickets}
         loading={loading}

@@ -2,16 +2,16 @@
 
 import PageHeader from "@/app/components/layout/PageHeader";
 import TicketList from "@/app/components/tickets/TicketList";
-import { useMyTicketHistory } from "@/hooks/tickets/useMyTicketsHistory";
+import { useUserTickets } from "@/hooks/tickets/useUserTickets";
 import { useRouter } from "next/navigation";
 
 export default function TicketHistoryPage() {
   const router = useRouter();
-  const { tickets, loading } = useMyTicketHistory();
+  const { tickets, loading } = useUserTickets();
 
   return (
     <>
-      <PageHeader title="Ticket History" />
+      <PageHeader title="My Tickets" />
       <TicketList
         tickets={tickets}
         loading={loading}

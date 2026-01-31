@@ -90,7 +90,7 @@ const MENU_GROUPS = [
         roles: ["USER"],
       },
       {
-        text: "Ticket History",
+        text: "My Tickets",
         icon: <HistoryIcon />,
         path: "/tickets/history",
         roles: ["USER"],
