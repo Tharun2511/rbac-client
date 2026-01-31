@@ -1,5 +1,5 @@
 import { apiClient as api } from "../api";
-import { ITicket, IComment } from "../types";
+import { ITicket, IComment, ITimelineItem } from "../types";
 
 export function getAllTickets() {
   return api<ITicket[]>("/tickets", { auth: true });
@@ -75,5 +75,11 @@ export function createComment(ticketId: string, comment: string) {
     method: "POST",
     auth: true,
     body: JSON.stringify({ comment }),
+  });
+}
+
+export function getTicketTimeline(ticketId: string) {
+  return api<ITimelineItem[]>(`/timeline/${ticketId}`, {
+    auth: true,
   });
 }

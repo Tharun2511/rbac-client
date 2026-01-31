@@ -33,3 +33,14 @@ export interface IComment {
   user: IUser;
   createdAt: string; // or Date, but API usually parses to string first
 }
+
+export interface ITimelineItem {
+  id: string;
+  createdAt: string;
+  type: string;
+  userName: string;
+  userRole: string;
+  metadata?: Record<string, any>;
+  comment?: string;
+  resolver?: IUser;
+}
