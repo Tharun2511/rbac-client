@@ -10,6 +10,7 @@ export function proxy(req: NextRequest) {
 
   // If visiting /login and user is already logged in → redirect to dashboard
   if (path === "/login" && token) {
+    console.log("token", token);
     const payload = JSON.parse(
       Buffer.from(token.split(".")[1], "base64").toString(),
     );

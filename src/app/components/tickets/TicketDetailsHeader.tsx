@@ -12,7 +12,11 @@ export default function TicketDetailsHeader({ ticket }: { ticket: ITicket }) {
           {ticket.title}
         </Typography>
 
-        <LabelChip type="status" value={ticket.status} />
+        <Box display="flex" gap={1}>
+          <LabelChip type="ticketType" value={ticket.type || "GENERAL"} />
+          <LabelChip type="priority" value={ticket.priority || "LOW"} />
+          <LabelChip type="status" value={ticket.status} />
+        </Box>
       </Box>
 
       <Typography variant="body2" color="text.secondary" mt={1}>

@@ -11,11 +11,35 @@ export function getMyTickets() {
   });
 }
 
-export function createTicket(title: string, description: string) {
+export function createTicket(
+  title: string,
+  description: string,
+  priority: string,
+) {
   return api<ITicket>("/tickets", {
     method: "POST",
     auth: true,
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({ title, description, priority }),
+  });
+}
+
+export function updatePriority(ticketId: string, priority: string) {
+  return api<ITicket>(`/tickets/${ticketId}/priority`, {
+    method: "PATCH",
+    auth: true,
+    body: JSON.stringify({ priority }),
+  });
+}
+
+export function updateTicketClassification(
+  ticketId: string,
+  type?: string,
+  priority?: string,
+) {
+  return api<ITicket>(`/tickets/classification/${ticketId}`, {
+    method: "PATCH",
+    auth: true,
+    body: JSON.stringify({ type, priority }),
   });
 }
 

@@ -5,18 +5,22 @@ import { Box, Button, TextField } from "@mui/material";
 interface Props {
   title: string;
   description: string;
+  priority: string;
   loading: boolean;
   onTitleChange: (v: string) => void;
   onDescriptionChange: (v: string) => void;
+  onPriorityChange: (v: string) => void;
   onSubmit: () => void;
 }
 
 export default function TicketCreateForm({
   title,
   description,
+  priority,
   loading,
   onTitleChange,
   onDescriptionChange,
+  onPriorityChange,
   onSubmit,
 }: Props) {
   return (

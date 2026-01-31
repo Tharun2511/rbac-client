@@ -1,6 +1,10 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Paper, Stack, Avatar } from "@mui/material";
+import {
+  AccessTime as AccessTimeIcon,
+  ArrowRightAlt as ArrowRightAltIcon,
+} from "@mui/icons-material";
 import { ITicket } from "@/lib/types";
 import LabelChip from "../data/LabelChip";
 
@@ -11,37 +15,114 @@ interface Props {
 
 export default function TicketItem({ ticket, onClick }: Props) {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      py={1.5}
-      px={2}
+    <Paper
+      elevation={0}
+      variant="outlined"
       sx={{
+        p: 2.5,
+        mb: 2,
+        borderRadius: 3,
         cursor: onClick ? "pointer" : "default",
-        borderBottom: "1px solid rgba(0,0,0,0.08)",
-        "&:hover": onClick ? { backgroundColor: "action.hover" } : {},
+        transition: "all 0.2s ease-in-out",
+        borderColor: "divider",
+        "&:hover": onClick
+          ? {
+              borderColor: "primary.main",
+              transform: "translateY(-2px)",
+              boxShadow: (theme) => theme.shadows[4],
+            }
+          : {},
       }}
       onClick={onClick}
     >
-      {/* Left Section */}
-      <Box>
-        <Typography fontWeight={600} color="text.primary">
-          {ticket.title}
-        </Typography>
+      <Box
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        justifyContent="space-between"
+        gap={2}
+      >
+        {/* Left Section: Content */}
+        <Box flexGrow={1}>
+          <Box display="flex" alignItems="center" gap={1.5} mb={1}>
+            <LabelChip type="ticketType" value={ticket.type || "GENERAL"} />
+            <Typography variant="h6" fontWeight={700} color="text.primary">
+              {ticket.title}
+            </Typography>
+          </Box>
 
-        <Typography variant="body2" color="text.secondary">
-          Created by {ticket.createdUser.name}
-          {ticket.resolver.name ? ` • Assigned to ${ticket.resolver.name}` : ""}
-        </Typography>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 1, sm: 3 }}
+            alignItems={{ xs: "flex-start", sm: "center" }}
+            color="text.secondary"
+          >
+            {/* Created By */}
+            <Box display="flex" alignItems="center" gap={0.8}>
+              <Avatar
+                sx={{
+                  width: 20,
+                  height: 20,
+                  fontSize: 10,
+                  bgcolor: "primary.main",
+                }}
+              >
+                {ticket.createdUser.name?.[0]?.toUpperCase()}
+              </Avatar>
+              <Typography variant="body2" fontWeight={500}>
+                {ticket.createdUser.name}
+              </Typography>
+            </Box>
 
-        <Typography variant="caption" color="text.secondary">
-          {new Date(ticket.createdAt).toLocaleString()}
-        </Typography>
+            {/* Created At */}
+            <Box display="flex" alignItems="center" gap={0.8}>
+              <AccessTimeIcon sx={{ fontSize: 16 }} />
+              <Typography variant="body2">
+                {new Date(ticket.createdAt).toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Typography>
+            </Box>
+
+            {/* Assignee */}
+            {ticket.resolver?.name && (
+              <Box display="flex" alignItems="center" gap={0.8}>
+                <ArrowRightAltIcon
+                  sx={{ fontSize: 16, color: "text.disabled" }}
+                />
+                <Avatar
+                  sx={{
+                    width: 20,
+                    height: 20,
+                    fontSize: 10,
+                    bgcolor: "secondary.main",
+                  }}
+                >
+                  {ticket.resolver.name[0]?.toUpperCase()}
+                </Avatar>
+                <Typography variant="body2" fontWeight={500}>
+                  {ticket.resolver.name}
+                </Typography>
+              </Box>
+            )}
+          </Stack>
+        </Box>
+
+        {/* Right Section: Status & Priority */}
+        <Box
+          display="flex"
+          flexDirection={{ xs: "row", sm: "column" }}
+          alignItems={{ xs: "center", sm: "flex-end" }}
+          gap={1}
+          minWidth={120}
+        >
+          <LabelChip type="status" value={ticket.status} />
+          <LabelChip type="priority" value={ticket.priority || "LOW"} />
+        </Box>
       </Box>
-
-      {/* Right Section */}
-      <LabelChip type="status" value={ticket.status} />
-    </Box>
+    </Paper>
   );
 }

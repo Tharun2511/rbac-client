@@ -12,7 +12,6 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
-import LabelChip from "../data/LabelChip";
 import { ReactNode } from "react";
 
 interface TicketSidebarProps {
@@ -45,29 +44,6 @@ export default function TicketSidebar({ ticket, actions }: TicketSidebarProps) {
           <Stack spacing={1}>{actions}</Stack>
         </Paper>
       )}
-
-      {/* Status Panel */}
-      <Paper
-        elevation={0}
-        sx={{
-          p: 2,
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
-        }}
-      >
-        <Typography
-          variant="subtitle2"
-          fontWeight={600}
-          mb={2}
-          color="text.secondary"
-        >
-          STATUS
-        </Typography>
-        <Box display="flex" alignItems="center">
-          <LabelChip type="status" value={ticket.status} />
-        </Box>
-      </Paper>
 
       {/* Details Panel */}
       <Paper

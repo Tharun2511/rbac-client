@@ -2,7 +2,7 @@ import { getTicketTimeline, createComment } from "@/lib/api/api.tickets";
 import { ITimelineItem } from "@/lib/types";
 import { useCallback, useEffect, useState } from "react";
 
-export function useTicketTimeline(ticketId: string, refreshDep?: any) {
+export function useTicketTimeline(ticketId: string, refreshDep?: unknown) {
   const [timeline, setTimeline] = useState<ITimelineItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);

@@ -17,17 +17,31 @@ import TicketActions from "@/app/components/tickets/TicketActions";
 import AssignResolverDialog from "@/app/components/dialogs/AssignResolverDialog";
 import ConfirmDialog from "@/app/components/dialogs/ConfirmDialog";
 import PageHeader from "@/app/components/layout/PageHeader";
+import { useClassifyTicket } from "@/hooks/tickets/useClassifyTicket";
 
 export default function TicketDetailsPage() {
   const { id } = useParams();
   const user = useUserDetails();
   const { ticket, loading, refresh } = useTicketDetails(id as string);
+  const classify = useClassifyTicket(id as string, refresh);
+  console.log(classify);
 
   // Hooks for workflow actions
   const assign = useAssignResolver(id as string, refresh);
   const resolve = useResolveTicket(id as string, refresh);
   const verify = useVerifyTicket(id as string, refresh);
   const close = useCloseTicket(id as string, refresh);
+
+  // Classification handlers
+  const handleUpdateType = (newType: string) => {
+    if (!ticket) return;
+    classify.updateType(newType);
+  };
+
+  const handleUpdatePriority = (newPriority: string) => {
+    if (!ticket) return;
+    classify.updatePriority(newPriority);
+  };
 
   if (loading || !ticket) return <LoadingState label="Loading ticket..." />;
 
@@ -51,7 +65,10 @@ export default function TicketDetailsPage() {
                 onAssign={assign.open}
                 onResolve={resolve.open}
                 onVerify={verify.open}
+                onUpdateType={handleUpdateType}
+                onUpdatePriority={handleUpdatePriority}
                 onClose={close.open}
+                loading={classify.loading}
               />
             }
           />

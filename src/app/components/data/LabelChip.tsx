@@ -11,6 +11,15 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import HandymanIcon from "@mui/icons-material/Handyman";
 import PersonIcon from "@mui/icons-material/Person";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
+import SignalCellularAlt1BarIcon from "@mui/icons-material/SignalCellularAlt1Bar";
+import SignalCellularAlt2BarIcon from "@mui/icons-material/SignalCellularAlt2Bar";
+import WarningIcon from "@mui/icons-material/Warning";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import HelpIcon from "@mui/icons-material/Help";
+import ArticleIcon from "@mui/icons-material/Article";
+import { useTheme } from "@mui/material/styles";
 
 // ---------------------------
 // STATUS CONFIG
@@ -152,7 +161,131 @@ const ROLE_CONFIG = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;
 
-import { useTheme } from "@mui/material/styles";
+// ---------------------------
+// PRIORITY CONFIG
+// ---------------------------
+const PRIORITY_CONFIG = {
+  LOW: {
+    label: "Low",
+    icon: <SignalCellularAlt1BarIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#2e7d32",
+      bg: "rgba(46,125,50,0.08)",
+      border: "rgba(46,125,50,0.18)",
+    },
+    dark: {
+      color: "#66bb6a",
+      bg: "rgba(102, 187, 106, 0.16)",
+      border: "rgba(102, 187, 106, 0.3)",
+    },
+  },
+  MEDIUM: {
+    label: "Medium",
+    icon: <SignalCellularAlt2BarIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#ed6c02",
+      bg: "rgba(237,108,2,0.08)",
+      border: "rgba(237,108,2,0.18)",
+    },
+    dark: {
+      color: "#ffa726",
+      bg: "rgba(255, 167, 38, 0.16)",
+      border: "rgba(255, 167, 38, 0.3)",
+    },
+  },
+  HIGH: {
+    label: "High",
+    icon: <SignalCellularAltIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#d32f2f",
+      bg: "rgba(211,47,47,0.08)",
+      border: "rgba(211,47,47,0.18)",
+    },
+    dark: {
+      color: "#ef5350",
+      bg: "rgba(239, 83, 80, 0.16)",
+      border: "rgba(239, 83, 80, 0.3)",
+    },
+  },
+  CRITICAL: {
+    label: "Critical",
+    icon: <WarningIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#c62828",
+      bg: "rgba(198,40,40,0.15)",
+      border: "rgba(198,40,40,0.3)",
+    },
+    dark: {
+      color: "#ff5252",
+      bg: "rgba(255, 82, 82, 0.2)",
+      border: "rgba(255, 82, 82, 0.4)",
+    },
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} as any;
+
+// ---------------------------
+// TICKET TYPE CONFIG
+// ---------------------------
+const TICKET_TYPE_CONFIG = {
+  BUG: {
+    label: "Bug",
+    icon: <BugReportIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#d32f2f",
+      bg: "rgba(211,47,47,0.08)",
+      border: "rgba(211,47,47,0.18)",
+    },
+    dark: {
+      color: "#ef5350",
+      bg: "rgba(239, 83, 80, 0.16)",
+      border: "rgba(239, 83, 80, 0.3)",
+    },
+  },
+  FEATURE: {
+    label: "Feature",
+    icon: <LightbulbIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#ed6c02",
+      bg: "rgba(237,108,2,0.08)",
+      border: "rgba(237,108,2,0.18)",
+    },
+    dark: {
+      color: "#ffa726",
+      bg: "rgba(255, 167, 38, 0.16)",
+      border: "rgba(255, 167, 38, 0.3)",
+    },
+  },
+  SUPPORT: {
+    label: "Support",
+    icon: <HelpIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#0288d1",
+      bg: "rgba(2,136,209,0.08)",
+      border: "rgba(2,136,209,0.18)",
+    },
+    dark: {
+      color: "#29b6f6",
+      bg: "rgba(41, 182, 246, 0.16)",
+      border: "rgba(41, 182, 246, 0.3)",
+    },
+  },
+  GENERAL: {
+    label: "General",
+    icon: <ArticleIcon sx={{ fontSize: 16 }} />,
+    light: {
+      color: "#616161",
+      bg: "rgba(97,97,97,0.08)",
+      border: "rgba(97,97,97,0.18)",
+    },
+    dark: {
+      color: "#bdbdbd",
+      bg: "rgba(189, 189, 189, 0.16)",
+      border: "rgba(189, 189, 189, 0.3)",
+    },
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} as any;
 
 // ---------------------------
 // UNIVERSAL CHIP COMPONENT
@@ -161,13 +294,17 @@ export default function LabelChip({
   type,
   value,
 }: {
-  type: "status" | "role";
+  type: "status" | "role" | "priority" | "ticketType";
   value: string;
 }) {
   const theme = useTheme();
   const mode = theme.palette.mode;
 
-  const config = type === "status" ? STATUS_CONFIG[value] : ROLE_CONFIG[value];
+  let config;
+  if (type === "status") config = STATUS_CONFIG[value];
+  else if (type === "role") config = ROLE_CONFIG[value];
+  else if (type === "priority") config = PRIORITY_CONFIG[value];
+  else if (type === "ticketType") config = TICKET_TYPE_CONFIG[value];
 
   const fallback = {
     label: value,

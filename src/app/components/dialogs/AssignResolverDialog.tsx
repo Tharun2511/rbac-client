@@ -72,6 +72,7 @@ export default function AssignResolverDialog({
           variant="contained"
           onClick={onAssign}
           disabled={loading || !selectedResolver}
+          sx={{ borderRadius: 2 }}
         >
           {loading ? "Assigning..." : "Assign"}
         </Button>

@@ -14,16 +14,23 @@ export function useLogin() {
   async function submit(submitEmail?: string, submitPassword?: string) {
     const emailToUse = submitEmail ?? email;
     const passwordToUse = submitPassword ?? password;
+
+    if (!emailToUse || !passwordToUse) {
+      setError("Email and password are required.");
+      return;
+    }
     try {
       setLoading(true);
       setError(undefined);
 
       const { token, user } = await login(emailToUse, passwordToUse);
+      console.log(token, user);
       saveAuth(token, user);
 
       router.replace(`/${user.role.toLowerCase()}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
+      console.log(err);
       setError(err.message || "Invalid credentials");
     } finally {
       setLoading(false);

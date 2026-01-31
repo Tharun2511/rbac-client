@@ -1,7 +1,7 @@
 "use client";
 
 import { useLogin } from "@/hooks/useLogin";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography, Alert, Fade } from "@mui/material";
 
 export default function LoginForm() {
   const {
@@ -15,6 +15,22 @@ export default function LoginForm() {
   } = useLogin();
   return (
     <Box display="flex" flexDirection="column" gap={3}>
+      {error && (
+        <Fade in={!!error}>
+          <Alert
+            severity="error"
+            variant="filled"
+            sx={{
+              borderRadius: 2,
+              fontWeight: 500,
+              boxShadow: (theme) => theme.shadows[2],
+            }}
+          >
+            {error}
+          </Alert>
+        </Fade>
+      )}
+
       <Box>
         <Typography
           variant="subtitle2"
@@ -34,6 +50,7 @@ export default function LoginForm() {
           variant="outlined"
           size="small"
           error={!!error}
+          sx={{ borderRadius: 2 }}
         />
       </Box>
 
@@ -56,14 +73,9 @@ export default function LoginForm() {
           variant="outlined"
           size="small"
           error={!!error}
+          sx={{ borderRadius: 2 }}
         />
       </Box>
-
-      {error && (
-        <Typography color="error" variant="body2" textAlign="center">
-          {error}
-        </Typography>
-      )}
 
       <Button
         variant="contained"

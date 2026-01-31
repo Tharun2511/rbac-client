@@ -11,9 +11,10 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import { Subject, History } from "@mui/icons-material";
+import { Subject, History, ArrowRightAlt } from "@mui/icons-material";
 import { useState } from "react";
 import TicketTimeline from "./TicketTimeline";
+import LabelChip from "../data/LabelChip";
 
 export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
   const [tabValue, setTabValue] = useState(0);
@@ -28,50 +29,92 @@ export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
       sx={{
         border: "1px solid",
         borderColor: "divider",
-        borderRadius: 2,
+        borderRadius: 3,
         minHeight: "600px",
         display: "flex",
         flexDirection: "column",
+        overflow: "hidden",
       }}
     >
-      {/* Header Section of the Card */}
-      <Box p={4} pb={2}>
+      {/* Header Section */}
+      <Box p={3} pb={2} bgcolor="background.default">
+        {/* Chips & ID Row */}
+        <Stack
+          direction="row"
+          spacing={1}
+          mb={2}
+          alignItems="center"
+          flexWrap="wrap"
+          gap={1}
+        >
+          <LabelChip type="ticketType" value={ticket.type || "GENERAL"} />
+          <LabelChip type="priority" value={ticket.priority || "LOW"} />
+          <Box flexGrow={1} />
+          <LabelChip type="status" value={ticket.status} />
+        </Stack>
+
         <Typography
           variant="h4"
-          fontWeight={600}
+          fontWeight={700}
           gutterBottom
           color="text.primary"
+          sx={{ mb: 2, fontSize: { xs: "1.5rem", md: "2rem" } }}
         >
           {ticket.title}
         </Typography>
-        <Stack direction="row" spacing={2} alignItems="center" mt={2}>
+
+        {/* Metadata Row */}
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 1, sm: 3 }}
+          alignItems={{ xs: "flex-start", sm: "center" }}
+          color="text.secondary"
+        >
+          {/* Reporter */}
           <Box display="flex" alignItems="center" gap={1}>
             <Avatar
               sx={{
                 width: 24,
                 height: 24,
                 fontSize: "0.75rem",
-                bgcolor: "#0052CC",
+                bgcolor: "primary.main",
               }}
               alt={ticket.createdUser?.name}
-              src="/static/images/avatar/1.jpg"
             >
               {ticket.createdUser?.name?.charAt(0)}
             </Avatar>
-            <Typography variant="body2" color="text.secondary">
-              {ticket.createdUser?.name} opened this ticket
+            <Typography variant="body2" fontWeight={500}>
+              {ticket.createdUser?.name}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              opened{" "}
+              {new Date(ticket.createdAt).toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+              })}
             </Typography>
           </Box>
-          <Typography variant="body2" color="text.disabled">
-            •
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {new Date(ticket.createdAt).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </Typography>
+
+          {/* Resolver (if exists) */}
+          {ticket.resolver?.name && (
+            <Box display="flex" alignItems="center" gap={1}>
+              <ArrowRightAlt sx={{ color: "text.disabled" }} />
+              <Avatar
+                sx={{
+                  width: 24,
+                  height: 24,
+                  fontSize: "0.75rem",
+                  bgcolor: "secondary.main",
+                }}
+                alt={ticket.resolver.name}
+              >
+                {ticket.resolver.name.charAt(0)}
+              </Avatar>
+              <Typography variant="body2" fontWeight={500}>
+                {ticket.resolver.name}
+              </Typography>
+            </Box>
+          )}
         </Stack>
       </Box>
 

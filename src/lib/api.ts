@@ -3,6 +3,7 @@ import { clearAuth, getToken, saveAuth } from "./auth";
 
 interface ApiOptions extends RequestInit {
   auth?: boolean;
+  skipAuthRetry?: boolean;
 }
 
 export async function api(
@@ -51,6 +52,10 @@ export const apiClient = async <T>(
 
   if (res.status !== 401) {
     return res.json();
+  }
+
+  if (options.skipAuthRetry) {
+    throw new Error("Please enter valid email and password! ");
   }
 
   const newToken = await refreshToken();

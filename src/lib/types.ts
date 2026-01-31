@@ -22,6 +22,8 @@ export interface ITicket {
   createdUser: IUser;
   resolverId?: string;
   resolver: IUser;
+  priority: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+  type?: "BUG" | "FEATURE" | "SUPPORT" | "GENERAL";
   createdAt: Date;
 }
 
@@ -40,6 +42,7 @@ export interface ITimelineItem {
   type: string;
   userName: string;
   userRole: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
   comment?: string;
   resolver?: IUser;

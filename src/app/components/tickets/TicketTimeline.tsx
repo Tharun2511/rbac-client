@@ -21,6 +21,7 @@ import {
   Lock as LockIcon,
   AddCircle as AddCircleIcon,
   History as HistoryIcon,
+  LabelImportant as LabelImportantIcon,
 } from "@mui/icons-material";
 import { useTicketTimeline } from "@/hooks/tickets/useTicketTimeline";
 import useUserDetails from "@/hooks/useUserDetails";
@@ -90,13 +91,15 @@ export default function TicketTimeline({ ticket }: TicketTimelineProps) {
         return <CheckCircleIcon fontSize="small" color="success" />;
       case ActivityTypes.CLOSED:
         return <LockIcon fontSize="small" color="action" />;
+      case "TYPE_CHANGED":
+      case "PRIORITY_CHANGED":
+        return <LabelImportantIcon fontSize="small" color="warning" />;
       default:
         return <FiberManualRecordIcon fontSize="small" color="disabled" />;
     }
   };
 
   const getActivityText = (item: ITimelineItem) => {
-    console.log(item);
     switch (item.type) {
       case ActivityTypes.CREATED:
         return "created the ticket";
@@ -108,6 +111,10 @@ export default function TicketTimeline({ ticket }: TicketTimelineProps) {
         return "verified the resolution";
       case ActivityTypes.CLOSED:
         return "closed the ticket";
+      case "TYPE_CHANGED":
+        return `changed type from ${item.metadata?.oldType || "None"} to ${item.metadata?.newType}`;
+      case "PRIORITY_CHANGED":
+        return `changed priority from ${item.metadata?.oldPriority || "None"} to ${item.metadata?.newPriority}`;
       default:
         return "performed an action";
     }
@@ -305,7 +312,7 @@ export default function TicketTimeline({ ticket }: TicketTimelineProps) {
             <Box display="flex" justifyContent="flex-end" mt={1}>
               <Button
                 variant="contained"
-                size="small"
+                size="medium"
                 endIcon={
                   submitting ? (
                     <CircularProgress size={16} color="inherit" />
@@ -315,6 +322,7 @@ export default function TicketTimeline({ ticket }: TicketTimelineProps) {
                 }
                 onClick={handleSubmit}
                 disabled={!commentText.trim() || submitting}
+                sx={{ borderRadius: 2 }}
               >
                 Post
               </Button>
