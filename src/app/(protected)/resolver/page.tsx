@@ -1,54 +1,179 @@
 "use client";
 
-import { Box, Grid, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
-import useResolverDashboard from "@/hooks/dashboards/useResolverDashboard";
-import LoadingState from "@/app/components/feedback/LoadingState";
+import {
+  Container,
+  Grid,
+  Typography,
+  Skeleton,
+  Fade,
+  useTheme,
+} from "@mui/material";
+import { Assignment, Pending, CheckCircle, Timer } from "@mui/icons-material";
+
+import { useResolverAnalytics } from "@/lib/hooks/useResolverAnalytics";
+import KPICard from "@/app/components/dashboard/KPICard";
+
+// Charts
+import D3BarChart from "@/app/components/charts/D3BarChart";
+import D3LineChart from "@/app/components/charts/D3LineChart";
+import D3DualLineChart from "@/app/components/charts/D3DualLineChart";
 import PageHeader from "@/app/components/layout/PageHeader";
-import StatCard from "@/app/components/dashboard/StatsCard";
-import QuickActionCard from "@/app/components/dashboard/QuickActionCard";
 
 export default function ResolverDashboardPage() {
-  const router = useRouter();
+  const { data, loading, error } = useResolverAnalytics();
+  const theme = useTheme();
 
-  const { assigned, pending, awaitingUserVerification, loading } =
-    useResolverDashboard();
+  if (error) {
+    return (
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Typography color="error">
+          Error loading dashboard: {error.message}
+        </Typography>
+      </Container>
+    );
+  }
 
-  if (loading) return <LoadingState label="loading resolver tickets..." />;
+  // --- Data Prep ---
+
+  // Workload Bar
+  const workloadData = data
+    ? [
+        { label: "Assigned", value: data.workload.assigned },
+        { label: "In Progress", value: data.workload.inProgress },
+        { label: "Resolved", value: data.workload.resolvedToday },
+      ]
+    : [];
+
+  // Resolution Trend
+  const trendData = data
+    ? data.resolutionTrend.map((d) => ({
+        date: new Date(d.day),
+        value: d.resolved,
+      }))
+    : [];
+
+  // Inflow Outflow
+  const dualData = data
+    ? data.inflowOutflow.map((d) => ({
+        date: new Date(d.day),
+        value1: d.inflow,
+        value2: d.outflow,
+      }))
+    : [];
+
+  // KPI Config
+  const kpiStats = [
+    {
+      title: "Assigned Tickets",
+      value: data?.workload.assigned || 0,
+      icon: <Assignment fontSize="small" />,
+      color: theme.palette.info.main,
+    },
+    {
+      title: "In Progress",
+      value: data?.workload.inProgress || 0,
+      icon: <Pending fontSize="small" />,
+      color: theme.palette.warning.main,
+    },
+    {
+      title: "Resolved Today",
+      value: data?.workload.resolvedToday || 0,
+      icon: <CheckCircle fontSize="small" />,
+      color: theme.palette.success.main,
+    },
+    {
+      title: "Avg Resolution Days",
+      value: data?.avgResolutionDays.toFixed(2) || 0,
+      icon: <Timer fontSize="small" />,
+      color: theme.palette.secondary.main,
+    },
+  ];
 
   return (
-    <>
-      <PageHeader title="Resolver Dashboard" />
+    <Fade in timeout={800}>
+      <Container maxWidth="xl" sx={{ pb: 4 }}>
+        <PageHeader
+          title="Resolver Dashboard"
+          description="Manage your tickets and track your resolution performance."
+        />
 
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 6, md: 3 }}>
-          <StatCard label="Assigned Tickets" value={assigned} />
-        </Grid>
-        <Grid size={{ xs: 6, md: 3 }}>
-          <StatCard label="Pending Resolution" value={pending} />
-        </Grid>
-        <Grid size={{ xs: 6, md: 3 }}>
-          <StatCard
-            label="Awaiting User Verification"
-            value={awaitingUserVerification}
-          />
-        </Grid>
-      </Grid>
+        <Grid container spacing={3} mb={4}>
+          {/* KPIs */}
+          {kpiStats.map((kpi, index) => (
+            <Grid key={index} size={{ xs: 12, sm: 6, md: 3 }}>
+              {loading ? (
+                <Skeleton
+                  variant="rectangular"
+                  height={140}
+                  sx={{ borderRadius: 3 }}
+                />
+              ) : (
+                <KPICard
+                  title={kpi.title}
+                  value={kpi.value}
+                  icon={kpi.icon}
+                  color={kpi.color}
+                />
+              )}
+            </Grid>
+          ))}
 
-      <Box mt={4}>
-        <Typography variant="h6" fontWeight={600} mb={2} color="text.primary">
-          Actions
-        </Typography>
-        <Grid container spacing={2}>
+          {/* Row 2: Workload (Bar) | Trend (Line) */}
           <Grid size={{ xs: 12, md: 4 }}>
-            <QuickActionCard
-              title="View Assigned Tickets"
-              description="Work on your assigned tasks"
-              onClick={() => router.push("/resolver/tickets")}
-            />
+            {loading ? (
+              <Skeleton
+                variant="rectangular"
+                height={350}
+                sx={{ borderRadius: 3 }}
+              />
+            ) : (
+              <D3BarChart
+                data={workloadData}
+                title="Current Workload"
+                height={350}
+                color={theme.palette.primary.main}
+              />
+            )}
+          </Grid>
+          <Grid size={{ xs: 12, md: 8 }}>
+            {loading ? (
+              <Skeleton
+                variant="rectangular"
+                height={350}
+                sx={{ borderRadius: 3 }}
+              />
+            ) : (
+              <D3LineChart
+                data={trendData}
+                title="Resolution Trend"
+                height={350}
+                color={theme.palette.success.main}
+              />
+            )}
+          </Grid>
+
+          {/* Row 3: Inflow/Outflow (Dual Line) */}
+          <Grid size={{ xs: 12 }}>
+            {loading ? (
+              <Skeleton
+                variant="rectangular"
+                height={400}
+                sx={{ borderRadius: 3 }}
+              />
+            ) : (
+              <D3DualLineChart
+                data={dualData}
+                title="Traffic Analysis (Inflow vs Outflow)"
+                height={400}
+                label1="New Tickets (Inflow)"
+                label2="Resolved (Outflow)"
+                color1={theme.palette.error.light}
+                color2={theme.palette.success.light}
+              />
+            )}
           </Grid>
         </Grid>
-      </Box>
-    </>
+      </Container>
+    </Fade>
   );
 }

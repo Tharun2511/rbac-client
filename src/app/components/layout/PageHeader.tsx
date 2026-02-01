@@ -5,10 +5,11 @@ import { NavigateNext } from "@mui/icons-material";
 
 interface Props {
   title: string;
+  description?: string;
   actions?: React.ReactNode;
 }
 
-const PageHeader = ({ title, actions }: Props) => {
+const PageHeader = ({ title, description, actions }: Props) => {
   return (
     <Box mb={4}>
       <Breadcrumbs
@@ -23,15 +24,22 @@ const PageHeader = ({ title, actions }: Props) => {
           {title}
         </Typography>
       </Breadcrumbs>
-
-      <Box display="flex" alignItems="center" justifyContent="space-between">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="flex-start"
+        justifyContent="space-between"
+      >
         <Typography
           variant="h4"
           component="h1"
           fontWeight={700}
-          color="text.primary"
+          color="primary.main"
         >
           {title}
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          {description}
         </Typography>
         {actions && <Box>{actions}</Box>}
       </Box>
