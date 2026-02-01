@@ -49,7 +49,7 @@ export function useUserAnalytics() {
     async function fetchAnalytics() {
       try {
         setLoading(true);
-        
+
         const [analytics, recentTickets] = await Promise.all([
           apiClient<UserAnalyticsResponse>("/analytics/user", { auth: true }),
           getMyTickets(),
@@ -60,7 +60,8 @@ export function useUserAnalytics() {
           .map(([label, value]) => ({
             label: label.charAt(0) + label.slice(1).toLowerCase(), // Capitalize
             value: Number(value),
-            color: STATUS_COLORS[label as keyof typeof STATUS_COLORS] || "#94a3b8",
+            color:
+              STATUS_COLORS[label as keyof typeof STATUS_COLORS] || "#94a3b8",
           }))
           .filter((item) => item.value > 0); // Optional: filter out zero values if desired, or keep them
 
@@ -77,10 +78,11 @@ export function useUserAnalytics() {
           ticketsOverTime,
           recentTickets: recentTickets.slice(0, 5), // Limit to 5 recent tickets
         });
-        
       } catch (err) {
         console.error(err);
-        setError(err instanceof Error ? err : new Error("Failed to fetch analytics"));
+        setError(
+          err instanceof Error ? err : new Error("Failed to fetch analytics"),
+        );
       } finally {
         setLoading(false);
       }

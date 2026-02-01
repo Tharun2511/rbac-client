@@ -68,10 +68,17 @@ export function useResolverAnalytics() {
   const fetchAnalytics = async () => {
     try {
       setLoading(true);
-      const response = await apiClient<ResolverAnalytics>("/analytics/resolver", { auth: true });
+      const response = await apiClient<ResolverAnalytics>(
+        "/analytics/resolver",
+        { auth: true },
+      );
       setData(response);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error("Failed to fetch resolver analytics"));
+      setError(
+        err instanceof Error
+          ? err
+          : new Error("Failed to fetch resolver analytics"),
+      );
     } finally {
       setLoading(false);
     }

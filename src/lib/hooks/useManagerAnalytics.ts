@@ -38,10 +38,14 @@ export function useManagerAnalytics() {
   const fetchAnalytics = async () => {
     try {
       setLoading(true);
-      const response = await apiClient<ManagerAnalytics>("/analytics/manager", { auth: true });
+      const response = await apiClient<ManagerAnalytics>("/analytics/manager", {
+        auth: true,
+      });
       setData(response);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error("Failed to fetch analytics"));
+      setError(
+        err instanceof Error ? err : new Error("Failed to fetch analytics"),
+      );
     } finally {
       setLoading(false);
     }
