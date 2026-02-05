@@ -10,7 +10,11 @@ import {
   Grid,
   Paper,
   Divider,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PageHeader from "@/app/components/layout/PageHeader";
 import { useCreateUser } from "@/hooks/useCreateUser";
@@ -32,6 +36,17 @@ export default function CreateUserPage() {
   } = useCreateUser(() => {
     router.push("/admin/users");
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () =>
+    setShowPassword((show: boolean) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+  };
 
   return (
     <>
@@ -107,11 +122,29 @@ export default function CreateUserPage() {
               <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   fullWidth
                   required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <VisibilityOff fontSize="small" />
+                          ) : (
+                            <Visibility fontSize="small" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   // helperText="Must be at least 8 characters"
                 />
               </Grid>

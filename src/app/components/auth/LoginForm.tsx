@@ -1,9 +1,31 @@
 "use client";
 
 import { useLogin } from "@/hooks/useLogin";
-import { Box, Button, TextField, Typography, Alert, Fade } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Alert,
+  Fade,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
 
 export default function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () =>
+    setShowPassword((show: boolean) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+  };
+
   const {
     email,
     password,
@@ -65,7 +87,7 @@ export default function LoginForm() {
         </Typography>
         <TextField
           placeholder="Enter your password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={password}
           onChange={(e) => onPasswordChange(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && onSubmit()}
@@ -73,6 +95,24 @@ export default function LoginForm() {
           variant="outlined"
           size="small"
           error={!!error}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? (
+                    <VisibilityOff fontSize="small" />
+                  ) : (
+                    <Visibility fontSize="small" />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           sx={{ borderRadius: 2 }}
         />
       </Box>

@@ -32,7 +32,7 @@ export default function D3HorizontalBarChart({
     if (!data || data.length === 0 || !containerRef.current) return;
 
     const containerWidth = containerRef.current.clientWidth;
-    const margin = { top: 20, right: 30, bottom: 20, left: 80 }; // More left margin for labels
+    const margin = { top: 20, right: 60, bottom: 20, left: 140 }; // Increased margins for labels
     const chartWidth = containerWidth - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
 
