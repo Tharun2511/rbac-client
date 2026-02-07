@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
-import { Box, Tabs, Tab, Typography } from "@mui/material";
+import { Box, Tabs, Tab, Typography, Stack } from "@mui/material";
 import LoginCard from "@/app/components/auth/LoginCard";
+import SentinelLogo from "@/app/components/branding/SentinelLogo";
 import LoginForm from "@/app/components/auth/LoginForm";
 import GuestLoginOptions from "@/app/components/auth/GuestLoginOptions";
 
@@ -10,15 +11,33 @@ export default function LoginPage() {
 
   return (
     <LoginCard>
-      <Box mb={4} textAlign="center">
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          gutterBottom
-          color="text.primary"
-        >
-          Welcome back
-        </Typography>
+      <Box
+        mb={5}
+        textAlign="center"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Stack mb={2} direction="row" spacing={1} alignItems="center">
+          <SentinelLogo size={48} />
+          <Typography
+            variant="h4"
+            fontWeight={800}
+            gutterBottom
+            sx={{
+              background: (theme) =>
+                theme.palette.mode === "dark"
+                  ? "linear-gradient(45deg, #60A5FA 30%, #3B82F6 90%)"
+                  : "linear-gradient(45deg, #2563EB 30%, #1D4ED8 90%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              letterSpacing: "-0.5px",
+            }}
+          >
+            Sentinel
+          </Typography>
+        </Stack>
+
         <Typography variant="body1" color="text.secondary">
           Please enter your details to sign in
         </Typography>

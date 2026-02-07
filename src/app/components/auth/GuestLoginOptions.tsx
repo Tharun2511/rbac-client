@@ -44,11 +44,10 @@ export default function GuestLoginOptions() {
               borderRadius: 2,
               textTransform: "capitalize",
               height: 48,
-              borderColor: "#DFE1E6",
               color:
                 guestRole === role ? "primary.contrastText" : "text.primary",
               "&:hover": {
-                borderColor: "text.secondary",
+                borderColor: "divider",
                 backgroundColor:
                   guestRole === role ? "primary.dark" : "action.hover",
               },

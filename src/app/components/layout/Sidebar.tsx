@@ -25,6 +25,7 @@ import {
 } from "@mui/icons-material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useUserDetails from "@/hooks/useUserDetails";
+import SentinelLogo from "../branding/SentinelLogo";
 
 const drawerWidth = 260;
 
@@ -150,12 +151,25 @@ export default function Sidebar() {
         },
       }}
     >
-      <Toolbar>
-        <Typography variant="h6" color="primary" sx={{ fontWeight: 700 }}>
-          RBAC Platform
+      <Toolbar sx={{ px: 2, gap: 1.5, minHeight: 70 }}>
+        <SentinelLogo size={36} />
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 800,
+            background: (theme) =>
+              theme.palette.mode === "dark"
+                ? "linear-gradient(45deg, #60A5FA 30%, #3B82F6 90%)"
+                : "linear-gradient(45deg, #2563EB 30%, #1D4ED8 90%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            letterSpacing: "-0.5px",
+            fontSize: "1.5rem",
+          }}
+        >
+          Sentinel
         </Typography>
       </Toolbar>
-
       <Box sx={{ overflow: "auto", mt: 2 }}>
         {MENU_GROUPS.map((group, groupIndex) => {
           // Filter items based on role

@@ -7,6 +7,16 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+export const metadata = {
+  title: "Sentinel",
+  description: "Sentinel - Advanced RBAC Platform",
+  icons: {
+    icon: "/sentinel_logo.svg",
+    shortcut: "/sentinel_logo.svg",
+    apple: "/sentinel_logo.svg",
+  },
+};
+
 export default async function RootLayout({
   children,
 }: {
