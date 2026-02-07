@@ -40,17 +40,17 @@ export default function LoginPage() {
             },
           }}
         >
-          <Tab label="Standard Login" id="tab-0" aria-controls="tabpanel-0" />
-          <Tab label="Guest Access" id="tab-1" aria-controls="tabpanel-1" />
+          <Tab label="Guest Access" id="tab-0" aria-controls="tabpanel-0" />
+          <Tab label="Standard Login" id="tab-1" aria-controls="tabpanel-1" />
         </Tabs>
       </Box>
 
       <Box role="tabpanel" hidden={tabValue !== 0} id="tabpanel-0">
-        {tabValue === 0 && <LoginForm />}
+        {tabValue === 0 && <GuestLoginOptions />}
       </Box>
 
       <Box role="tabpanel" hidden={tabValue !== 1} id="tabpanel-1">
-        {tabValue === 1 && <GuestLoginOptions />}
+        {tabValue === 1 && <LoginForm />}
       </Box>
     </LoginCard>
   );
