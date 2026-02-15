@@ -1,21 +1,11 @@
 "use client";
 
-import { getAuthUser } from "@/lib/auth";
+import { useAuth } from "@/context/AuthContext";
 import { IUser } from "@/lib/types";
-import { useEffect, useState } from "react";
 
 const useUserDetails = (): IUser | null => {
-  const [userDetails, setUserDetails] = useState<IUser | null>(null);
-
-  useEffect(() => {
-    const storedUserDetails = getAuthUser();
-    if (storedUserDetails) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setUserDetails(storedUserDetails);
-    }
-  }, []);
-
-  return userDetails;
+  const { user } = useAuth();
+  return user;
 };
 
 export default useUserDetails;

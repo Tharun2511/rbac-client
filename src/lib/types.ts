@@ -1,16 +1,40 @@
-export type IRole = "USER" | "MANAGER" | "RESOLVER" | "ADMIN";
-
 export interface IUser {
   id: string;
   name: string;
   email: string;
-  role: string;
+  isSystemAdmin: boolean;
   isActive: boolean;
+}
+
+export interface IOrgContext {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface IProjectContext {
+  id: string;
+  name: string;
+  slug: string;
+  orgId: string;
+}
+
+export interface IProject {
+  id: string;
+  name: string;
+  slug: string;
+  orgId: string;
+  createdAt: string;
 }
 
 export interface LoginResponse {
   token: string;
+  refreshToken: string;
   user: IUser;
+  contexts: {
+    organizations: IOrgContext[];
+    projects: IProjectContext[];
+  };
 }
 
 export interface ITicket {
@@ -19,12 +43,17 @@ export interface ITicket {
   description: string;
   status: string;
   createdBy: string;
-  createdUser: IUser;
+  creatorName?: string;
+  creatorEmail?: string;
   resolverId?: string;
-  resolver: IUser;
+  resolverName?: string;
+  resolverEmail?: string;
   priority: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
-  type?: "BUG" | "FEATURE" | "SUPPORT" | "GENERAL";
-  createdAt: Date;
+  type?: "BUG" | "FEATURE" | "SUPPORT" | "GENERAL" | "TICKET";
+  orgId: string;
+  projectId?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IComment {
@@ -32,8 +61,8 @@ export interface IComment {
   comment: string;
   ticketId: string;
   userId: string;
-  user: IUser;
-  createdAt: string; // or Date, but API usually parses to string first
+  user: { id: string; name: string; email: string };
+  createdAt: string;
 }
 
 export interface ITimelineItem {
@@ -45,5 +74,4 @@ export interface ITimelineItem {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
   comment?: string;
-  resolver?: IUser;
 }

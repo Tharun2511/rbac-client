@@ -5,6 +5,8 @@ import { createAppTheme } from "@/theme";
 import { useState, useMemo } from "react";
 import { ColorModeContext } from "@/theme/ColorModeContext";
 import Cookies from "js-cookie";
+import { AuthProvider } from "@/context/AuthContext";
+import { RBACProvider } from "@/context/RBACContext";
 
 export default function Providers({
   children,
@@ -20,7 +22,7 @@ export default function Providers({
       toggleColorMode: () => {
         setMode((prevMode) => {
           const newMode = prevMode === "light" ? "dark" : "light";
-          Cookies.set("themeMode", newMode, { expires: 365 }); // Set cookie for 1 year
+          Cookies.set("themeMode", newMode, { expires: 365 });
           return newMode;
         });
       },
@@ -35,7 +37,9 @@ export default function Providers({
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        <AuthProvider>
+          <RBACProvider>{children}</RBACProvider>
+        </AuthProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

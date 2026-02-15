@@ -6,13 +6,13 @@ export function useCreateUser(onSuccess?: () => void) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("USER");
+  const [orgId, setOrgId] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function submit() {
     try {
       setLoading(true);
-      await createUser({ name, email, password, role });
+      await createUser({ name, email, password, orgId });
       onSuccess?.();
       setAddOpen(false);
     } finally {
@@ -25,13 +25,13 @@ export function useCreateUser(onSuccess?: () => void) {
     name,
     email,
     password,
-    role,
+    orgId,
     loading,
     setAddOpen,
     setName,
     setEmail,
     setPassword,
-    setRole,
+    setOrgId,
     submit,
   };
 }

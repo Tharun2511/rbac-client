@@ -1,29 +1,67 @@
 "use client";
 
-import { GUEST_CREDENTIALS } from "@/constant/guestCreds";
+import { GUEST_CREDENTIALS, GuestRole } from "@/constant/guestCreds";
 import { useLogin } from "@/hooks/useLogin";
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Typography, Chip, alpha, useTheme } from "@mui/material";
+import {
+  Shield,
+  Business,
+  AdminPanelSettings,
+  FolderSpecial,
+  Build,
+  Person,
+  Visibility,
+} from "@mui/icons-material";
+import { useState, ReactNode } from "react";
 
-type Role = "admin" | "user" | "manager" | "resolver";
+const ROLE_CONFIG: Record<
+  GuestRole,
+  { icon: ReactNode; color: string; tier: string }
+> = {
+  sysadmin: { icon: <Shield />, color: "#dc2626", tier: "System" },
+  orgOwner: { icon: <Business />, color: "#7c3aed", tier: "Organization" },
+  orgAdmin: {
+    icon: <AdminPanelSettings />,
+    color: "#2563eb",
+    tier: "Organization",
+  },
+  projectAdmin: {
+    icon: <FolderSpecial />,
+    color: "#0891b2",
+    tier: "Project",
+  },
+  resolver: { icon: <Build />, color: "#059669", tier: "Project" },
+  client: { icon: <Person />, color: "#d97706", tier: "Project" },
+  viewer: { icon: <Visibility />, color: "#64748b", tier: "Project" },
+};
+
+const ROLE_ORDER: GuestRole[] = [
+  "sysadmin",
+  "orgOwner",
+  "orgAdmin",
+  "projectAdmin",
+  "resolver",
+  "client",
+  "viewer",
+];
 
 export default function GuestLoginOptions() {
   const login = useLogin();
-  const [guestRole, setGuestRole] = useState("");
-  async function handleGuestLogin(role: Role) {
-    setGuestRole(role);
-    const credentials = GUEST_CREDENTIALS[role];
-    login.setEmail(credentials.email);
-    login.setPassword(credentials.password);
+  const [activeRole, setActiveRole] = useState<string>("");
+  const theme = useTheme();
 
-    // Pass credentials directly to submit
-    await login.submit(credentials.email, credentials.password);
+  async function handleGuestLogin(role: GuestRole) {
+    setActiveRole(role);
+    const cred = GUEST_CREDENTIALS[role];
+    login.setEmail(cred.email);
+    login.setPassword(cred.password);
+    await login.submit(cred.email, cred.password);
   }
 
   return (
-    <Box display="flex" flexDirection="column" gap={3}>
+    <Box display="flex" flexDirection="column" gap={2}>
       <Typography variant="body2" color="text.secondary" textAlign="center">
-        Select a role to quickly explore the platform as a guest.
+        Select a role to explore the platform as a guest.
       </Typography>
 
       {login.error && (
@@ -32,30 +70,78 @@ export default function GuestLoginOptions() {
         </Typography>
       )}
 
-      <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
-        {(["admin", "user", "manager", "resolver"] as const).map((role) => (
-          <Button
-            key={role}
-            variant={guestRole === role ? "contained" : "outlined"}
-            size="large"
-            disabled={login.loading}
-            onClick={() => handleGuestLogin(role)}
-            sx={{
-              borderRadius: 2,
-              textTransform: "capitalize",
-              height: 48,
-              color:
-                guestRole === role ? "primary.contrastText" : "text.primary",
-              "&:hover": {
-                borderColor: "divider",
-                backgroundColor:
-                  guestRole === role ? "primary.dark" : "action.hover",
-              },
-            }}
-          >
-            {guestRole === role ? "Logging in..." : role}
-          </Button>
-        ))}
+      <Box display="flex" flexDirection="column" gap={1}>
+        {ROLE_ORDER.map((role) => {
+          const cred = GUEST_CREDENTIALS[role];
+          const config = ROLE_CONFIG[role];
+          const isActive = activeRole === role;
+
+          return (
+            <Button
+              key={role}
+              variant="outlined"
+              disabled={login.loading}
+              onClick={() => handleGuestLogin(role)}
+              sx={{
+                borderRadius: 2,
+                textTransform: "none",
+                px: 2,
+                py: 1.5,
+                justifyContent: "flex-start",
+                gap: 1.5,
+                borderColor: isActive ? config.color : "divider",
+                bgcolor: isActive ? alpha(config.color, 0.08) : "transparent",
+                "&:hover": {
+                  borderColor: config.color,
+                  bgcolor: alpha(config.color, 0.04),
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  color: config.color,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {config.icon}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  flex: 1,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  fontWeight={600}
+                  color="text.primary"
+                >
+                  {isActive ? "Logging in..." : cred.label}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {cred.description}
+                </Typography>
+              </Box>
+              <Chip
+                label={config.tier}
+                size="small"
+                sx={{
+                  fontWeight: 600,
+                  fontSize: "0.65rem",
+                  height: 20,
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? alpha(config.color, 0.15)
+                      : alpha(config.color, 0.08),
+                  color: config.color,
+                }}
+              />
+            </Button>
+          );
+        })}
       </Box>
     </Box>
   );

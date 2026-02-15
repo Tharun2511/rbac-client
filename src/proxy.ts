@@ -5,22 +5,12 @@ export function proxy(req: NextRequest) {
   const url = req.nextUrl.clone();
   const path = url.pathname;
 
-  // PUBLIC ROUTES
+  // PUBLIC ROUTES — no auth required
   const PUBLIC_PATHS = ["/login"];
 
-  // If visiting /login and user is already logged in → redirect to dashboard
+  // If visiting /login and user has a token → redirect to dashboard
   if (path === "/login" && token) {
-    console.log("token", token);
-    const payload = JSON.parse(
-      Buffer.from(token.split(".")[1], "base64").toString(),
-    );
-    const role = payload.role;
-
-    if (role === "ADMIN") url.pathname = "/admin";
-    if (role === "MANAGER") url.pathname = "/manager";
-    if (role === "RESOLVER") url.pathname = "/resolver";
-    if (role === "USER") url.pathname = "/user";
-
+    url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }
 
@@ -35,39 +25,8 @@ export function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Decode JWT
-  let role = null;
-  try {
-    const payload = JSON.parse(
-      Buffer.from(token.split(".")[1], "base64").toString(),
-    );
-    role = payload.role;
-  } catch {
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
-
-  // RBAC allowed routes
-  const ROLE_ALLOWED_ROUTES: Record<string, string[]> = {
-    ADMIN: ["/admin"],
-    MANAGER: ["/manager", "/tickets"],
-    RESOLVER: ["/resolver", "/tickets"],
-    USER: ["/user", "/tickets"],
-  };
-
-  const basePath = "/" + path.split("/")[1];
-  const allowed = ROLE_ALLOWED_ROUTES[role] ?? [];
-
-  // If role not allowed for this route
-  if (!allowed.includes(basePath)) {
-    if (role === "ADMIN") url.pathname = "/admin";
-    if (role === "MANAGER") url.pathname = "/manager";
-    if (role === "RESOLVER") url.pathname = "/resolver";
-    if (role === "USER") url.pathname = "/user";
-
-    return NextResponse.redirect(url);
-  }
-
+  // User has a token → allow all routes.
+  // Permission-based access control is handled client-side by RBACContext.
   return NextResponse.next();
 }
 
