@@ -43,7 +43,7 @@ export function useRequesterAnalytics(orgId?: string) {
         setError(null);
         const result = await apiClient<RequesterAnalytics>(
           "/analytics/requester",
-          { auth: true }
+          { auth: true },
         );
         if (!cancelled) {
           setData(result);
@@ -51,7 +51,7 @@ export function useRequesterAnalytics(orgId?: string) {
       } catch (err) {
         if (!cancelled) {
           setError(
-            err instanceof Error ? err : new Error("Failed to fetch analytics")
+            err instanceof Error ? err : new Error("Failed to fetch analytics"),
           );
         }
       } finally {

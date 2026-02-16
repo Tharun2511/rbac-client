@@ -105,7 +105,9 @@ const AdminUsersPage = () => {
         <Select
           value={selectedOrgId || "all"}
           onChange={(e) =>
-            setSelectedOrgId(e.target.value === "all" ? undefined : e.target.value)
+            setSelectedOrgId(
+              e.target.value === "all" ? undefined : e.target.value,
+            )
           }
           displayEmpty
           fullWidth
@@ -136,7 +138,11 @@ const AdminUsersPage = () => {
         <Grid container spacing={3}>
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <Grid key={i} size={{ xs: 12, sm: 6, md: 4 }}>
-              <Skeleton variant="rectangular" height={180} sx={{ borderRadius: 2 }} />
+              <Skeleton
+                variant="rectangular"
+                height={180}
+                sx={{ borderRadius: 2 }}
+              />
             </Grid>
           ))}
         </Grid>
@@ -256,9 +262,7 @@ const AdminUsersPage = () => {
                         <Circle
                           sx={{
                             fontSize: 10,
-                            color: user.isActive
-                              ? "success.main"
-                              : "grey.400",
+                            color: user.isActive ? "success.main" : "grey.400",
                           }}
                         />
                         <Typography

@@ -57,7 +57,7 @@ export function useAgentAnalytics(orgId?: string) {
       } catch (err) {
         if (!cancelled) {
           setError(
-            err instanceof Error ? err : new Error("Failed to fetch analytics")
+            err instanceof Error ? err : new Error("Failed to fetch analytics"),
           );
         }
       } finally {

@@ -56,7 +56,7 @@ export default function OrgOwnerDashboard({ data, loading, error }: Props) {
   const totalStaleTickets =
     data?.bottleneckAnalysis.reduce(
       (sum, project) => sum + project.staleTickets,
-      0
+      0,
     ) || 0;
 
   const kpis = [
@@ -77,7 +77,7 @@ export default function OrgOwnerDashboard({ data, loading, error }: Props) {
       value:
         data?.crossProjectPerformance.reduce(
           (sum, p) => sum + p.activeAgents,
-          0
+          0,
         ) || 0,
       icon: <People fontSize="small" />,
       color: "#10b981",

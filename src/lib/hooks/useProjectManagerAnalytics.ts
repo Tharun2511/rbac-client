@@ -55,7 +55,7 @@ export function useProjectManagerAnalytics(projectId?: string) {
         setError(null);
         const result = await apiClient<ProjectManagerAnalytics>(
           "/analytics/project-manager",
-          { auth: true }
+          { auth: true },
         );
         if (!cancelled) {
           setData(result);
@@ -63,7 +63,7 @@ export function useProjectManagerAnalytics(projectId?: string) {
       } catch (err) {
         if (!cancelled) {
           setError(
-            err instanceof Error ? err : new Error("Failed to fetch analytics")
+            err instanceof Error ? err : new Error("Failed to fetch analytics"),
           );
         }
       } finally {

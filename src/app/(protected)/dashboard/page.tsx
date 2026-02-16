@@ -24,24 +24,21 @@ export default function DashboardPage() {
   const isProjectManager =
     can("analytics.view.project") && !isOrgOwner && !isSystemAdmin;
   const isAgent =
-    can("ticket.resolve") &&
-    !isProjectManager &&
-    !isOrgOwner &&
-    !isSystemAdmin;
+    can("ticket.resolve") && !isProjectManager && !isOrgOwner && !isSystemAdmin;
 
   // Fetch appropriate data based on role
   const systemAdminData = useSystemAdminDashboard();
   const orgOwnerData = useOrgOwnerAnalytics(
-    isOrgOwner ? activeOrgId : undefined
+    isOrgOwner ? activeOrgId : undefined,
   );
   const projectManagerData = useProjectManagerAnalytics(
-    isProjectManager ? activeProjectId : undefined
+    isProjectManager ? activeProjectId : undefined,
   );
   const agentData = useAgentAnalytics(isAgent ? activeOrgId : undefined);
   const requesterData = useRequesterAnalytics(
     !isAgent && !isProjectManager && !isOrgOwner && !isSystemAdmin
       ? activeOrgId
-      : undefined
+      : undefined,
   );
 
   // System Admin Dashboard

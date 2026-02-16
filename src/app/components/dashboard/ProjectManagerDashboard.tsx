@@ -9,12 +9,7 @@ import {
   useTheme,
   Divider,
 } from "@mui/material";
-import {
-  Groups,
-  Assignment,
-  Schedule,
-  Speed,
-} from "@mui/icons-material";
+import { Groups, Assignment, Schedule, Speed } from "@mui/icons-material";
 import KPICard from "./KPICard";
 import D3HorizontalBarChart from "../charts/D3HorizontalBarChart";
 import D3DonutChart from "../charts/D3DonutChart";
@@ -62,17 +57,16 @@ export default function ProjectManagerDashboard({
   const totalInProgress =
     data?.workloadDistribution.reduce(
       (sum, agent) => sum + agent.inProgress,
-      0
+      0,
     ) || 0;
-  const avgResolutionTime =
-    data?.teamPerformance.length
-      ? (
-          data.teamPerformance.reduce(
-            (sum, agent) => sum + (agent.avgResolutionDays || 0),
-            0
-          ) / data.teamPerformance.length
-        ).toFixed(1)
-      : "0";
+  const avgResolutionTime = data?.teamPerformance.length
+    ? (
+        data.teamPerformance.reduce(
+          (sum, agent) => sum + (agent.avgResolutionDays || 0),
+          0,
+        ) / data.teamPerformance.length
+      ).toFixed(1)
+    : "0";
 
   const kpis = [
     {

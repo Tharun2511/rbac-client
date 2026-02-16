@@ -55,9 +55,7 @@ export function useSystemAdminDashboard() {
       } catch (err) {
         if (!cancelled) {
           setError(
-            err instanceof Error
-              ? err
-              : new Error("Failed to fetch analytics"),
+            err instanceof Error ? err : new Error("Failed to fetch analytics"),
           );
         }
       } finally {

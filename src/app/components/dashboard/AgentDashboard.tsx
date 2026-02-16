@@ -208,8 +208,8 @@ export default function AgentDashboard({
               <>
                 {" "}
                 You currently have <strong>{productivity.assigned}</strong>{" "}
-                tickets assigned, with <strong>{productivity.inProgress}</strong>{" "}
-                in progress.
+                tickets assigned, with{" "}
+                <strong>{productivity.inProgress}</strong> in progress.
               </>
             ) : (
               " Great work maintaining your queue!"

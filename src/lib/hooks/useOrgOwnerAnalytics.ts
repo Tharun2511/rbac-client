@@ -53,7 +53,7 @@ export function useOrgOwnerAnalytics(orgId?: string) {
         setError(null);
         const result = await apiClient<OrgOwnerAnalytics>(
           "/analytics/org-owner",
-          { auth: true }
+          { auth: true },
         );
         if (!cancelled) {
           setData(result);
@@ -61,7 +61,7 @@ export function useOrgOwnerAnalytics(orgId?: string) {
       } catch (err) {
         if (!cancelled) {
           setError(
-            err instanceof Error ? err : new Error("Failed to fetch analytics")
+            err instanceof Error ? err : new Error("Failed to fetch analytics"),
           );
         }
       } finally {

@@ -249,7 +249,7 @@ export default function RequesterDashboard({
                                   {activity.type.replace(/_/g, " ")} •{" "}
                                   {formatDistanceToNow(
                                     new Date(activity.createdAt),
-                                    { addSuffix: true }
+                                    { addSuffix: true },
                                   )}
                                 </Typography>
                               </>
@@ -288,8 +288,7 @@ export default function RequesterDashboard({
                 <strong>{turnaround.avgTurnaroundDays} days</strong>.
               </>
             ) : null}
-            {stats &&
-            stats.openTickets + stats.inProgressTickets > 0 ? (
+            {stats && stats.openTickets + stats.inProgressTickets > 0 ? (
               <>
                 {" "}
                 You currently have{" "}
