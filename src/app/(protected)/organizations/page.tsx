@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import {
   Container,
   Typography,
@@ -8,11 +9,6 @@ import {
   Card,
   CardContent,
   Button,
-  TextField,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Table,
   TableBody,
   TableCell,
@@ -28,7 +24,7 @@ import {
   alpha,
   useTheme,
 } from "@mui/material";
-import { Add, Business, People, FolderOpen } from "@mui/icons-material";
+import { Add, Business, People } from "@mui/icons-material";
 import { apiClient } from "@/lib/api";
 import PageHeader from "@/app/components/layout/PageHeader";
 
@@ -48,12 +44,9 @@ interface OrgMember {
 
 export default function OrganizationsPage() {
   const theme = useTheme();
+  const router = useRouter();
   const [orgs, setOrgs] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
-  const [creating, setCreating] = useState(false);
 
   // Members panel
   const [selectedOrg, setSelectedOrg] = useState<Organization | null>(null);
@@ -95,26 +88,6 @@ export default function OrganizationsPage() {
     }
   };
 
-  const handleCreate = async () => {
-    if (!name || !slug) return;
-    setCreating(true);
-    try {
-      await apiClient("/organizations", {
-        auth: true,
-        method: "POST",
-        body: { name, slug },
-      });
-      setDialogOpen(false);
-      setName("");
-      setSlug("");
-      fetchOrgs();
-    } catch (err) {
-      console.error("Failed to create organization:", err);
-    } finally {
-      setCreating(false);
-    }
-  };
-
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <PageHeader
@@ -126,7 +99,7 @@ export default function OrganizationsPage() {
         <Button
           variant="contained"
           startIcon={<Add />}
-          onClick={() => setDialogOpen(true)}
+          onClick={() => router.push("/admin/organizations/create")}
         >
           Create Organization
         </Button>
@@ -290,51 +263,6 @@ export default function OrganizationsPage() {
           </Box>
         </Fade>
       )}
-
-      {/* Create Dialog */}
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>Create Organization</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Organization Name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setSlug(
-                e.target.value
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, "-")
-                  .replace(/(^-|-$)/g, ""),
-              );
-            }}
-            fullWidth
-            sx={{ mt: 1 }}
-          />
-          <TextField
-            label="Slug"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            fullWidth
-            sx={{ mt: 2 }}
-            helperText="URL-friendly identifier (auto-generated)"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
-          <Button
-            variant="contained"
-            onClick={handleCreate}
-            disabled={creating || !name || !slug}
-          >
-            {creating ? "Creating..." : "Create"}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 }

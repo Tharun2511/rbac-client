@@ -28,12 +28,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Hydrate from cookies on mount to avoid SSR mismatch
   useEffect(() => {
-    const token = getToken();
-    const storedUser = getAuthUser();
-    if (token && storedUser) {
-      setUser(storedUser);
-    }
-    setIsLoading(false);
+    const timer = setTimeout(() => {
+      const token = getToken();
+      const storedUser = getAuthUser();
+      if (token && storedUser) {
+        setUser(storedUser);
+      }
+      setIsLoading(false);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const login = useCallback(

@@ -1,29 +1,37 @@
-import { getUsers } from "@/lib/api/api.users";
+import { apiClient } from "@/lib/api";
 import { IUser } from "@/lib/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-export function useAdminUsers() {
+export function useAdminUsers(selectedOrgId?: string) {
   const [rows, setRows] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
-    const data = await getUsers();
-    setRows(data);
-    setLoading(false);
-  };
+    try {
+      // Pass org context via custom headers if selectedOrgId is provided
+      const headers: Record<string, string> = {};
+      if (selectedOrgId) {
+        headers["x-org-id"] = selectedOrgId;
+      }
+
+      const data = await apiClient<IUser[]>("/users", {
+        auth: true,
+        headers,
+      });
+      setRows(data);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+      setRows([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedOrgId]);
 
   useEffect(() => {
-    const loadUsers = async () => {
-      setLoading(true);
-      const data = await getUsers();
-      setRows(data);
-      setLoading(false);
-    };
-
-    loadUsers();
-  }, []);
+    fetchUsers();
+  }, [fetchUsers]);
 
   return {
     rows,

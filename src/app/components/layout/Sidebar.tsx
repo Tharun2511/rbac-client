@@ -85,7 +85,7 @@ const MENU_GROUPS: { title: string; items: NavItem[] }[] = [
     title: "Administration",
     items: [
       {
-        text: "Manage Users",
+        text: "Users",
         icon: <PeopleIcon />,
         path: "/admin/users",
         permission: "system.manage_users",
