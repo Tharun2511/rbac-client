@@ -67,10 +67,10 @@ export default function TicketItem({ ticket, onClick }: Props) {
                   bgcolor: "primary.main",
                 }}
               >
-                {ticket.createdUser.name?.[0]?.toUpperCase()}
+                {ticket.creatorName?.[0]?.toUpperCase()}
               </Avatar>
               <Typography variant="body2" fontWeight={500}>
-                {ticket.createdUser.name}
+                {ticket.creatorName}
               </Typography>
             </Box>
 
@@ -88,7 +88,7 @@ export default function TicketItem({ ticket, onClick }: Props) {
             </Box>
 
             {/* Assignee */}
-            {ticket.resolver?.name && (
+            {ticket.resolverName && (
               <Box display="flex" alignItems="center" gap={0.8}>
                 <ArrowRightAltIcon
                   sx={{ fontSize: 16, color: "text.disabled" }}
@@ -101,10 +101,10 @@ export default function TicketItem({ ticket, onClick }: Props) {
                     bgcolor: "secondary.main",
                   }}
                 >
-                  {ticket.resolver.name[0]?.toUpperCase()}
+                  {ticket.resolverName?.toUpperCase()}
                 </Avatar>
                 <Typography variant="body2" fontWeight={500}>
-                  {ticket.resolver.name}
+                  {ticket.resolverName}
                 </Typography>
               </Box>
             )}

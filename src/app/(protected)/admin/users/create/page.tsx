@@ -7,17 +7,19 @@ import {
   TextField,
   Stack,
   Typography,
-  Grid,
   Paper,
   Divider,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PageHeader from "@/app/components/layout/PageHeader";
 import { useCreateUser } from "@/hooks/useCreateUser";
+import { getOrganizations, IOrgBasic } from "@/lib/api/api.users";
 
 export default function CreateUserPage() {
   const router = useRouter();
@@ -26,18 +28,27 @@ export default function CreateUserPage() {
     name,
     email,
     password,
-    role,
+    orgId,
     loading,
     setName,
     setEmail,
     setPassword,
-    setRole,
+    setOrgId,
     submit,
   } = useCreateUser(() => {
     router.push("/admin/users");
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [orgs, setOrgs] = useState<IOrgBasic[]>([]);
+  const [loadingOrgs, setLoadingOrgs] = useState(true);
+
+  useEffect(() => {
+    getOrganizations()
+      .then(setOrgs)
+      .catch(console.error)
+      .finally(() => setLoadingOrgs(false));
+  }, []);
 
   const handleClickShowPassword = () =>
     setShowPassword((show: boolean) => !show);
@@ -74,7 +85,7 @@ export default function CreateUserPage() {
               Personal Details
             </Typography>
             <Typography variant="body2" color="text.secondary" mb={3}>
-              Enter the user basic profile information.
+              Enter the user&apos;s basic profile information.
             </Typography>
 
             <Grid container spacing={3}>
@@ -104,7 +115,7 @@ export default function CreateUserPage() {
 
           <Divider />
 
-          {/* Section 2: Access Control */}
+          {/* Section 2: Security */}
           <Box>
             <Typography
               variant="h6"
@@ -112,10 +123,10 @@ export default function CreateUserPage() {
               fontWeight={600}
               gutterBottom
             >
-              Security & Access
+              Security
             </Typography>
             <Typography variant="body2" color="text.secondary" mb={3}>
-              Define login credentials and system permissions.
+              Set the login password for this user.
             </Typography>
 
             <Grid container spacing={3}>
@@ -145,23 +156,50 @@ export default function CreateUserPage() {
                       </InputAdornment>
                     ),
                   }}
-                  // helperText="Must be at least 8 characters"
                 />
               </Grid>
+            </Grid>
+          </Box>
+
+          <Divider />
+
+          {/* Section 3: Organization Assignment */}
+          <Box>
+            <Typography
+              variant="h6"
+              color="text.primary"
+              fontWeight={600}
+              gutterBottom
+            >
+              Organization
+            </Typography>
+            <Typography variant="body2" color="text.secondary" mb={3}>
+              The user will be added as a member of the selected organization
+              with a default role. The org owner/admin can assign specific roles
+              later.
+            </Typography>
+
+            <Grid container spacing={3}>
               <Grid size={{ xs: 12, md: 6 }}>
-                <TextField
-                  label="Role"
-                  select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  fullWidth
-                  required
-                >
-                  <MenuItem value="ADMIN">Admin</MenuItem>
-                  <MenuItem value="MANAGER">Manager</MenuItem>
-                  <MenuItem value="RESOLVER">Resolver</MenuItem>
-                  <MenuItem value="USER">User (Standard)</MenuItem>
-                </TextField>
+                {loadingOrgs ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  <TextField
+                    label="Organization"
+                    select
+                    value={orgId}
+                    onChange={(e) => setOrgId(e.target.value)}
+                    fullWidth
+                    required
+                    helperText="User must be assigned to an organization"
+                  >
+                    {orgs.map((org) => (
+                      <MenuItem key={org.id} value={org.id}>
+                        {org.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
               </Grid>
             </Grid>
           </Box>
@@ -180,7 +218,7 @@ export default function CreateUserPage() {
               variant="contained"
               size="large"
               onClick={submit}
-              disabled={loading || !name || !email || !password}
+              disabled={loading || !name || !email || !password || !orgId}
               sx={{ px: 4, borderRadius: 2 }}
             >
               {loading ? "Creating..." : "Create User"}

@@ -1,5 +1,12 @@
 import { env } from "@/app/config/env";
-import { clearAuth, getToken, saveAuth } from "./auth";
+import {
+  clearAuth,
+  getActiveOrg,
+  getActiveProject,
+  getRefreshToken,
+  getToken,
+  saveAuth,
+} from "./auth";
 
 interface ApiOptions extends RequestInit {
   auth?: boolean;
@@ -12,14 +19,22 @@ export async function api(
 ): Promise<Response> {
   const headers = new Headers(options.headers || {});
 
-  if (options.auth) {
+  if (options.auth !== false) {
     const token = getToken();
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
   }
 
-  headers.set("Content-Type", "application/json");
+  // Automatically attach context headers
+  const orgId = getActiveOrg();
+  const projectId = getActiveProject();
+  if (orgId) headers.set("x-org-id", orgId);
+  if (projectId) headers.set("x-project-id", projectId);
+
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
 
   const res = await fetch(`${env.API_BASE_URL}${endpoint}`, {
     ...options,
@@ -29,18 +44,17 @@ export async function api(
   return res;
 }
 
-export async function refreshToken() {
+export async function refreshTokenRequest() {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) return null;
+
   const res = await fetch(`${env.API_BASE_URL}/auth/refresh`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refreshToken }),
   });
 
-  if (!res.ok) {
-    return null;
-  }
-
+  if (!res.ok) return null;
   return res.json();
 }
 
@@ -51,24 +65,35 @@ export const apiClient = async <T>(
   const res = await api(url, options);
 
   if (res.status !== 401) {
+    if (!res.ok) {
+      const errorBody = await res.json().catch(() => ({}));
+      throw new Error(
+        errorBody.message || `Request failed with status ${res.status}`,
+      );
+    }
     return res.json();
   }
 
   if (options.skipAuthRetry) {
-    throw new Error("Please enter valid email and password! ");
+    throw new Error("Please enter valid email and password!");
   }
 
-  const newToken = await refreshToken();
+  const newToken = await refreshTokenRequest();
 
   if (!newToken) {
     clearAuth();
     window.location.href = "/login";
-
-    // @ts-expect-error T is not assignable to undefined
-    return;
+    return undefined as unknown as T;
   }
 
-  saveAuth(newToken.token, newToken.user);
+  saveAuth(newToken.token, newToken.refreshToken, newToken.user);
 
-  return (await api(url, options)).json();
+  const retryRes = await api(url, options);
+  if (!retryRes.ok) {
+    const errorBody = await retryRes.json().catch(() => ({}));
+    throw new Error(
+      errorBody.message || `Request failed with status ${retryRes.status}`,
+    );
+  }
+  return retryRes.json();
 };

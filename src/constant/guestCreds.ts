@@ -1,11 +1,60 @@
-type Role = "admin" | "user" | "manager" | "resolver";
+export type GuestRole =
+  | "sysadmin"
+  | "orgOwner"
+  | "orgAdmin"
+  | "projectAdmin"
+  | "resolver"
+  | "client"
+  | "viewer";
 
-export const GUEST_CREDENTIALS: Record<
-  Role,
-  { email: string; password: string }
-> = {
-  admin: { email: "guest@admin.com", password: "admin@123" },
-  user: { email: "guest@user.com", password: "user@123" },
-  manager: { email: "guest@manager.com", password: "manager@123" },
-  resolver: { email: "guest@resolver.com", password: "resolver@123" },
+interface GuestCredential {
+  email: string;
+  password: string;
+  label: string;
+  description: string;
+}
+
+export const GUEST_CREDENTIALS: Record<GuestRole, GuestCredential> = {
+  sysadmin: {
+    email: "admin@system.com",
+    password: "admin123",
+    label: "System Admin",
+    description: "Full platform access",
+  },
+  orgOwner: {
+    email: "owner@acme.com",
+    password: "owner123",
+    label: "Org Owner",
+    description: "Manages Acme Corp",
+  },
+  orgAdmin: {
+    email: "orgadmin@acme.com",
+    password: "orgadmin123",
+    label: "Org Admin",
+    description: "Acme Corp admin",
+  },
+  projectAdmin: {
+    email: "projadmin@acme.com",
+    password: "projadmin123",
+    label: "Project Admin",
+    description: "Project Alpha lead",
+  },
+  resolver: {
+    email: "resolver@acme.com",
+    password: "resolver123",
+    label: "Resolver",
+    description: "Resolves tickets",
+  },
+  client: {
+    email: "client@acme.com",
+    password: "client123",
+    label: "Client",
+    description: "Creates & views tickets",
+  },
+  viewer: {
+    email: "viewer@acme.com",
+    password: "viewer123",
+    label: "Viewer",
+    description: "Read-only access",
+  },
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import { clearAuth } from "@/lib/auth";
 import { Logout, DarkMode, LightMode } from "@mui/icons-material";
 import {
   AppBar,
@@ -15,15 +14,16 @@ import {
   Typography,
   Divider,
   Tooltip,
+  Chip,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import useUserDetails from "@/hooks/useUserDetails";
+import { useAuth } from "@/context/AuthContext";
+import { useRBAC } from "@/context/RBACContext";
 import { useState, MouseEvent } from "react";
 import { useColorMode } from "@/theme/ColorModeContext";
 
 export default function TopBar() {
-  const router = useRouter();
-  const user = useUserDetails();
+  const { user, logout } = useAuth();
+  const { organizations, activeOrgId, isSystemAdmin } = useRBAC();
   const { mode, toggleColorMode } = useColorMode();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -37,9 +37,8 @@ export default function TopBar() {
   };
 
   const handleLogout = () => {
-    clearAuth();
-    router.replace("/login");
     handleClose();
+    logout();
   };
 
   const getInitials = (name: string) => {
@@ -51,23 +50,54 @@ export default function TopBar() {
     return "";
   };
 
+  const activeOrg = organizations.find((o) => o.id === activeOrgId);
+
   return (
     <AppBar
       position="sticky"
       sx={{
-        // Theme overrides handle background color now
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
       <Toolbar sx={{ minHeight: "64px" }}>
-        {/* Search Bar */}
-        {/* ... (Search Bar code commented out in previous view) ... */}
+        {/* Active Org Badge */}
+        {activeOrg && (
+          <Chip
+            label={activeOrg.name}
+            size="small"
+            sx={{
+              fontWeight: 600,
+              fontSize: "0.75rem",
+              bgcolor: (theme) =>
+                theme.palette.mode === "dark"
+                  ? "rgba(76, 154, 255, 0.15)"
+                  : "#E6EFFC",
+              color: "primary.main",
+              border: "none",
+            }}
+          />
+        )}
+
+        {isSystemAdmin && (
+          <Chip
+            label="System Admin"
+            size="small"
+            sx={{
+              ml: 1,
+              fontWeight: 600,
+              fontSize: "0.7rem",
+              bgcolor: (theme) =>
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 171, 0, 0.15)"
+                  : "#FFF3E0",
+              color: "#E65100",
+            }}
+          />
+        )}
 
         <Box flexGrow={1} />
 
         <Stack direction="row" spacing={1} alignItems="center">
-          {/* Notifications code commented out */}
-
           <Tooltip
             title={
               mode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"
@@ -146,6 +176,9 @@ export default function TopBar() {
           <Box px={2} py={1}>
             <Typography variant="subtitle1" fontWeight={600} noWrap>
               {user?.name || "User"}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" noWrap>
+              {user?.email}
             </Typography>
           </Box>
           <Divider />
