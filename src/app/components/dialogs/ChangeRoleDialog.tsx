@@ -1,6 +1,5 @@
 "use client";
 
-import { IRole } from "@/lib/types";
 import {
   Dialog,
   DialogTitle,
@@ -13,11 +12,18 @@ import {
   Typography,
 } from "@mui/material";
 
+interface RoleOption {
+  id: string;
+  name: string;
+  scope: string;
+}
+
 interface Props {
   open: boolean;
   loading: boolean;
   currentRole: string;
-  onSelectRole: (v: IRole) => void;
+  roles: RoleOption[];
+  onSelectRole: (v: string) => void;
   onClose: () => void;
   onSubmit: () => void;
 }
@@ -26,17 +32,24 @@ export default function ChangeRoleDialog({
   open,
   loading,
   currentRole,
+  roles,
   onSelectRole,
   onClose,
   onSubmit,
 }: Props) {
+  const formatRoleName = (name: string) =>
+    name
+      .split("_")
+      .map((w) => w.charAt(0) + w.slice(1).toLowerCase())
+      .join(" ");
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle>Change User Role</DialogTitle>
 
       <DialogContent>
         <Typography variant="body2" mb={2}>
-          Current role: <strong>{currentRole}</strong>
+          Current role: <strong>{formatRoleName(currentRole)}</strong>
         </Typography>
 
         <Box display="flex" flexDirection="column" gap={2}>
@@ -45,12 +58,13 @@ export default function ChangeRoleDialog({
             fullWidth
             label="Select new role"
             defaultValue={currentRole}
-            onChange={(e) => onSelectRole(e.target.value as IRole)}
+            onChange={(e) => onSelectRole(e.target.value)}
           >
-            <MenuItem value="ADMIN">Admin</MenuItem>
-            <MenuItem value="MANAGER">Manager</MenuItem>
-            <MenuItem value="RESOLVER">Resolver</MenuItem>
-            <MenuItem value="USER">User</MenuItem>
+            {roles.map((role) => (
+              <MenuItem key={role.id} value={role.name}>
+                {formatRoleName(role.name)}
+              </MenuItem>
+            ))}
           </TextField>
         </Box>
       </DialogContent>

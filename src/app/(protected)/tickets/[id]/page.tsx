@@ -8,8 +8,6 @@ import { useResolveTicket } from "@/hooks/tickets/useResolveTicket";
 import { useVerifyTicket } from "@/hooks/tickets/useVerifyTicket";
 import { useCloseTicket } from "@/hooks/tickets/useCloseTicket";
 import { useAssignResolver } from "@/hooks/tickets/useAssignResolver";
-import useUserDetails from "@/hooks/useUserDetails";
-
 import LoadingState from "@/app/components/feedback/LoadingState";
 import TicketInfoCard from "@/app/components/tickets/TicketInfoCard";
 import TicketSidebar from "@/app/components/tickets/TicketSidebar";
@@ -21,10 +19,8 @@ import { useClassifyTicket } from "@/hooks/tickets/useClassifyTicket";
 
 export default function TicketDetailsPage() {
   const { id } = useParams();
-  const user = useUserDetails();
   const { ticket, loading, refresh } = useTicketDetails(id as string);
   const classify = useClassifyTicket(id as string, refresh);
-  console.log(classify);
 
   // Hooks for workflow actions
   const assign = useAssignResolver(id as string, refresh);
@@ -61,7 +57,6 @@ export default function TicketDetailsPage() {
             actions={
               <TicketActions
                 ticket={ticket}
-                role={user?.role || ""}
                 onAssign={assign.open}
                 onResolve={resolve.open}
                 onVerify={verify.open}

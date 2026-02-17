@@ -79,12 +79,12 @@ export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
                 fontSize: "0.75rem",
                 bgcolor: "primary.main",
               }}
-              alt={ticket.createdUser?.name}
+              alt={ticket.creatorName}
             >
-              {ticket.createdUser?.name?.charAt(0)}
+              {ticket.creatorName?.charAt(0)}
             </Avatar>
             <Typography variant="body2" fontWeight={500}>
-              {ticket.createdUser?.name}
+              {ticket.creatorName}
             </Typography>
             <Typography variant="caption" color="text.secondary">
               opened{" "}
@@ -96,7 +96,7 @@ export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
           </Box>
 
           {/* Resolver (if exists) */}
-          {ticket.resolver?.name && (
+          {ticket.resolverName && (
             <Box display="flex" alignItems="center" gap={1}>
               <ArrowRightAlt sx={{ color: "text.disabled" }} />
               <Avatar
@@ -106,12 +106,12 @@ export default function TicketInfoCard({ ticket }: { ticket: ITicket }) {
                   fontSize: "0.75rem",
                   bgcolor: "secondary.main",
                 }}
-                alt={ticket.resolver.name}
+                alt={ticket.resolverName}
               >
-                {ticket.resolver.name.charAt(0)}
+                {ticket.resolverName.charAt(0)}
               </Avatar>
               <Typography variant="body2" fontWeight={500}>
-                {ticket.resolver.name}
+                {ticket.resolverName}
               </Typography>
             </Box>
           )}

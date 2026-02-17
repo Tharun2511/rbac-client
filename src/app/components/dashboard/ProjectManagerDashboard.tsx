@@ -119,12 +119,9 @@ export default function ProjectManagerDashboard({
 
   const inflowOutflowData =
     data?.inflowOutflow.map((item) => ({
-      label: new Date(item.date).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
-      inflow: item.inflow,
-      outflow: item.outflow,
+      date: new Date(item.date),
+      value1: item.inflow,
+      value2: item.outflow,
     })) || [];
 
   return (
@@ -235,10 +232,10 @@ export default function ProjectManagerDashboard({
                 data={inflowOutflowData}
                 title="Ticket Inflow vs Outflow (Last 30 Days)"
                 height={400}
-                line1Label="Created"
-                line2Label="Resolved"
-                line1Color={theme.palette.primary.main}
-                line2Color="#10b981"
+                label1="Created"
+                label2="Resolved"
+                color1={theme.palette.primary.main}
+                color2="#10b981"
               />
             )}
           </Grid>
