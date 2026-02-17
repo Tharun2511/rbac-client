@@ -1,11 +1,11 @@
 import { ITicket } from "@/lib/types";
+import { useRBAC } from "@/context/RBACContext";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 interface Props {
   ticket: ITicket;
-  role: string;
   onAssign?: () => void;
   onUpdateType?: (type: string) => void;
   onUpdatePriority?: (priority: string) => void;
@@ -17,7 +17,6 @@ interface Props {
 
 export default function TicketActions({
   ticket,
-  role,
   onAssign,
   onUpdateType,
   onUpdatePriority,
@@ -26,6 +25,7 @@ export default function TicketActions({
   onClose,
   loading,
 }: Props) {
+  const { can } = useRBAC();
   const { status, type, priority } = ticket;
   const isClassified = !!type;
 
@@ -62,8 +62,8 @@ export default function TicketActions({
 
   return (
     <Box display="flex" flexDirection="column" gap={2} width="100%">
-      {/* MANAGER ACTIONS: Classification Controls */}
-      {role === "MANAGER" && (status === "OPEN" || status === "ASSIGNED") && (
+      {/* Classification Controls */}
+      {can("ticket.assign") && (status === "OPEN" || status === "ASSIGNED") && (
         <Box display="flex" gap={1}>
           {/* Change Type Button */}
           <Button
@@ -121,8 +121,8 @@ export default function TicketActions({
         </Box>
       )}
 
-      {/* MANAGER ACTION: Assign Resolver - Only enabled if classified */}
-      {role === "MANAGER" && status === "OPEN" && (
+      {/* Assign Resolver - Only enabled if classified */}
+      {can("ticket.assign") && status === "OPEN" && (
         <Button
           variant="contained"
           fullWidth
@@ -134,8 +134,8 @@ export default function TicketActions({
         </Button>
       )}
 
-      {/* RESOLVER ACTION: Resolve Ticket */}
-      {role === "RESOLVER" && status === "ASSIGNED" && (
+      {/* Resolve Ticket */}
+      {can("ticket.resolve") && status === "ASSIGNED" && (
         <Button
           variant="contained"
           color="primary"
@@ -147,8 +147,8 @@ export default function TicketActions({
         </Button>
       )}
 
-      {/* USER ACTION: Verify Resolution */}
-      {role === "USER" && status === "RESOLVED" && (
+      {/* Verify Resolution */}
+      {can("ticket.verify") && status === "RESOLVED" && (
         <Button
           variant="contained"
           color="secondary"
@@ -160,8 +160,8 @@ export default function TicketActions({
         </Button>
       )}
 
-      {/* MANAGER ACTION: Close Ticket */}
-      {role === "MANAGER" && status === "VERIFIED" && (
+      {/* Close Ticket */}
+      {can("ticket.close") && status === "VERIFIED" && (
         <Button
           variant="contained"
           color="success"

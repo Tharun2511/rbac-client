@@ -79,10 +79,10 @@ export default function TicketSidebar({ ticket, actions }: TicketSidebarProps) {
                 </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Avatar sx={{ width: 24, height: 24, fontSize: "0.75rem" }}>
-                    {ticket.resolver?.name?.charAt(0) || "?"}
+                    {ticket.resolverName?.charAt(0) || "?"}
                   </Avatar>
                   <Typography variant="body2">
-                    {ticket.resolver?.name || "Unassigned"}
+                    {ticket.resolverName || "Unassigned"}
                   </Typography>
                 </Stack>
               </Box>
@@ -99,11 +99,9 @@ export default function TicketSidebar({ ticket, actions }: TicketSidebarProps) {
                 </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Avatar sx={{ width: 24, height: 24, fontSize: "0.75rem" }}>
-                    {ticket.createdUser?.name?.charAt(0) || "?"}
+                    {ticket.creatorName?.charAt(0) || "?"}
                   </Avatar>
-                  <Typography variant="body2">
-                    {ticket.createdUser?.name}
-                  </Typography>
+                  <Typography variant="body2">{ticket.creatorName}</Typography>
                 </Stack>
               </Box>
 

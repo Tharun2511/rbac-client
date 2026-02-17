@@ -81,21 +81,15 @@ export default function AgentDashboard({
 
   const velocityData =
     data?.velocityTrend.map((item) => ({
-      label: new Date(item.date).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
+      date: new Date(item.date),
       value: item.resolved,
     })) || [];
 
   const inflowOutflowData =
     data?.inflowOutflow.map((item) => ({
-      label: new Date(item.date).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
-      inflow: item.inflow,
-      outflow: item.outflow,
+      date: new Date(item.date),
+      value1: item.inflow,
+      value2: item.outflow,
     })) || [];
 
   return (
@@ -178,10 +172,10 @@ export default function AgentDashboard({
                 data={inflowOutflowData}
                 title="Your Work Queue (Last 14 Days)"
                 height={400}
-                line1Label="Assigned"
-                line2Label="Resolved"
-                line1Color="#f59e0b"
-                line2Color="#10b981"
+                label1="Assigned"
+                label2="Resolved"
+                color1="#f59e0b"
+                color2="#10b981"
               />
             )}
           </Grid>

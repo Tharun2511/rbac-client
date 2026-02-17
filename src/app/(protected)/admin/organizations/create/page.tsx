@@ -57,7 +57,7 @@ export default function CreateOrganizationPage() {
     <Container maxWidth="md" sx={{ py: 4 }}>
       <PageHeader
         title="Create Organization"
-        subtitle="Add a new organization to the platform"
+        description="Add a new organization to the platform"
       />
 
       <Card>

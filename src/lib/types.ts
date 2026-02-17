@@ -4,6 +4,7 @@ export interface IUser {
   email: string;
   isSystemAdmin: boolean;
   isActive: boolean;
+  role?: string; // Org-level role (only present when queried in org context)
 }
 
 export interface IOrgContext {
@@ -74,4 +75,5 @@ export interface ITimelineItem {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
   comment?: string;
+  resolver?: { id: string; name: string; email: string };
 }

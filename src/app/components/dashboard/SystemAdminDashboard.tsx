@@ -107,10 +107,7 @@ export default function SystemAdminDashboard({
 
   const orgTimelineData =
     data?.orgTimeline.map((item) => ({
-      label: new Date(item.date).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
+      date: new Date(item.date),
       value: item.count,
     })) || [];
 

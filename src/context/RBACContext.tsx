@@ -186,7 +186,14 @@ export function RBACProvider({ children }: { children: ReactNode }) {
 
   const can = useCallback(
     (permission: string) => {
-      return permissions.includes(permission);
+      if (permissions.includes(permission)) return true;
+      // Wildcard matching: "ticket.*" should match "ticket.assign"
+      const parts = permission.split(".");
+      for (let i = parts.length - 1; i > 0; i--) {
+        const wildcard = parts.slice(0, i).join(".") + ".*";
+        if (permissions.includes(wildcard)) return true;
+      }
+      return permissions.includes("*");
     },
     [permissions],
   );

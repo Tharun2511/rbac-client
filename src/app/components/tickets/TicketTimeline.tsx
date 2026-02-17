@@ -66,17 +66,39 @@ export default function TicketTimeline({ ticket }: TicketTimelineProps) {
       .slice(0, 2);
   };
 
-  const getRoleColor = (role?: string) => {
+  const getRoleColor = (
+    role?: string,
+  ):
+    | "default"
+    | "primary"
+    | "secondary"
+    | "error"
+    | "info"
+    | "success"
+    | "warning" => {
     switch (role) {
-      case "MANAGER":
+      case "PROJECT_MANAGER":
         return "secondary";
-      case "RESOLVER":
+      case "AGENT":
         return "success";
-      case "ADMIN":
+      case "SYSTEM_ADMIN":
         return "error";
+      case "ORG_OWNER":
+      case "ORG_ADMIN":
+        return "warning";
+      case "REQUESTER":
+        return "primary";
       default:
-        return "primary"; // USER
+        return "default";
     }
+  };
+
+  const formatRoleName = (role?: string) => {
+    if (!role) return "Unknown";
+    return role
+      .split("_")
+      .map((w) => w.charAt(0) + w.slice(1).toLowerCase())
+      .join(" ");
   };
 
   const getActivityIcon = (type: string) => {
@@ -174,9 +196,9 @@ export default function TicketTimeline({ ticket }: TicketTimelineProps) {
                     <Avatar
                       sx={{
                         bgcolor:
-                          item.userRole === "MANAGER"
+                          item.userRole === "PROJECT_MANAGER"
                             ? "secondary.main"
-                            : item.userRole === "RESOLVER"
+                            : item.userRole === "AGENT"
                               ? "success.main"
                               : "primary.main",
                         width: 40,
@@ -204,7 +226,7 @@ export default function TicketTimeline({ ticket }: TicketTimelineProps) {
                             {isMe ? "You" : item.userName || "Unknown User"}
                           </Typography>
                           <Chip
-                            label={item.userRole || "USER"}
+                            label={formatRoleName(item.userRole)}
                             size="small"
                             color={getRoleColor(item.userRole)}
                             variant="outlined"

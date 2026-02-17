@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAdminUsers } from "@/hooks/useAdminUsers";
+import { apiClient } from "@/lib/api";
 import {
   Container,
   Grid,
@@ -37,6 +38,19 @@ const AdminUsersPage = () => {
   );
   const { rows, loading, setSelectedUser, refresh } =
     useAdminUsers(selectedOrgId);
+
+  const [availableRoles, setAvailableRoles] = useState<
+    { id: string; name: string; scope: string }[]
+  >([]);
+
+  useEffect(() => {
+    apiClient<{ id: string; name: string; scope: string }[]>(
+      "/users/roles?scope=ORG",
+      { auth: true },
+    )
+      .then(setAvailableRoles)
+      .catch(console.error);
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuUser, setMenuUser] = useState<IUser | null>(null);
@@ -97,7 +111,7 @@ const AdminUsersPage = () => {
     <Container maxWidth="xl" sx={{ py: 4 }}>
       <PageHeader
         title="Users"
-        subtitle="View and manage users across organizations"
+        description="View and manage users across organizations"
       />
 
       {/* Organization Selector */}
@@ -302,6 +316,7 @@ const AdminUsersPage = () => {
       <ChangeRoleDialog
         open={editOpen}
         currentRole={roleUser?.role ?? ""}
+        roles={availableRoles}
         loading={roleLoading}
         onSelectRole={setNewSelectedRole}
         onClose={() => setEditOpen(false)}

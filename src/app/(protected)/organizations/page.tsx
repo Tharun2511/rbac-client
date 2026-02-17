@@ -92,7 +92,7 @@ export default function OrganizationsPage() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <PageHeader
         title="Organizations"
-        subtitle="Manage all organizations on the platform"
+        description="Manage all organizations on the platform"
       />
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 3 }}>
