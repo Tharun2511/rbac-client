@@ -94,6 +94,8 @@ export function RBACProvider({ children }: { children: ReactNode }) {
         currentOrg = orgs[0].id;
         setActiveOrgIdState(currentOrg);
         saveActiveOrg(currentOrg);
+      } else if (currentOrg) {
+        setActiveOrgIdState(currentOrg);
       }
 
       // Auto-select project within the active org
@@ -115,6 +117,8 @@ export function RBACProvider({ children }: { children: ReactNode }) {
           currentProject = orgProjects[0].id;
           setActiveProjectIdState(currentProject);
           saveActiveProject(currentProject);
+        } else if (currentProject) {
+          setActiveProjectIdState(currentProject);
         }
       }
     } catch (err) {
@@ -167,13 +171,24 @@ export function RBACProvider({ children }: { children: ReactNode }) {
     loadPermissions();
   }, [isAuthenticated, activeOrgId, activeProjectId, user?.isSystemAdmin]);
 
-  const setActiveOrg = useCallback((orgId: string) => {
-    setActiveOrgIdState(orgId);
-    saveActiveOrg(orgId);
-    // Clear project when switching orgs
-    setActiveProjectIdState(undefined);
-    clearActiveProject();
-  }, []);
+  const setActiveOrg = useCallback(
+    (orgId: string) => {
+      setActiveOrgIdState(orgId);
+      saveActiveOrg(orgId);
+
+      // Auto-select first project of the new org
+      const orgProjects = projects.filter((p) => p.orgId === orgId);
+      if (orgProjects.length > 0) {
+        const firstProjId = orgProjects[0].id;
+        setActiveProjectIdState(firstProjId);
+        saveActiveProject(firstProjId);
+      } else {
+        setActiveProjectIdState(undefined);
+        clearActiveProject();
+      }
+    },
+    [projects],
+  );
 
   const setActiveProject = useCallback((projectId: string | undefined) => {
     setActiveProjectIdState(projectId);

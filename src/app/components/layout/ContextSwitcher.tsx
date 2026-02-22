@@ -89,11 +89,6 @@ export default function ContextSwitcher() {
               },
             }}
           >
-            <MenuItem value="">
-              <Typography variant="body2" color="text.secondary">
-                All Projects
-              </Typography>
-            </MenuItem>
             {orgProjects.map((proj) => (
               <MenuItem key={proj.id} value={proj.id}>
                 <Typography variant="body2" fontWeight={500}>

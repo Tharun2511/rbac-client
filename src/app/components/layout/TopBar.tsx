@@ -70,8 +70,8 @@ export default function TopBar() {
               fontSize: "0.75rem",
               bgcolor: (theme) =>
                 theme.palette.mode === "dark"
-                  ? "rgba(76, 154, 255, 0.15)"
-                  : "#E6EFFC",
+                  ? "rgba(59, 130, 246, 0.15)" // Blue 500 alpha
+                  : "#EFF6FF", // Blue 50
               color: "primary.main",
               border: "none",
             }}
@@ -88,9 +88,11 @@ export default function TopBar() {
               fontSize: "0.7rem",
               bgcolor: (theme) =>
                 theme.palette.mode === "dark"
-                  ? "rgba(255, 171, 0, 0.15)"
-                  : "#FFF3E0",
-              color: "#E65100",
+                  ? "rgba(251, 191, 36, 0.15)" // Amber 400 alpha
+                  : "#FEF3C7", // Amber 50
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "#FCD34D" : "#D97706",
+              border: "none",
             }}
           />
         )}
@@ -107,7 +109,7 @@ export default function TopBar() {
               {mode === "dark" ? (
                 <LightMode />
               ) : (
-                <DarkMode sx={{ color: "#5E6C84" }} />
+                <DarkMode sx={{ color: "#64748B" }} />
               )}
             </IconButton>
           </Tooltip>
@@ -122,10 +124,11 @@ export default function TopBar() {
           >
             <Avatar
               sx={{
-                bgcolor: "#0052CC",
+                bgcolor: "primary.main",
                 width: 32,
                 height: 32,
                 fontSize: "0.875rem",
+                fontWeight: 600,
               }}
             >
               {user ? getInitials(user.name) : ""}

@@ -200,14 +200,14 @@ export default function Sidebar() {
                           "&.Mui-selected": {
                             backgroundColor: (theme) =>
                               theme.palette.mode === "dark"
-                                ? "rgba(76, 154, 255, 0.15)"
-                                : "#E6EFFC",
+                                ? "rgba(59, 130, 246, 0.15)" // Blue 500 alpha
+                                : "#EFF6FF", // Blue 50
                             color: "primary.main",
                             "&:hover": {
                               backgroundColor: (theme) =>
                                 theme.palette.mode === "dark"
-                                  ? "rgba(76, 154, 255, 0.25)"
-                                  : "#E6EFFC",
+                                  ? "rgba(59, 130, 246, 0.25)"
+                                  : "#DBEAFE", // Blue 100
                             },
                             "& .MuiListItemIcon-root": {
                               color: "primary.main",
@@ -217,7 +217,7 @@ export default function Sidebar() {
                             backgroundColor: (theme) =>
                               theme.palette.mode === "dark"
                                 ? "rgba(255, 255, 255, 0.05)"
-                                : "rgba(9, 30, 66, 0.08)",
+                                : "rgba(15, 23, 42, 0.04)", // Slate 900 alpha
                           },
                         }}
                       >
