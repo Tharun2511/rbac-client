@@ -20,6 +20,7 @@ import D3HorizontalBarChart from "../charts/D3HorizontalBarChart";
 import D3LineChart from "../charts/D3LineChart";
 import PageHeader from "../layout/PageHeader";
 import { SystemAdminAnalytics } from "@/lib/hooks/useSystemAdminDashboard";
+import * as d3 from "d3";
 
 const SkeletonCard = ({ height = 140 }: { height?: number }) => (
   <Skeleton variant="rectangular" height={height} sx={{ borderRadius: 3 }} />
@@ -85,23 +86,16 @@ export default function SystemAdminDashboard({
       color: theme.palette.primary.main,
     })) || [];
 
+  const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+
   const roleDistributionData =
-    data?.roleDistribution.map((role) => ({
-      label: role.role.replace(/_/g, " "),
-      value: role.count,
-      color:
-        role.role === "SYSTEM_ADMIN"
-          ? "#ef4444"
-          : role.role === "ORG_OWNER"
-            ? "#f59e0b"
-            : role.role === "ORG_ADMIN"
-              ? "#3b82f6"
-              : role.role === "PROJECT_MANAGER"
-                ? "#8b5cf6"
-                : role.role === "AGENT"
-                  ? "#10b981"
-                  : "#6b7280",
-    })) || [];
+    data?.roleDistribution.map((role) => {
+      return {
+        label: role.role.replace(/_/g, " "),
+        value: role.count,
+        color: colorScale(role.role),
+      };
+    }) || [];
 
   const orgTimelineData =
     data?.orgTimeline.map((item) => ({
