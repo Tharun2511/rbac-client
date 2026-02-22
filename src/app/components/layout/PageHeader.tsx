@@ -7,9 +7,15 @@ interface Props {
   title: string;
   description?: string;
   actions?: React.ReactNode;
+  breadcrumbTitle?: string;
 }
 
-const PageHeader = ({ title, description, actions }: Props) => {
+const PageHeader = ({
+  title,
+  description,
+  actions,
+  breadcrumbTitle,
+}: Props) => {
   return (
     <Box mb={4}>
       <Breadcrumbs
@@ -21,9 +27,10 @@ const PageHeader = ({ title, description, actions }: Props) => {
           Home
         </Link>
         <Typography color="text.primary" fontSize="0.875rem">
-          {title}
+          {breadcrumbTitle || title}
         </Typography>
       </Breadcrumbs>
+
       <Box
         display="flex"
         flexDirection="column"

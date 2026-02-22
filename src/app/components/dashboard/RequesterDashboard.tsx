@@ -5,7 +5,6 @@ import {
   Skeleton,
   Fade,
   Box,
-  Chip,
   useTheme,
   Divider,
   Card,
@@ -122,27 +121,9 @@ export default function RequesterDashboard({
       <Container maxWidth="xl" sx={{ pb: 4 }}>
         <PageHeader
           title={`Welcome back, ${userName?.split(" ")[0] || "User"}`}
+          breadcrumbTitle="Dashboard"
           description="Track your tickets and recent activity"
         />
-
-        <Box sx={{ mb: 3, display: "flex", gap: 1 }}>
-          <Chip
-            label="Requester"
-            size="small"
-            sx={{
-              fontWeight: 600,
-              bgcolor: "#E3F2FD",
-              color: "#1565C0",
-            }}
-          />
-          <Chip
-            label="My Tickets"
-            size="small"
-            color="primary"
-            variant="outlined"
-            sx={{ fontWeight: 600 }}
-          />
-        </Box>
 
         {/* KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>

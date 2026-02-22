@@ -5,7 +5,6 @@ import {
   Skeleton,
   Fade,
   Box,
-  Chip,
   useTheme,
   Divider,
 } from "@mui/material";
@@ -97,27 +96,9 @@ export default function AgentDashboard({
       <Container maxWidth="xl" sx={{ pb: 4 }}>
         <PageHeader
           title={`Welcome back, ${userName?.split(" ")[0] || "Agent"}`}
+          breadcrumbTitle="Dashboard"
           description="Your personal productivity and resolution metrics"
         />
-
-        <Box sx={{ mb: 3, display: "flex", gap: 1 }}>
-          <Chip
-            label="Agent"
-            size="small"
-            sx={{
-              fontWeight: 600,
-              bgcolor: "#E8F5E9",
-              color: "#2E7D32",
-            }}
-          />
-          <Chip
-            label="Personal Analytics"
-            size="small"
-            color="primary"
-            variant="outlined"
-            sx={{ fontWeight: 600 }}
-          />
-        </Box>
 
         {/* KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>
@@ -206,7 +187,7 @@ export default function AgentDashboard({
                 <strong>{productivity.inProgress}</strong> in progress.
               </>
             ) : (
-              " Great work maintaining your queue!"
+              " "
             )}
           </Typography>
         </Box>

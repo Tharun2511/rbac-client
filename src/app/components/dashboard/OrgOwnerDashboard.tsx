@@ -102,27 +102,9 @@ export default function OrgOwnerDashboard({ data, loading, error }: Props) {
       <Container maxWidth="xl" sx={{ pb: 4 }}>
         <PageHeader
           title="Organization Owner Dashboard"
+          breadcrumbTitle="Dashboard"
           description="Organization-wide performance and insights"
         />
-
-        <Box sx={{ mb: 3, display: "flex", gap: 1 }}>
-          <Chip
-            label="Organization Owner"
-            size="small"
-            sx={{
-              fontWeight: 600,
-              bgcolor: "#FFF3E0",
-              color: "#E65100",
-            }}
-          />
-          <Chip
-            label="Org-Wide Analytics"
-            size="small"
-            color="primary"
-            variant="outlined"
-            sx={{ fontWeight: 600 }}
-          />
-        </Box>
 
         {/* KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>

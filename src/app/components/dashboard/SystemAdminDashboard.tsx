@@ -4,8 +4,6 @@ import {
   Typography,
   Skeleton,
   Fade,
-  Box,
-  Chip,
   useTheme,
   Divider,
 } from "@mui/material";
@@ -116,28 +114,9 @@ export default function SystemAdminDashboard({
       <Container maxWidth="xl" sx={{ pb: 4 }}>
         <PageHeader
           title={`Welcome back, ${userName?.split(" ")[0] || "Admin"}`}
+          breadcrumbTitle="Dashboard"
           description="System-wide organization and user management overview"
         />
-
-        {/* System Admin Badge */}
-        <Box sx={{ mb: 3, display: "flex", gap: 1 }}>
-          <Chip
-            label="System Administrator"
-            size="small"
-            sx={{
-              fontWeight: 600,
-              bgcolor: "#FFF3E0",
-              color: "#E65100",
-            }}
-          />
-          <Chip
-            label="Platform Overview"
-            size="small"
-            color="primary"
-            variant="outlined"
-            sx={{ fontWeight: 600 }}
-          />
-        </Box>
 
         {/* System Stats KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>

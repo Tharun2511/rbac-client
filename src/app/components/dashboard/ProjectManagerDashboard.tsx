@@ -4,12 +4,10 @@ import {
   Typography,
   Skeleton,
   Fade,
-  Box,
-  Chip,
   useTheme,
   Divider,
 } from "@mui/material";
-import { Groups, Assignment, Schedule, Speed } from "@mui/icons-material";
+import { Groups, Assignment, Speed } from "@mui/icons-material";
 import KPICard from "./KPICard";
 import D3HorizontalBarChart from "../charts/D3HorizontalBarChart";
 import D3DonutChart from "../charts/D3DonutChart";
@@ -129,27 +127,9 @@ export default function ProjectManagerDashboard({
       <Container maxWidth="xl" sx={{ pb: 4 }}>
         <PageHeader
           title="Project Manager Dashboard"
+          breadcrumbTitle="Dashboard"
           description="Team performance and workload management"
         />
-
-        <Box sx={{ mb: 3, display: "flex", gap: 1 }}>
-          <Chip
-            label="Project Manager"
-            size="small"
-            sx={{
-              fontWeight: 600,
-              bgcolor: "#EDE7F6",
-              color: "#5E35B1",
-            }}
-          />
-          <Chip
-            label="Team Analytics"
-            size="small"
-            color="primary"
-            variant="outlined"
-            sx={{ fontWeight: 600 }}
-          />
-        </Box>
 
         {/* KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>
