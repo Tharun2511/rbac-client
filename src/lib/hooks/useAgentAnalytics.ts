@@ -24,11 +24,18 @@ export interface AgentInflowOutflow {
   outflow: number;
 }
 
+export interface TaskDueBucket {
+  priority: string;
+  ageBucket: string;
+  count: number;
+}
+
 export interface AgentAnalytics {
   productivity: AgentProductivityStats;
   velocityTrend: AgentVelocityTrend[];
   resolutionTime: AgentResolutionTime;
   inflowOutflow: AgentInflowOutflow[];
+  tasksDue: TaskDueBucket[];
 }
 
 export function useAgentAnalytics(orgId?: string) {
@@ -50,6 +57,9 @@ export function useAgentAnalytics(orgId?: string) {
         setError(null);
         const result = await apiClient<AgentAnalytics>("/analytics/agent", {
           auth: true,
+          headers: {
+            "x-org-id": orgId,
+          },
         });
         if (!cancelled) {
           setData(result);

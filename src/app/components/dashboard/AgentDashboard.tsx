@@ -7,6 +7,10 @@ import {
   Box,
   useTheme,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import {
   CheckCircle,
@@ -16,9 +20,11 @@ import {
 } from "@mui/icons-material";
 import KPICard from "./KPICard";
 import D3LineChart from "../charts/D3LineChart";
-import D3DualLineChart from "../charts/D3DualLineChart";
+import D3TicketAgingHeatmap from "../charts/D3TicketAgingHeatmap";
+import D3BulletChart from "../charts/D3BulletChart";
 import PageHeader from "../layout/PageHeader";
 import { AgentAnalytics } from "@/lib/hooks/useAgentAnalytics";
+import { useRBAC } from "@/context/RBACContext";
 
 const SkeletonCard = ({ height = 140 }: { height?: number }) => (
   <Skeleton variant="rectangular" height={height} sx={{ borderRadius: 3 }} />
@@ -38,6 +44,7 @@ export default function AgentDashboard({
   userName,
 }: Props) {
   const theme = useTheme();
+  const { projects, activeProjectId, setActiveProject } = useRBAC();
 
   if (error) {
     return (
@@ -84,21 +91,59 @@ export default function AgentDashboard({
       value: item.resolved,
     })) || [];
 
-  const inflowOutflowData =
-    data?.inflowOutflow.map((item) => ({
-      date: new Date(item.date),
-      value1: item.inflow,
-      value2: item.outflow,
+  const tasksDueData =
+    data?.tasksDue?.map((t) => ({
+      priority: t.priority,
+      ageBucket: t.ageBucket,
+      count: t.count,
     })) || [];
+
+  const resolutionBulletData = [
+    {
+      title: "Avg Resolution",
+      subtitle: "Days",
+      ranges: [3, 5, 10],
+      measures: [data?.resolutionTime.avgDays || 0],
+      markers: [3], // Target resolution time 3 days
+    },
+  ];
 
   return (
     <Fade in timeout={800}>
       <Container maxWidth="xl" sx={{ pb: 4 }}>
-        <PageHeader
-          title={`Welcome back, ${userName?.split(" ")[0] || "Agent"}`}
-          breadcrumbTitle="Dashboard"
-          description="Your personal productivity and resolution metrics"
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
+          <PageHeader
+            title={`Welcome back, ${userName?.split(" ")[0] || "Agent"}`}
+            breadcrumbTitle="Dashboard"
+            description="Your personal productivity and resolution metrics"
+          />
+          {projects.length > 0 && (
+            <FormControl size="small" sx={{ minWidth: 250 }}>
+              <InputLabel>Filter by Project</InputLabel>
+              <Select
+                value={activeProjectId || ""}
+                label="Filter by Project"
+                onChange={(e) => setActiveProject(e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>All Projects</em>
+                </MenuItem>
+                {projects.map((proj) => (
+                  <MenuItem key={proj.id} value={proj.id}>
+                    {proj.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        </Box>
 
         {/* KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>
@@ -144,21 +189,38 @@ export default function AgentDashboard({
             )}
           </Grid>
 
-          {/* Inflow/Outflow */}
+          {/* Tasks Due (Heatmap) */}
           <Grid size={{ xs: 12, lg: 6 }}>
             {loading ? (
               <SkeletonCard height={400} />
             ) : (
-              <D3DualLineChart
-                data={inflowOutflowData}
-                title="Your Work Queue (Last 14 Days)"
+              <D3TicketAgingHeatmap
+                data={tasksDueData}
+                title="Your Active Tasks by Priority & Age"
                 height={400}
-                label1="Assigned"
-                label2="Resolved"
-                color1="#f59e0b"
-                color2="#10b981"
               />
             )}
+          </Grid>
+
+          {/* Performance against Target (Bullet Chart) */}
+          <Grid size={{ xs: 12 }}>
+            <Box
+              sx={{
+                bgcolor: theme.palette.background.paper,
+                p: 3,
+                borderRadius: 3,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+              }}
+            >
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Resolution Time vs SLA Target (3 Days)
+              </Typography>
+              {loading ? (
+                <SkeletonCard height={100} />
+              ) : (
+                <D3BulletChart data={resolutionBulletData} height={150} />
+              )}
+            </Box>
           </Grid>
         </Grid>
 

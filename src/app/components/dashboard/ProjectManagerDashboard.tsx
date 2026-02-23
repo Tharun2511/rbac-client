@@ -5,15 +5,21 @@ import {
   Skeleton,
   Fade,
   useTheme,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   Divider,
 } from "@mui/material";
 import { Groups, Assignment, Speed } from "@mui/icons-material";
 import KPICard from "./KPICard";
 import D3HorizontalBarChart from "../charts/D3HorizontalBarChart";
 import D3DonutChart from "../charts/D3DonutChart";
-import D3DualLineChart from "../charts/D3DualLineChart";
+import D3RadarChart from "../charts/D3RadarChart";
 import PageHeader from "../layout/PageHeader";
 import { ProjectManagerAnalytics } from "@/lib/hooks/useProjectManagerAnalytics";
+import { useRBAC } from "@/context/RBACContext";
 
 const SkeletonCard = ({ height = 140 }: { height?: number }) => (
   <Skeleton variant="rectangular" height={height} sx={{ borderRadius: 3 }} />
@@ -37,6 +43,7 @@ export default function ProjectManagerDashboard({
   error,
 }: Props) {
   const theme = useTheme();
+  const { projects, activeProjectId, setActiveProject } = useRBAC();
 
   if (error) {
     return (
@@ -115,21 +122,67 @@ export default function ProjectManagerDashboard({
       color: AGE_COLORS[bucket.ageBucket] || theme.palette.grey[500],
     })) || [];
 
-  const inflowOutflowData =
-    data?.inflowOutflow.map((item) => ({
-      date: new Date(item.date),
-      value1: item.inflow,
-      value2: item.outflow,
+  const categoryData =
+    data?.typeDistribution.map((t) => ({
+      label: t.label,
+      value: t.value,
+      color: theme.palette.secondary.main,
     })) || [];
+
+  const radarData = data?.workloadDistribution.length
+    ? [
+        {
+          name: "Assigned Workload",
+          color: theme.palette.primary.main,
+          items: data.workloadDistribution.map((w) => ({
+            axis: w.agentName,
+            value: w.assigned,
+          })),
+        },
+        {
+          name: "In Progress",
+          color: "#f59e0b",
+          items: data.workloadDistribution.map((w) => ({
+            axis: w.agentName,
+            value: w.inProgress,
+          })),
+        },
+      ]
+    : [];
 
   return (
     <Fade in timeout={800}>
       <Container maxWidth="xl" sx={{ pb: 4 }}>
-        <PageHeader
-          title="Project Manager Dashboard"
-          breadcrumbTitle="Dashboard"
-          description="Team performance and workload management"
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
+          <PageHeader
+            title="Project Manager Dashboard"
+            breadcrumbTitle="Dashboard"
+            description="Team performance and workload management"
+          />
+          {projects.length > 0 && (
+            <FormControl size="small" sx={{ minWidth: 250 }}>
+              <InputLabel>Select Project</InputLabel>
+              <Select
+                value={activeProjectId || ""}
+                label="Select Project"
+                onChange={(e) => setActiveProject(e.target.value)}
+              >
+                {projects.map((proj) => (
+                  <MenuItem key={proj.id} value={proj.id}>
+                    {proj.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        </Box>
 
         {/* KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>
@@ -179,6 +232,12 @@ export default function ProjectManagerDashboard({
           <Grid size={{ xs: 12, lg: 6 }}>
             {loading ? (
               <SkeletonCard height={400} />
+            ) : radarData.length > 0 && radarData[0].items.length > 2 ? (
+              <D3RadarChart
+                data={radarData}
+                title="Team Capacity & Workload"
+                height={400}
+              />
             ) : (
               <D3HorizontalBarChart
                 data={workloadData}
@@ -203,19 +262,16 @@ export default function ProjectManagerDashboard({
             )}
           </Grid>
 
-          {/* Inflow/Outflow */}
+          {/* Category Distribution */}
           <Grid size={{ xs: 12, md: 6 }}>
             {loading ? (
               <SkeletonCard height={400} />
             ) : (
-              <D3DualLineChart
-                data={inflowOutflowData}
-                title="Ticket Inflow vs Outflow (Last 30 Days)"
+              <D3DonutChart
+                data={categoryData}
+                title="Ticket Category Distribution"
                 height={400}
-                label1="Created"
-                label2="Resolved"
-                color1={theme.palette.primary.main}
-                color2="#10b981"
+                width={320}
               />
             )}
           </Grid>

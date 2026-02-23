@@ -5,18 +5,12 @@ import {
   Skeleton,
   Fade,
   Box,
-  Chip,
   useTheme,
   Divider,
-  Card,
-  CardContent,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import {
   ConfirmationNumber,
@@ -26,8 +20,10 @@ import {
 } from "@mui/icons-material";
 import KPICard from "./KPICard";
 import D3HorizontalBarChart from "../charts/D3HorizontalBarChart";
+import D3ScatterPlot from "../charts/D3ScatterPlot";
 import PageHeader from "../layout/PageHeader";
 import { OrgOwnerAnalytics } from "@/lib/hooks/useOrgOwnerAnalytics";
+import { useRBAC } from "@/context/RBACContext";
 
 const SkeletonCard = ({ height = 140 }: { height?: number }) => (
   <Skeleton variant="rectangular" height={height} sx={{ borderRadius: 3 }} />
@@ -41,6 +37,7 @@ interface Props {
 
 export default function OrgOwnerDashboard({ data, loading, error }: Props) {
   const theme = useTheme();
+  const { organizations, activeOrgId, setActiveOrg, isSystemAdmin } = useRBAC();
 
   if (error) {
     return (
@@ -100,11 +97,36 @@ export default function OrgOwnerDashboard({ data, loading, error }: Props) {
   return (
     <Fade in timeout={800}>
       <Container maxWidth="xl" sx={{ pb: 4 }}>
-        <PageHeader
-          title="Organization Owner Dashboard"
-          breadcrumbTitle="Dashboard"
-          description="Organization-wide performance and insights"
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
+          <PageHeader
+            title="Organization Owner Dashboard"
+            breadcrumbTitle="Dashboard"
+            description="Organization-wide performance and insights"
+          />
+          {organizations.length > 0 && !isSystemAdmin && (
+            <FormControl size="small" sx={{ minWidth: 250 }}>
+              <InputLabel>Select Organization</InputLabel>
+              <Select
+                value={activeOrgId || ""}
+                label="Select Organization"
+                onChange={(e) => setActiveOrg(e.target.value)}
+              >
+                {organizations.map((org) => (
+                  <MenuItem key={org.id} value={org.id}>
+                    {org.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        </Box>
 
         {/* KPIs */}
         <Typography variant="h6" fontWeight={700} gutterBottom sx={{ mt: 1 }}>
@@ -155,164 +177,41 @@ export default function OrgOwnerDashboard({ data, loading, error }: Props) {
             {loading ? (
               <SkeletonCard height={400} />
             ) : (
-              <Card
-                elevation={0}
-                sx={{
-                  height: 400,
-                  borderRadius: 3,
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-                }}
-              >
-                <CardContent sx={{ height: "100%", overflow: "auto" }}>
-                  <Typography
-                    variant="h6"
-                    fontWeight={600}
-                    gutterBottom
-                    sx={{ mb: 2 }}
-                  >
-                    Top Performers (Last 30 Days)
-                  </Typography>
-
-                  {!data?.topPerformers.length ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: "80%",
-                      }}
-                    >
-                      <Typography variant="body2" color="text.secondary">
-                        No data available
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <TableContainer>
-                      <Table size="small">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>
-                              <strong>Agent</strong>
-                            </TableCell>
-                            <TableCell align="right">
-                              <strong>Resolved</strong>
-                            </TableCell>
-                            <TableCell align="right">
-                              <strong>Avg Days</strong>
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {data.topPerformers.map((performer) => (
-                            <TableRow key={performer.userId}>
-                              <TableCell>{performer.userName}</TableCell>
-                              <TableCell align="right">
-                                {performer.ticketsResolved}
-                              </TableCell>
-                              <TableCell align="right">
-                                {performer.avgResolutionDays}d
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  )}
-                </CardContent>
-              </Card>
+              <D3HorizontalBarChart
+                data={
+                  data?.topPerformers.slice(0, 10).map((performer) => ({
+                    label: performer.userName,
+                    value: performer.ticketsResolved,
+                    color: "#10b981",
+                  })) || []
+                }
+                title="Top Performers (Resolved Tickets)"
+                height={400}
+                color="#10b981"
+              />
             )}
           </Grid>
 
           {/* Bottleneck Analysis */}
           <Grid size={{ xs: 12 }}>
             {loading ? (
-              <SkeletonCard height={350} />
+              <SkeletonCard height={400} />
             ) : (
-              <Card
-                elevation={0}
-                sx={{
-                  borderRadius: 3,
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-                }}
-              >
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    fontWeight={600}
-                    gutterBottom
-                    sx={{ mb: 2 }}
-                  >
-                    Bottleneck Analysis
-                  </Typography>
-
-                  {!data?.bottleneckAnalysis.length ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        py: 8,
-                      }}
-                    >
-                      <Typography variant="body2" color="text.secondary">
-                        No bottlenecks detected - all tickets are progressing
-                        well!
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <TableContainer component={Paper} elevation={0}>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>
-                              <strong>Project</strong>
-                            </TableCell>
-                            <TableCell align="right">
-                              <strong>Stale Tickets (7+ days)</strong>
-                            </TableCell>
-                            <TableCell align="right">
-                              <strong>Unassigned</strong>
-                            </TableCell>
-                            <TableCell align="right">
-                              <strong>Avg Open Age</strong>
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {data.bottleneckAnalysis.map((project) => (
-                            <TableRow key={project.projectId}>
-                              <TableCell>{project.projectName}</TableCell>
-                              <TableCell align="right">
-                                <Chip
-                                  label={project.staleTickets}
-                                  size="small"
-                                  sx={{
-                                    bgcolor:
-                                      project.staleTickets > 5
-                                        ? "#fee2e2"
-                                        : "#fef3c7",
-                                    color:
-                                      project.staleTickets > 5
-                                        ? "#991b1b"
-                                        : "#92400e",
-                                    fontWeight: 600,
-                                  }}
-                                />
-                              </TableCell>
-                              <TableCell align="right">
-                                {project.unassignedTickets}
-                              </TableCell>
-                              <TableCell align="right">
-                                {project.avgOpenAge}d
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  )}
-                </CardContent>
-              </Card>
+              <D3ScatterPlot
+                data={
+                  data?.bottleneckAnalysis.map((b) => ({
+                    id: b.projectId,
+                    label: b.projectName,
+                    x: b.avgOpenAge,
+                    y: b.staleTickets,
+                    z: b.unassignedTickets + 1,
+                  })) || []
+                }
+                title="Project Bottleneck Analysis"
+                xLabel="Average Open Age (Days)"
+                yLabel="Stale Tickets (7+ Days)"
+                height={400}
+              />
             )}
           </Grid>
         </Grid>

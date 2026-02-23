@@ -5,12 +5,10 @@ import { useLogin } from "@/hooks/useLogin";
 import { Box, Button, Typography, Chip, alpha, useTheme } from "@mui/material";
 import {
   Shield,
-  Business,
   AdminPanelSettings,
   FolderSpecial,
   Build,
   Person,
-  Visibility,
 } from "@mui/icons-material";
 import { useState, ReactNode } from "react";
 
@@ -19,7 +17,6 @@ const ROLE_CONFIG: Record<
   { icon: ReactNode; color: string; tier: string }
 > = {
   sysadmin: { icon: <Shield />, color: "#dc2626", tier: "System" },
-  orgOwner: { icon: <Business />, color: "#7c3aed", tier: "Organization" },
   orgAdmin: {
     icon: <AdminPanelSettings />,
     color: "#2563eb",
@@ -32,17 +29,14 @@ const ROLE_CONFIG: Record<
   },
   resolver: { icon: <Build />, color: "#059669", tier: "Project" },
   client: { icon: <Person />, color: "#d97706", tier: "Project" },
-  viewer: { icon: <Visibility />, color: "#64748b", tier: "Project" },
 };
 
 const ROLE_ORDER: GuestRole[] = [
   "sysadmin",
-  "orgOwner",
   "orgAdmin",
   "projectAdmin",
   "resolver",
   "client",
-  "viewer",
 ];
 
 export default function GuestLoginOptions() {

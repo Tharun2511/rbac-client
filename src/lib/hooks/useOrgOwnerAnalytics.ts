@@ -27,11 +27,23 @@ export interface BottleneckAnalysis {
   avgOpenAge: number;
 }
 
+export interface SLACompliance {
+  slaStatus: string;
+  count: number;
+}
+
+export interface ResourceAllocation {
+  projectName: string;
+  agentCount: number;
+}
+
 export interface OrgOwnerAnalytics {
   crossProjectPerformance: CrossProjectPerformance[];
   topPerformers: TopPerformer[];
   bottleneckAnalysis: BottleneckAnalysis[];
   orgStats: TicketStats;
+  slaCompliance: SLACompliance[];
+  resourceAllocation: ResourceAllocation[];
 }
 
 export function useOrgOwnerAnalytics(orgId?: string) {
@@ -53,7 +65,12 @@ export function useOrgOwnerAnalytics(orgId?: string) {
         setError(null);
         const result = await apiClient<OrgOwnerAnalytics>(
           "/analytics/org-owner",
-          { auth: true },
+          {
+            auth: true,
+            headers: {
+              "x-org-id": orgId,
+            },
+          },
         );
         if (!cancelled) {
           setData(result);

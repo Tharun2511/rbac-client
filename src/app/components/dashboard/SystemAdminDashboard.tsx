@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Container,
   Grid,
@@ -6,6 +7,11 @@ import {
   Fade,
   useTheme,
   Divider,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import {
   ConfirmationNumber,
@@ -17,9 +23,10 @@ import {
 import KPICard from "./KPICard";
 import D3DonutChart from "../charts/D3DonutChart";
 import D3HorizontalBarChart from "../charts/D3HorizontalBarChart";
-import D3LineChart from "../charts/D3LineChart";
+import D3AreaChart from "../charts/D3AreaChart";
 import PageHeader from "../layout/PageHeader";
 import { SystemAdminAnalytics } from "@/lib/hooks/useSystemAdminDashboard";
+import { useOrgOwnerAnalytics } from "@/lib/hooks/useOrgOwnerAnalytics";
 import * as d3 from "d3";
 
 const SkeletonCard = ({ height = 140 }: { height?: number }) => (
@@ -40,6 +47,10 @@ export default function SystemAdminDashboard({
   userName,
 }: Props) {
   const theme = useTheme();
+  const [selectedOrgId, setSelectedOrgId] = useState<string>("");
+  const { data: orgData, loading: orgLoading } = useOrgOwnerAnalytics(
+    selectedOrgId || undefined,
+  );
 
   if (error) {
     return (
@@ -189,7 +200,7 @@ export default function SystemAdminDashboard({
             {loading ? (
               <SkeletonCard height={350} />
             ) : (
-              <D3LineChart
+              <D3AreaChart
                 data={orgTimelineData}
                 title="Organization Creation Timeline (Last 30 Days)"
                 height={350}
@@ -198,6 +209,83 @@ export default function SystemAdminDashboard({
             )}
           </Grid>
         </Grid>
+
+        <Divider sx={{ my: 3 }} />
+
+        {/* Organization Specific Insights */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
+          <Typography variant="h6" fontWeight={700}>
+            Organization Insights
+          </Typography>
+          <FormControl size="small" sx={{ minWidth: 250 }}>
+            <InputLabel>Select Organization</InputLabel>
+            <Select
+              value={selectedOrgId}
+              label="Select Organization"
+              onChange={(e) => setSelectedOrgId(e.target.value)}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {data?.memberDistribution.map((org) => (
+                <MenuItem key={org.id} value={org.id}>
+                  {org.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        {selectedOrgId && (
+          <Fade in timeout={500}>
+            <Grid container spacing={3} sx={{ mb: 4 }}>
+              <Grid size={{ xs: 12, md: 6 }}>
+                {orgLoading ? (
+                  <SkeletonCard height={350} />
+                ) : (
+                  <D3DonutChart
+                    data={
+                      orgData?.slaCompliance?.map((s) => ({
+                        label: s.slaStatus,
+                        value: s.count,
+                        color: s.slaStatus.includes("<")
+                          ? theme.palette.success.main
+                          : theme.palette.error.main,
+                      })) || []
+                    }
+                    title="SLA Compliance"
+                    height={350}
+                    width={320}
+                  />
+                )}
+              </Grid>
+              <Grid size={{ xs: 12, md: 6 }}>
+                {orgLoading ? (
+                  <SkeletonCard height={350} />
+                ) : (
+                  <D3HorizontalBarChart
+                    data={
+                      orgData?.resourceAllocation?.map((r) => ({
+                        label: r.projectName,
+                        value: r.agentCount,
+                        color: theme.palette.primary.main,
+                      })) || []
+                    }
+                    title="Project Resource Allocation (Agents)"
+                    height={350}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </Fade>
+        )}
       </Container>
     </Fade>
   );

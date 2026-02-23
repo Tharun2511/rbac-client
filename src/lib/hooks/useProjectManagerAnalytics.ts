@@ -29,11 +29,17 @@ export interface InflowOutflow {
   outflow: number;
 }
 
+export interface TicketTypeDistribution {
+  label: string;
+  value: number;
+}
+
 export interface ProjectManagerAnalytics {
   teamPerformance: TeamPerformanceMetric[];
   workloadDistribution: WorkloadDistribution[];
   agingBuckets: TicketAgingBucket[];
   inflowOutflow: InflowOutflow[];
+  typeDistribution: TicketTypeDistribution[];
 }
 
 export function useProjectManagerAnalytics(projectId?: string) {
@@ -55,7 +61,12 @@ export function useProjectManagerAnalytics(projectId?: string) {
         setError(null);
         const result = await apiClient<ProjectManagerAnalytics>(
           "/analytics/project-manager",
-          { auth: true },
+          {
+            auth: true,
+            headers: {
+              "x-project-id": projectId,
+            },
+          },
         );
         if (!cancelled) {
           setData(result);
